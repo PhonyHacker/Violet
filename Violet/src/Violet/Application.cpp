@@ -8,7 +8,7 @@ namespace Violet {
 	Application::~Application() {
 
 	}
-	void Application::Run() {
+	void  Application::Run() {
 		while (true)
 		{
 

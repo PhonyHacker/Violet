@@ -6,7 +6,10 @@ extern Violet::Application* Violet::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	printf("Violet Engine\n");
+	Violet::Log::Init();
+	VL_CORE_WARN("Initialized Log!");
+	VL_INFO("Hello!");
+
 	auto app = Violet::CreateApplication();
 	app->Run();
 	delete app;
