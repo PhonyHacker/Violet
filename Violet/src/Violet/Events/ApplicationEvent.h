@@ -2,8 +2,6 @@
 
 #include "Event.h"
 
-#include <sstream>
-
 namespace Violet
 {
 	class VIOLET_API WindowResizeEvent : public Event

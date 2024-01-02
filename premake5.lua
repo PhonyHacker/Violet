@@ -18,6 +18,9 @@ workspace "Violet"
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 		
+		pchheader "vlpch.h"
+		pchsource "Violet/src/vlpch.cpp"
+
 		files
 		{
 			"%{prj.name}/src/**.h",

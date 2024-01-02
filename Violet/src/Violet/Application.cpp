@@ -1,3 +1,5 @@
+#include "vlpch.h"
+
 #include "Application.h"
 
 #include "Violet/Events/ApplicationEvent.h"

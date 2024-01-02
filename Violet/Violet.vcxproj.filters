@@ -34,6 +34,7 @@
     <ClInclude Include="src\Violet\Log.h">
       <Filter>Violet</Filter>
     </ClInclude>
+    <ClInclude Include="src\vlpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Violet\Application.cpp">
@@ -42,5 +43,6 @@
     <ClCompile Include="src\Violet\Log.cpp">
       <Filter>Violet</Filter>
     </ClCompile>
+    <ClCompile Include="src\Violet\vlpch.cpp" />
   </ItemGroup>
 </Project>

@@ -2,8 +2,6 @@
 
 #include "Violet/Core.h"
 
-#include <string>
-#include <functional>
 
 namespace Violet
 {
