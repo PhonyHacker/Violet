@@ -84,6 +84,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -109,6 +110,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -132,6 +134,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -153,6 +156,8 @@
     <ClInclude Include="src\Violet\Events\Event.h" />
     <ClInclude Include="src\Violet\Events\KeyEvent.h" />
     <ClInclude Include="src\Violet\Events\MouseEvent.h" />
+    <ClInclude Include="src\Violet\Layer.h" />
+    <ClInclude Include="src\Violet\LayerStack.h" />
     <ClInclude Include="src\Violet\Log.h" />
     <ClInclude Include="src\Violet\Platform\WindowsWindow.h" />
     <ClInclude Include="src\Violet\Window.h" />
@@ -160,12 +165,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Violet\Application.cpp" />
+    <ClCompile Include="src\Violet\Layer.cpp" />
+    <ClCompile Include="src\Violet\LayerStack.cpp" />
     <ClCompile Include="src\Violet\Log.cpp" />
     <ClCompile Include="src\Violet\Platform\WindowsWindow.cpp" />
-    <ClCompile Include="src\Violet\vlpch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    <ClCompile Include="src\vlpch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
