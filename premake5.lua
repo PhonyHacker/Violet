@@ -13,8 +13,12 @@ workspace "Violet"
 	-- Include directories relative to root folder (solution directory)
 	IncludeDir = {}
 	IncludeDir["GLFW"] = "Violet/vendor/GLFW/include"
+	IncludeDir["Glad"] = "Violet/vendor/Glad/include"
+
 
 	include "Violet/vendor/GLFW"
+	include "Violet/vendor/Glad"
+
 
 	project "Violet"
 		location "Violet"
@@ -37,11 +41,13 @@ workspace "Violet"
 		{
 			"%{prj.name}/src",
 			"%{prj.name}/vendor/spdlog/include",
-			"%{IncludeDir.GLFW}"
+			"%{IncludeDir.GLFW}",
+			"%{IncludeDir.Glad}"
 		}
 		links
 		{
 			"GLFW",
+			"Glad",
 			"opengl32.lib"
 		}
 
@@ -53,7 +59,8 @@ workspace "Violet"
 			defines
 			{
 				"VL_PLATFORM_WINDOWS",
-				"VL_BUILD_DLL"
+				"VL_BUILD_DLL",
+				"GLFW_INCLUDE_NONE"
 			}
 
 			postbuildcommands

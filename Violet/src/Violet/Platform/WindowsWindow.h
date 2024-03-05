@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Violet/Window.h"
+
 #include <GLFW/glfw3.h>
 
 namespace Violet
