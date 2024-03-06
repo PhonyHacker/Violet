@@ -3,7 +3,9 @@
 class ExampleLayer : public Violet::Layer {
 public:
 	ExampleLayer()
-		:Layer("Example Layer") {}
+		:Layer("Example Layer") {
+
+	}
 	void OnUpdate() override {
 		// VL_INFO("Example Layer Update");
 		if (Violet::Input::IsKeyPressed(VL_KEY_TAB))
