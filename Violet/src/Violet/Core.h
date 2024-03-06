@@ -1,10 +1,14 @@
 #pragma once
 #ifdef VL_PLATFORM_WINDOWS
+#if VL_DYMAMIC_LINK
 	#ifdef VL_BUILD_DLL
 		#define VIOLET_API __declspec(dllexport)
 	#else
 		#define VIOLET_API __declspec(dllimport)
 	#endif
+#else
+	#define VIOLET_API
+#endif
 #else
 	#error Violet only support Windows!
 #endif

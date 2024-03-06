@@ -24,9 +24,10 @@ workspace "Violet"
 
 	project "Violet"
 		location "Violet"
-		kind "SharedLib"
+		kind "StaticLib"
 		language "C++"
-		staticruntime "off"
+		cppdialect "C++17"
+		staticruntime "on"
 
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -42,6 +43,10 @@ workspace "Violet"
 			"%{prj.name}/vendor/glm/glm/**.inl",
 		}
 
+		defines
+		{
+			"_CRT_SECURE_NO_WARINGS"
+		}
 		includedirs
 		{
 			"%{prj.name}/src",
@@ -92,7 +97,8 @@ workspace "Violet"
 		location "Sandbox"
 		kind "ConsoleAPP"
 		language "C++"
-		staticruntime "off"
+		cppdialect "C++17"
+		staticruntime "on"
 
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
