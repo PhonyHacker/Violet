@@ -65,6 +65,10 @@
       <Filter>Violet</Filter>
     </ClInclude>
     <ClInclude Include="src\vlpch.h" />
+    <ClInclude Include="src\Violet\Input.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="src\Violet\KeyCode.h" />
+    <ClInclude Include="src\Violet\MouseButtonCode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
@@ -89,5 +93,6 @@
       <Filter>Violet</Filter>
     </ClCompile>
     <ClCompile Include="src\vlpch.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>

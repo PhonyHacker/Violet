@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Violet.h" />
     <ClInclude Include="src\Violet\Application.h" />
@@ -160,14 +161,18 @@
     <ClInclude Include="src\Violet\Events\KeyEvent.h" />
     <ClInclude Include="src\Violet\Events\MouseEvent.h" />
     <ClInclude Include="src\Violet\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\Violet\Input.h" />
+    <ClInclude Include="src\Violet\KeyCode.h" />
     <ClInclude Include="src\Violet\Layer.h" />
     <ClInclude Include="src\Violet\LayerStack.h" />
     <ClInclude Include="src\Violet\Log.h" />
+    <ClInclude Include="src\Violet\MouseButtonCode.h" />
     <ClInclude Include="src\Violet\Window.h" />
     <ClInclude Include="src\vlpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Violet\Application.cpp" />
     <ClCompile Include="src\Violet\ImGui\ImGuiLayer.cpp" />

@@ -6,6 +6,10 @@
 
 #include "Violet/Log.h"
 
+#include "Violet/Input.h"
+#include "Violet/KeyCode.h"
+#include "Violet/MouseButtonCode.h"
+
 #include "Violet/ImGui/ImGuiLayer.h"
 
 // --Ebtry Point--------------------

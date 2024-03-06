@@ -3,6 +3,7 @@
 #include "Application.h"
 
 #include "Violet/Log.h"
+#include "Violet/Input.h"
 
 #include <glad/glad.h>
 
@@ -32,7 +33,7 @@ namespace Violet {
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
 
 		// VL_CORE_INFO("{0}", e);
-		VL_CORE_TRACE("{0}", e);
+		// VL_CORE_TRACE("{0}", e);
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
 			(*--it)->OnEvent(e);
@@ -50,6 +51,9 @@ namespace Violet {
 			for (Layer* layer : m_LayerStack) {
 				layer->OnUpdate();
 			}
+
+			auto [x, y] = Input::GetMousePosition();
+			// VL_CORE_TRACE("Input Mouse : [{0}, {1}]", x, y);
 
 			m_Window->OnUpdate();
 
