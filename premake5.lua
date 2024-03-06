@@ -107,6 +107,7 @@ workspace "Violet"
 		{
 			"Violet/vendor/spdlog/include",
 			"Violet/src",
+			"Violet/vendor",
 			"%{IncludeDir.glm}"
 		}
 

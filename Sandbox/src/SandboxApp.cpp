@@ -1,5 +1,7 @@
 #include <Violet.h>
 
+// #include "imgui/imgui.h"
+
 class ExampleLayer : public Violet::Layer {
 public:
 	ExampleLayer()
@@ -11,6 +13,8 @@ public:
 		if (Violet::Input::IsKeyPressed(VL_KEY_TAB))
 			VL_TRACE("Tav key is pressed (poll)!");
 	}
+
+
 	void OnEvent(Violet::Event& event) override {
 		// VL_TRACE("{0}", event);
 		/*
@@ -30,8 +34,6 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Violet::ImGuiLayer());
-		
 	}
 	~Sandbox()
 	{

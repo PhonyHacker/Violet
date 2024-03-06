@@ -7,6 +7,7 @@
 #include "Violet/LayerStack.h"
 #include "Violet/Events/ApplicationEvent.h"
 
+#include "Violet/ImGui/ImGuiLayer.h"
 
 namespace Violet {
 	class VIOLET_API Application
@@ -31,6 +32,8 @@ namespace Violet {
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 		
+		ImGuiLayer* m_ImGuiLayer;
+
 		LayerStack m_LayerStack;
 	private:
 		static Application* s_Instance;
