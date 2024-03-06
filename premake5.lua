@@ -1,6 +1,8 @@
 workspace "Violet"
 	architecture "x64"
 
+	startproject "Sandbox"
+
 	configurations
 	{
 		"Debug",
@@ -24,6 +26,7 @@ workspace "Violet"
 		location "Violet"
 		kind "SharedLib"
 		language "C++"
+		staticruntime "off"
 
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -55,7 +58,6 @@ workspace "Violet"
 
 		filter "system:windows"
 			cppdialect "C++17"
-			staticruntime "On"
 			systemversion "latest"
 			
 			defines
@@ -67,26 +69,27 @@ workspace "Violet"
 
 			postbuildcommands
 			{
-				("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+				("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 			}
 
 		filter "configurations:Debug"
 			defines "VL_DEBUG"
-			buildoptions "/MDd"
+			runtime "Debug"
 			symbols "On"
 		filter "configurations:Release"
-			buildoptions "/MD"
 			defines "VL_RELEASE"
+			runtime "Release"
 			optimize "On"
 		filter "configurations:Dist"
 			defines "VL_DIST"
-			buildoptions "/MD"
-			symbols "On"
+			runtime "Release"
+			optimize "On"
 
 	project "Sandbox"
 		location "Sandbox"
 		kind "ConsoleAPP"
 		language "C++"
+		staticruntime "off"
 
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -110,7 +113,6 @@ workspace "Violet"
 
 		filter "system:windows"
 			cppdialect "C++17"
-			staticruntime "On"
 			systemversion "latest"
 			
 			defines
@@ -120,13 +122,13 @@ workspace "Violet"
 
 		filter "configurations:Debug"
 			defines "VL_DEBUG"
-			buildoptions "/MDd"
+			runtime "Debug"
 			symbols "On"
 		filter "configurations:Release"
 			defines "VL_RELEASE"
-			buildoptions "/MD"
+			runtime "Release"
 			optimize "On"
 		filter "configurations:Dist"
 			defines "VL_DIST"
-			buildoptions "/MD"
-			symbols "On"
+			runtime "Release"
+			optimize "On"

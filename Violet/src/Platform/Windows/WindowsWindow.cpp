@@ -41,7 +41,7 @@ namespace Violet {
 		if (!s_GLFWInitialized)
 		{
 			// TODO: glfwTerminate on system shutdown
-			int succesee = glfwInit();
+			int success = glfwInit();
 			VL_CORE_ASSERT(success, "Could not intialize GLFW!");
 
 			glfwSetErrorCallback(GLFWErrorCallback);
