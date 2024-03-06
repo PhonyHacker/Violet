@@ -5,7 +5,7 @@ public:
 	ExampleLayer()
 		:Layer("Example Layer") {}
 	void OnUpdate() override {
-		VL_INFO("Example Layer Update");
+		// VL_INFO("Example Layer Update");
 	}
 	void OnEvent(Violet::Event& event) override {
 		VL_TRACE("{0}", event);
@@ -18,6 +18,8 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Violet::ImGuiLayer());
+		
 	}
 	~Sandbox()
 	{

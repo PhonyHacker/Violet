@@ -13,6 +13,7 @@ int main(int argc, char** argv)
 	auto app = Violet::CreateApplication();
 	app->Run();
 	delete app;
+
 }
 
 #endif
