@@ -5,7 +5,8 @@
 #include "Violet/Events/MouseEvent.h"
 #include "Violet/Events/KeyEvent.h"
 
-#include <glad/glad.h>
+#include "Platform/OpenGL/OpenGLContext.h"
+
 
 namespace Violet {
 	static bool s_GLFWInitialized = false;
@@ -38,9 +39,9 @@ namespace Violet {
 
 		VL_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
+
 		if (!s_GLFWInitialized)
 		{
-			// TODO: glfwTerminate on system shutdown
 			int success = glfwInit();
 			VL_CORE_ASSERT(success, "Could not intialize GLFW!");
 
@@ -49,11 +50,12 @@ namespace Violet {
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
+		m_Context = new OpenGLContext(m_Window);
 
-		// GLAD¿â³õÊ¼»¯
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		VL_CORE_ASSERT(status, "Faild to initialize Glad!");
+
+		m_Context->Init();
+		// ^
+
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
@@ -157,7 +159,8 @@ namespace Violet {
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

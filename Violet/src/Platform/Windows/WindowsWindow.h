@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Violet/Window.h"
+#include "Violet/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
 
@@ -22,12 +23,14 @@ namespace Violet
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
-		inline virtual void* GetNativeWindow() const { return m_Window; }
+		inline virtual void* GetNativeWindow() const { return m_Window; };
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
 
+		GraphicsContext* m_Context;
 		GLFWwindow* m_Window;
+
 		struct WindowData
 		{
 			std::string Title;

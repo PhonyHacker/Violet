@@ -166,6 +166,8 @@
     <ClInclude Include="src\Violet\LayerStack.h" />
     <ClInclude Include="src\Violet\Log.h" />
     <ClInclude Include="src\Violet\MouseButtonCode.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Violet\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Violet\Window.h" />
     <ClInclude Include="src\vlpch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
@@ -540,6 +542,7 @@
     <ClCompile Include="src\Violet\Layer.cpp" />
     <ClCompile Include="src\Violet\LayerStack.cpp" />
     <ClCompile Include="src\Violet\Log.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\vlpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
