@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+#include <glm/glm.hpp>
+
 namespace Violet {
 	class Shader {
 	public:
@@ -9,6 +11,9 @@ namespace Violet {
 
 		void Bind() const;
 		void Unbind() const;
+
+		void UploadUniformMat4(const std::string name, const glm::mat4 martix);
+
 	private:
 		uint32_t m_RendererID;
 	};

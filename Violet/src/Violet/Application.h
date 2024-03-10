@@ -1,4 +1,4 @@
-#pragma once
+	#pragma once
 
 #include "Core.h"
 #include "Events//Event.h"
@@ -9,9 +9,6 @@
 
 #include "Violet/ImGui/ImGuiLayer.h"
 
-#include "Violet/Renderer/Shader.h"
-#include "Violet/Renderer/Buffer.h"
-#include "Violet/Renderer/VertexArray.h"
 
 namespace Violet {
 	class VIOLET_API Application
@@ -39,18 +36,7 @@ namespace Violet {
 		ImGuiLayer* m_ImGuiLayer;
 
 		LayerStack m_LayerStack;
-		/*
-		unsigned int m_VertexArray;
-		std::unique_ptr<Shader> m_Shader;
-		std::unique_ptr<VertexBuffer> m_VertexBuffer;
-		std::unique_ptr<IndexBuffer> m_IndexBuffer;
-		*/
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> m_VertexArray;
 
-		std::shared_ptr<Shader> m_BlueShader;
-		std::shared_ptr<VertexArray> m_SquareVA;
-	private:
 		static Application* s_Instance;
 	};
 
