@@ -2,6 +2,7 @@
 
 #include "Violet/Core.h"
 #include "Violet/Events/Event.h"
+#include "Violet/Core/Timestep.h"
 
 namespace Violet {
 	class VIOLET_API Layer {
@@ -10,7 +11,7 @@ namespace Violet {
 		virtual ~Layer();
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep step) {}
 		virtual void OnEvent(Event& event) {}
 		virtual void OnImGuiRender() {}
 

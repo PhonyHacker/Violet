@@ -149,22 +149,22 @@ public:
 	}
 
 	
-	void OnUpdate() override {
+	void OnUpdate(Violet::Timestep timestep) override {
 		// VL_INFO("Example Layer Update");
 		if (Violet::Input::IsKeyPressed(VL_KEY_TAB))
 			VL_TRACE("Tav key is pressed (poll)!");
 		else if (Violet::Input::IsKeyPressed(VL_KEY_LEFT))
-			m_CameraPosition.x -= m_CameraMoveSpeed;
+			m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
 		else if (Violet::Input::IsKeyPressed(VL_KEY_RIGHT))
-			m_CameraPosition.x += m_CameraMoveSpeed;
+			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
 		else if (Violet::Input::IsKeyPressed(VL_KEY_UP))
-			m_CameraPosition.y += m_CameraMoveSpeed;
+			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
 		else if (Violet::Input::IsKeyPressed(VL_KEY_DOWN))
-			m_CameraPosition.y -= m_CameraMoveSpeed;
+			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
 		else if (Violet::Input::IsKeyPressed(VL_KEY_Q))
-			m_CameraRotation += m_CameraRoatateSpeed;
+			m_CameraRotation += m_CameraRoatateSpeed * timestep;
 		else if (Violet::Input::IsKeyPressed(VL_KEY_E))
-			m_CameraRotation -= m_CameraRoatateSpeed;
+			m_CameraRotation -= m_CameraRoatateSpeed * timestep;
 
 
 		Violet::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
@@ -215,10 +215,10 @@ private:
 
 	Violet::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition = {0, 0, 0};
-	float m_CameraMoveSpeed = 0.1f;
+	float m_CameraMoveSpeed = 1.0f;
 
 	float m_CameraRotation = 0.0f;
-	float m_CameraRoatateSpeed = 1.0f;
+	float m_CameraRoatateSpeed = 90.0f;
 
 };
 

@@ -6,6 +6,8 @@
 
 #include "Violet/Log.h"
 
+#include "Violet/Core/Timestep.h"
+
 #include "Violet/Input.h"
 #include "Violet/KeyCode.h"
 #include "Violet/MouseButtonCode.h"

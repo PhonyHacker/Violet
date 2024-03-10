@@ -9,6 +9,7 @@
 
 #include "Violet/ImGui/ImGuiLayer.h"
 
+#include "Violet/Core/Timestep.h"
 
 namespace Violet {
 	class VIOLET_API Application
@@ -28,6 +29,8 @@ namespace Violet {
 
 		inline static Application& Get() { return *s_Instance; }
 	private:
+		Timestep m_LastFrameTime = 0.0f;
+
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
