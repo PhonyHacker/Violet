@@ -30,7 +30,7 @@ namespace Violet {
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath) {
 		std::string result;
-		std::ifstream in(filepath, std::ios::in, std::ios::binary);
+		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 		if (in)
 		{
 			in.seekg(0, std::ios::end);
@@ -73,7 +73,11 @@ namespace Violet {
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
 		
 		GLuint program = glCreateProgram();
-		std::vector<GLenum> shaderIDs(shaderSources.size());
+		// std::vector<GLenum> shaderIDs;
+		// shaderIDs.reserve(shaderSources.size());
+		VL_CORE_ASSERT(shaderSources.size() <= 2, "Too many shaders to be complied");
+		std::array<GLenum, 2> shaderIDs;
+		int shaderIDindex = 0;
 
 		for(auto& kv : shaderSources) {
 			GLenum type = kv.first;
@@ -105,7 +109,7 @@ namespace Violet {
 			}
 
 			glAttachShader(program, shader);
-			shaderIDs.push_back(shader);
+			shaderIDs[shaderIDindex++] = shader;
 		}
 
 		m_RendererID = program;
