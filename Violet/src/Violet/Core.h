@@ -1,4 +1,7 @@
 #pragma once
+
+#include <memory>
+
 #ifdef VL_PLATFORM_WINDOWS
 #if VL_DYMAMIC_LINK
 	#ifdef VL_BUILD_DLL
@@ -28,3 +31,11 @@
 #define BIT(x) (1 << x)
 
 #define VL_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+namespace Violet {
+	template<typename T>
+	using Scop = std::unique_ptr<T>;
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+}

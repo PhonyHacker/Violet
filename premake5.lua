@@ -17,6 +17,8 @@ workspace "Violet"
 	IncludeDir["Glad"] = "Violet/vendor/Glad/include"
 	IncludeDir["ImGui"] = "Violet/vendor/imgui"
 	IncludeDir["glm"] = "Violet/vendor/glm"
+	IncludeDir["stb_image"] = "Violet/vendor/stb_image"
+
 
 	include "Violet/vendor/GLFW"
 	include "Violet/vendor/Glad"
@@ -39,6 +41,8 @@ workspace "Violet"
 		{
 			"%{prj.name}/src/**.h",
 			"%{prj.name}/src/**.cpp",
+			"%{prj.name}/vendor/stb_image/**.h",
+			"%{prj.name}/vendor/stb_image/**.cpp",
 			"%{prj.name}/vendor/glm/glm/**.hpp",
 			"%{prj.name}/vendor/glm/glm/**.inl",
 		}
@@ -54,7 +58,8 @@ workspace "Violet"
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.Glad}",
 			"%{IncludeDir.ImGui}",
-			"%{IncludeDir.glm}"
+			"%{IncludeDir.glm}",
+			"%{IncludeDir.stb_image}"
 		}
 		links
 		{

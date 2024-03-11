@@ -16,6 +16,9 @@
     <Filter Include="src\Violet">
       <UniqueIdentifier>{EF478435-DBFF-C582-4407-9FDE30DE6073}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Violet\Core">
+      <UniqueIdentifier>{A7B94217-1345-B0DB-1C56-33D088600CDC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Violet\Events">
       <UniqueIdentifier>{F3D0F9F7-5FE7-F78D-A85E-83AF14B4C815}</UniqueIdentifier>
     </Filter>
@@ -46,12 +49,24 @@
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
@@ -71,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="src\Violet\Core.h">
       <Filter>src\Violet</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Core\Timestep.h">
+      <Filter>src\Violet\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\EntryPoint.h">
       <Filter>src\Violet</Filter>
@@ -114,10 +132,22 @@
     <ClInclude Include="src\Violet\Renderer\GraphicsContext.h">
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Violet\Renderer\OrthographicCamera.h">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Renderer\RenderCommand.h">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Violet\Renderer\Renderer.h">
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Violet\Renderer\RendererAPI.h">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Violet\Renderer\Shader.h">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Renderer\Texture.h">
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Renderer\VertexArray.h">
@@ -1215,18 +1245,24 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Violet\Renderer\RendererAPI.h" />
-    <ClInclude Include="src\Violet\Renderer\RenderCommand.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="src\Violet\Renderer\OrthographicCamera.h" />
-    <ClInclude Include="src\Violet\Core\Timestep.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTextue.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
@@ -1259,10 +1295,22 @@
     <ClCompile Include="src\Violet\Renderer\Buff.cpp">
       <Filter>src\Violet\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Violet\Renderer\OrthographicCamera.cpp">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Violet\Renderer\RenderCommand.cpp">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Violet\Renderer\Renderer.cpp">
       <Filter>src\Violet\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Violet\Renderer\RendererAPI.cpp">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Violet\Renderer\Shader.cpp">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Violet\Renderer\Texture.cpp">
       <Filter>src\Violet\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Violet\Renderer\VertexArray.cpp">
@@ -1271,10 +1319,8 @@
     <ClCompile Include="src\vlpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Violet\Renderer\RendererAPI.cpp" />
-    <ClCompile Include="src\Violet\Renderer\RenderCommand.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="src\Violet\Renderer\OrthographicCamera.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

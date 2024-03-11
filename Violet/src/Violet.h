@@ -7,7 +7,6 @@
 #include "Violet/Log.h"
 
 #include "Violet/Core/Timestep.h"
-
 #include "Violet/Input.h"
 #include "Violet/KeyCode.h"
 #include "Violet/MouseButtonCode.h"
@@ -20,6 +19,7 @@
 
 #include "Violet/Renderer/Buffer.h"
 #include "Violet/Renderer/Shader.h"
+#include "Violet/Renderer/Texture.h"
 #include "Violet/Renderer/VertexArray.h"
 
 #include "Violet/Renderer/OrthographicCamera.h"
