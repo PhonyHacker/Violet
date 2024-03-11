@@ -3,73 +3,113 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <fstream>
+
 namespace Violet {
+	static GLenum ShaderTypeFromString(const std::string& type) {
+		if (type == "vertex")
+			return GL_VERTEX_SHADER;
+		else if (type == "fragment" || type == "pixel")
+			return GL_FRAGMENT_SHADER;
+		else
+			VL_CORE_ASSERT(false, "Unkown shader type!");
+
+		return 0;
+	}
+	OpenGLShader::OpenGLShader(const std::string& filepath) {
+		std::string source = ReadFile(filepath);
+		auto shaderSources = PreProcess(source);
+		Compile(shaderSources);
+	}
 	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc) {
-		// 创建顶点着色器空句柄
-		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		std::unordered_map<GLenum, std::string> sources;
+		sources[GL_VERTEX_SHADER] = vertexSrc;
+		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
+		Compile(sources);
+	}
 
-		// 添加顶点着色器源代码至GL
-		const GLchar* source = vertexSrc.c_str();
-		glShaderSource(vertexShader, 1, &source, 0);
-
-		// 编译顶点着色器
-		glCompileShader(vertexShader);
-
-		// 顶点着色器编译错误处理
-		GLint isCompiled = 0;
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
+	std::string OpenGLShader::ReadFile(const std::string& filepath) {
+		std::string result;
+		std::ifstream in(filepath, std::ios::in, std::ios::binary);
+		if (in)
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-
-			glDeleteShader(vertexShader);
-
-			VL_CORE_ERROR("{0}", infoLog.data());
-			VL_CORE_ASSERT(false, "Vertex shader compilation failure!");
-			return;
+			in.seekg(0, std::ios::end);
+			result.resize(in.tellg());
+			in.seekg(0, std::ios::beg);
+			in.read(&result[0], result.size());
+			in.close();
+		}
+		else
+		{
+			VL_CORE_ERROR("Could not open file '{0}'", filepath);
 		}
 
-		// 创建片段着色器空句柄
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		return result;
+	}
+	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source) {
 
-		// 发送片段着色器源代码至GL
-		source = fragmentSrc.c_str();
-		glShaderSource(fragmentShader, 1, &source, 0);
+		std::unordered_map<GLenum, std::string> shaderSources;
 
-		// 编译片段着色器
-		glCompileShader(fragmentShader);
+		const char* typeToken = "#type";
 
-		// 片段编译错误处理
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
+		size_t typeTokenLength = strlen(typeToken);
 
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
+		size_t pos = source.find(typeToken, 0);
+		while (pos != std::string::npos) {
+			size_t eol = source.find_first_of("\r\n", pos);
+			VL_CORE_ASSERT(eol != std::string::npos, "Syntax error");
 
-			glDeleteShader(fragmentShader);
-			glDeleteShader(vertexShader);
+			size_t begin = pos + typeTokenLength + 1;
+			std::string type = source.substr(begin, eol - begin);
+			VL_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
 
-			VL_CORE_ERROR("{0}", infoLog.data());
-			VL_CORE_ASSERT(false, "Fragment shader compilation failure!");
-			return;
+			size_t nextLinePos = source.find_first_of("\r\n", eol);
+			pos = source.find(typeToken, nextLinePos);
+			shaderSources[ShaderTypeFromString(type)] = source.substr(nextLinePos, pos - (nextLinePos == std::string::npos ? source.size() - 1 : nextLinePos));
 		}
+
+		return shaderSources;
+	}
+	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
 		
-		// 获取项目ID
-		m_RendererID = glCreateProgram();
-		GLuint program = m_RendererID;
+		GLuint program = glCreateProgram();
+		std::vector<GLenum> shaderIDs(shaderSources.size());
 
-		// 将着色器以项目链接
-		glAttachShader(program, vertexShader);
-		glAttachShader(program, fragmentShader);
+		for(auto& kv : shaderSources) {
+			GLenum type = kv.first;
+			const std::string& source = kv.second;
+			
+			GLuint shader = glCreateShader(type);
 
-		// 链接整个项目
+			const GLchar* sourceCtr = source.c_str();
+			glShaderSource(shader, 1, &sourceCtr, 0);
+		
+			glCompileShader(shader);
+
+			// compile error handling
+			GLint isCompiled = 0;
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+			if (isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+				std::vector<GLchar> infoLog(maxLength);
+				glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+
+				glDeleteShader(shader);
+
+				VL_CORE_ERROR("{0}", infoLog.data());
+				VL_CORE_ASSERT(false, "Shader compilation failure!");
+				return;
+			}
+
+			glAttachShader(program, shader);
+			shaderIDs.push_back(shader);
+		}
+
+		m_RendererID = program;
+
 		glLinkProgram(program);
 
 		GLint isLinked = 0;
@@ -84,17 +124,16 @@ namespace Violet {
 
 			glDeleteProgram(program);
 
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
+			for (auto id : shaderIDs)
+				glDeleteShader(id);
 
 			VL_CORE_ERROR("{0}", infoLog.data());
 			VL_CORE_ASSERT(false, "Shader link failure!");
 			return;
 		}
 
-		// 分离着色器对象
-		glDetachShader(program, vertexShader);
-		glDetachShader(program, fragmentShader);
+		for (auto id : shaderIDs)
+			glDetachShader(program, id);
 	}
 
 	OpenGLShader::~OpenGLShader() {
