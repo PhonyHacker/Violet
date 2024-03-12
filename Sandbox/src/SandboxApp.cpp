@@ -1,21 +1,19 @@
 #include <Violet.h>
+#include <Violet/Core/EntryPoint.h>
 
 #include "Platform/OpenGL/OpenGLShader.h"
+
+#include "imgui/imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "imgui/imgui.h"
-#include <Violet/OrthographicCameraController.h>
+#include "Sandbox2D.h"
 
 class ExampleLayer : public Violet::Layer {
 public:
 	ExampleLayer::ExampleLayer()
 		:Layer("Example Layer"), m_CameraController(1200.0f / 800.0f) {
-		// vertex Array
-		// vertex Buffer
-		// Index Buffer
-		// ~Shader
 
 		// glGenVertexArrays(1, &m_VertexArray);
 		// glBindVertexArray(m_VertexArray);
@@ -213,7 +211,8 @@ class Sandbox : public Violet::Application {
 public:
 	Sandbox()
 	{
-		PushLayer(new ExampleLayer());
+		// PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 	~Sandbox()
 	{

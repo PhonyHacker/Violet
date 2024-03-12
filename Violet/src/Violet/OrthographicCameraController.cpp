@@ -1,8 +1,8 @@
 #include "vlpch.h"
 #include "OrthographicCameraController.h"
 
-#include "Violet/Input.h"
-#include "Violet/KeyCode.h"
+#include "Violet/Core/Input.h"
+#include "Violet/Core/KeyCode.h"
 
 namespace Violet {
 	// OrthorgraphicCameraController::OrthorgraphicCameraController() {}
@@ -33,6 +33,11 @@ namespace Violet {
 				m_CameraRotation += m_CameraRotationSpeed * ts;
 			if (Input::IsKeyPressed(VL_KEY_E))
 				m_CameraRotation -= m_CameraRotationSpeed * ts;
+
+			if (m_CameraRotation > 180.0f)
+				m_CameraRotation -= 360.0f;
+			else if (m_CameraRotation <= -180.0f)
+				m_CameraRotation += 360.0f;
 
 			m_Camera.SetRotation(m_CameraRotation);
 		}

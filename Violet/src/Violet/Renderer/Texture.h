@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "Violet/Core.h"
+#include "Violet/Core/Core.h"
 
 namespace Violet {
 	class Texture {

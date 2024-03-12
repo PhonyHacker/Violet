@@ -75,7 +75,6 @@ workspace "Violet"
 			
 			defines
 			{
-				"VL_PLATFORM_WINDOWS",
 				"VL_BUILD_DLL",
 				"GLFW_INCLUDE_NONE"
 			}
@@ -131,11 +130,6 @@ workspace "Violet"
 			cppdialect "C++17"
 			systemversion "latest"
 			
-			defines
-			{
-				"VL_PLATFORM_WINDOWS"
-			}
-
 		filter "configurations:Debug"
 			defines "VL_DEBUG"
 			runtime "Debug"
