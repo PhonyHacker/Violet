@@ -20,8 +20,17 @@ namespace Violet {
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
+
+		auto nameBegin = filepath.find_last_of("/\\");
+		nameBegin = nameBegin == std::string::npos ? 0 : nameBegin + 1;
+		auto nameEnd = filepath.rfind(".");
+		auto count = nameEnd == std::string::npos ? filepath.size() - nameBegin : nameEnd - nameBegin;
+
+		m_Name = filepath.substr(nameBegin, count);
 	}
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc) {
+
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) 
+		:m_Name(name){
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;

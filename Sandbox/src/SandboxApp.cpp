@@ -9,8 +9,8 @@
 
 class ExampleLayer : public Violet::Layer {
 public:
-	ExampleLayer()
-		:Layer("Example Layer") ,m_Camera(-1.6f, 1.6f, -0.9f, 0.9f){
+	ExampleLayer::ExampleLayer()
+		:Layer("Example Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
 		// vertex Array
 		// vertex Buffer
 		// Index Buffer
@@ -22,8 +22,8 @@ public:
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
-			 0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
-			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
+			0.5f, -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,
+			0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
 		};
 		Violet::Ref<Violet::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Violet::VertexBuffer::Create(vertices, sizeof(vertices)));
@@ -42,8 +42,8 @@ public:
 		m_SquareVA.reset(Violet::VertexArray::Create());
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
@@ -96,7 +96,7 @@ public:
 			}
 		)";
 
-		m_Shader.reset(Violet::Shader::Create(vertexSrc, fragmentSrc));
+		m_Shader = Violet::Shader::Create("VertexPosColor", vertexSrc, fragmentSrc);
 
 		std::string flarColorShaderVertexSrc = R"(
 			#version 330 core
@@ -130,9 +130,9 @@ public:
 			}
 		)";
 
-		m_FlatColorShader.reset(Violet::Shader::Create(flarColorShaderVertexSrc, flatColorShaderFragmentSrc));
+		m_FlatColorShader = Violet::Shader::Create("FLatColor", flarColorShaderVertexSrc, flatColorShaderFragmentSrc);
 
-		m_TextureShader.reset(Violet::Shader::Create("assets/shaders/Texture.shader"));
+		auto m_TextureShader = m_ShaderLibaray.Load("assets/shaders/Texture.shader");
 
 		m_Texture = Violet::Texture2D::Create("assets/textures/test.png");
 		m_LogoTexture = Violet::Texture2D::Create("assets/textures/logo.png");
@@ -140,6 +140,7 @@ public:
 		std::dynamic_pointer_cast<Violet::OpenGLShader>(m_TextureShader)->Bind();
 		std::dynamic_pointer_cast<Violet::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 	}
+
 
 	void OnUpdate(Violet::Timestep timestep) override {
 		// VL_INFO("Example Layer Update");
@@ -181,11 +182,13 @@ public:
 				Violet::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
 			}
 		}
+
+		auto textureShader = m_ShaderLibaray.Get("Texture");
 		m_Texture->Bind();
-		Violet::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		Violet::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 		m_LogoTexture->Bind();
-		Violet::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		Violet::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		// Violet::Renderer::Submit(m_Shader, m_VertexArray, scale);
 		
 		Violet::Renderer::EndScene();
@@ -221,10 +224,12 @@ public:
 		return false;
 	}
 private:
+	Violet::ShaderLibrary m_ShaderLibaray;
+
 	Violet::Ref<Violet::Shader> m_Shader;
 	Violet::Ref<Violet::VertexArray> m_VertexArray;
 
-	Violet::Ref<Violet::Shader> m_FlatColorShader, m_TextureShader;
+	Violet::Ref<Violet::Shader> m_FlatColorShader;
 	Violet::Ref<Violet::VertexArray> m_SquareVA;
 
 	Violet::Ref<Violet::Texture2D> m_Texture, m_LogoTexture;
@@ -254,3 +259,4 @@ public:
 Violet::Application* Violet:: CreateApplication() {
 	return new Sandbox();
 }
+
