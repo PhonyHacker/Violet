@@ -37,6 +37,7 @@ namespace Violet {
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
 
 		// VL_CORE_INFO("{0}", e);
 		// VL_CORE_TRACE("{0}", e);
@@ -55,8 +56,10 @@ namespace Violet {
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			for (Layer* layer : m_LayerStack) {
-				layer->OnUpdate(timestep);
+			if (!m_Minimized) {
+				for (Layer* layer : m_LayerStack) {
+					layer->OnUpdate(timestep);
+				}
 			}
 
 			// imgui
@@ -76,6 +79,17 @@ namespace Violet {
 	{
 		m_Running = false;
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+			m_Minimized = true;
+		else 
+			m_Minimized = false;
+
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+		return false;
 	}
 
 	void Application::PushLayer(Layer* layer) {

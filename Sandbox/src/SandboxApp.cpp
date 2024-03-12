@@ -6,11 +6,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "imgui/imgui.h"
+#include <Violet/OrthographicCameraController.h>
 
 class ExampleLayer : public Violet::Layer {
 public:
 	ExampleLayer::ExampleLayer()
-		:Layer("Example Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+		:Layer("Example Layer"), m_CameraController(1200.0f / 800.0f) {
 		// vertex Array
 		// vertex Buffer
 		// Index Buffer
@@ -143,32 +144,12 @@ public:
 
 
 	void OnUpdate(Violet::Timestep timestep) override {
-		// VL_INFO("Example Layer Update");
-		if (Violet::Input::IsKeyPressed(VL_KEY_TAB))
-			VL_TRACE("Tav key is pressed (poll)!");
-		else if (Violet::Input::IsKeyPressed(VL_KEY_LEFT))
-			m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
-		else if (Violet::Input::IsKeyPressed(VL_KEY_RIGHT))
-			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
-		else if (Violet::Input::IsKeyPressed(VL_KEY_UP))
-			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
-		else if (Violet::Input::IsKeyPressed(VL_KEY_DOWN))
-			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
-		else if (Violet::Input::IsKeyPressed(VL_KEY_Q))
-			m_CameraRotation += m_CameraRoatateSpeed * timestep;
-		else if (Violet::Input::IsKeyPressed(VL_KEY_E))
-			m_CameraRotation -= m_CameraRoatateSpeed * timestep;
-
+		m_CameraController.OnUpdate(timestep);
 
 		Violet::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		Violet::RenderCommand::Clear();
 
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
-		// Render data loading
-
-		Violet::Renderer::BeginScene(m_Camera);
+		Violet::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		std::dynamic_pointer_cast<Violet::OpenGLShader>(m_FlatColorShader)->Bind();
 		std::dynamic_pointer_cast<Violet::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);
@@ -194,8 +175,10 @@ public:
 		Violet::Renderer::EndScene();
 	}
 
-	void OnEvent(Violet::Event& event) override {
-		Violet::EventDispatcher dispatcher(event);
+	void OnEvent(Violet::Event& e) override {
+		m_CameraController.OnEvent(e);
+
+		// Violet::EventDispatcher dispatcher(e);
 		// dispatcher.Dispatch<Violet::KeyPressedEvent>(VL_BIND_EVENT_FN(ExampleLayer::OnKeyPressedEvent));
 
 	}
@@ -208,20 +191,7 @@ public:
 	}
 
 	bool OnKeyPressedEvent(Violet::KeyPressedEvent& event) {
-		if (event.GetKeyCode() == VL_KEY_LEFT)
-			m_CameraPosition.x -= m_CameraMoveSpeed;
-		if (event.GetKeyCode() == VL_KEY_RIGHT)
-			m_CameraPosition.x += m_CameraMoveSpeed;
-		if (event.GetKeyCode() == VL_KEY_UP)
-			m_CameraPosition.y += m_CameraMoveSpeed;
-		if (event.GetKeyCode() == VL_KEY_DOWN)
-			m_CameraPosition.y -= m_CameraMoveSpeed;
-		if (event.GetKeyCode() == VL_KEY_Q)
-			m_CameraRotation += m_CameraRoatateSpeed;
-		if (event.GetKeyCode() == VL_KEY_E)
-			m_CameraRotation -= m_CameraRoatateSpeed;
 
-		return false;
 	}
 private:
 	Violet::ShaderLibrary m_ShaderLibaray;
@@ -233,12 +203,7 @@ private:
 	Violet::Ref<Violet::VertexArray> m_SquareVA;
 
 	Violet::Ref<Violet::Texture2D> m_Texture, m_LogoTexture;
-	Violet::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition = {0, 0, 0};
-	float m_CameraMoveSpeed = 1.0f;
-
-	float m_CameraRotation = 0.0f;
-	float m_CameraRoatateSpeed = 90.0f;
+	Violet::OrthographicCameraController m_CameraController;
 
 	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };

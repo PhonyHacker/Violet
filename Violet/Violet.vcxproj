@@ -173,6 +173,7 @@
     <ClInclude Include="src\Violet\LayerStack.h" />
     <ClInclude Include="src\Violet\Log.h" />
     <ClInclude Include="src\Violet\MouseButtonCode.h" />
+    <ClInclude Include="src\Violet\OrthographicCameraController.h" />
     <ClInclude Include="src\Violet\Renderer\Buffer.h" />
     <ClInclude Include="src\Violet\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Violet\Renderer\OrthographicCamera.h" />
@@ -563,6 +564,7 @@
     <ClCompile Include="src\Violet\Layer.cpp" />
     <ClCompile Include="src\Violet\LayerStack.cpp" />
     <ClCompile Include="src\Violet\Log.cpp" />
+    <ClCompile Include="src\Violet\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Violet\Renderer\Buff.cpp" />
     <ClCompile Include="src\Violet\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Violet\Renderer\RenderCommand.cpp" />

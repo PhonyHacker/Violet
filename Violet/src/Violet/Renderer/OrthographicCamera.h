@@ -9,7 +9,8 @@ namespace Violet {
 
 		inline const glm::vec3 GetPosition() { return m_Position; }
 		void SetPosition(const glm::vec3 position) { m_Position = position; RecalculateViewMartix(); }
-	
+		void SetProjection(float left, float right, float bottom, float top);
+
 		inline const float GetRotation() { return m_Rotation; }
 		void SetRotation(float rotation) { m_Rotation = rotation; RecalculateViewMartix(); }
 
