@@ -1,6 +1,6 @@
-[00:17:59] [info] HAZEL: Creating window Violet Engine (1200, 800)
-[00:17:59] [info] HAZEL: OpenGL Info: 
-[00:17:59] [info] HAZEL:  Vendor: ATI Technologies Inc. 
-[00:17:59] [info] HAZEL:  Renderer : AMD Radeon(TM) Graphics 
-[00:17:59] [info] HAZEL:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
-[00:18:07] [info] HAZEL: Terminating GLFW
+[01:10:47] [info] HAZEL: Creating window Violet Engine (1200, 800)
+[01:10:48] [info] HAZEL: OpenGL Info: 
+[01:10:48] [info] HAZEL:  Vendor: ATI Technologies Inc. 
+[01:10:48] [info] HAZEL:  Renderer : AMD Radeon(TM) Graphics 
+[01:10:48] [info] HAZEL:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
+[01:10:58] [info] HAZEL: Terminating GLFW

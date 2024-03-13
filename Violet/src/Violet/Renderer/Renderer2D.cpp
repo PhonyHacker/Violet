@@ -34,7 +34,7 @@ namespace Violet {
 		};
 
 		Violet::Ref<Violet::VertexBuffer> squareVB;
-		squareVB.reset(Violet::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		squareVB = Violet::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		squareVB->SetLayout({
 			{ Violet::ShaderDataType::Float3, "a_Position" },
 			{ Violet::ShaderDataType::Float2, "a_TexCoord" }
@@ -43,7 +43,7 @@ namespace Violet {
 
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
 		Violet::Ref<Violet::IndexBuffer> squareIB;
-		squareIB.reset(Violet::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		squareIB = Violet::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		s_Data->QuadVertexArray->SetIndexBuffer(squareIB);
 
 		s_Data->WhiteTexture = Texture2D::Create(1, 1);

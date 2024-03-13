@@ -19,6 +19,9 @@
     <Filter Include="src\Violet\Core">
       <UniqueIdentifier>{A7B94217-1345-B0DB-1C56-33D088600CDC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Violet\Debug">
+      <UniqueIdentifier>{A549A6FF-9142-C551-BA74-AAD6A6CCA45D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Violet\Events">
       <UniqueIdentifier>{F3D0F9F7-5FE7-F78D-A85E-83AF14B4C815}</UniqueIdentifier>
     </Filter>
@@ -114,6 +117,9 @@
     <ClInclude Include="src\Violet\Core\Window.h">
       <Filter>src\Violet\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Violet\Debug\Instrumentor.h">
+      <Filter>src\Violet\Debug</Filter>
+    </ClInclude>
     <ClInclude Include="src\Violet\Events\ApplicationEvent.h">
       <Filter>src\Violet\Events</Filter>
     </ClInclude>
@@ -145,6 +151,9 @@
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Renderer\Renderer.h">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Renderer\Renderer2D.h">
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Renderer\RendererAPI.h">
@@ -1251,8 +1260,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Violet\Renderer\Renderer2D.h" />
-    <ClInclude Include="src\Violet\Debug\Instrumentor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1312,6 +1319,9 @@
     <ClCompile Include="src\Violet\Renderer\Renderer.cpp">
       <Filter>src\Violet\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Violet\Renderer\Renderer2D.cpp">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Violet\Renderer\RendererAPI.cpp">
       <Filter>src\Violet\Renderer</Filter>
     </ClCompile>
@@ -1330,6 +1340,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Violet\Renderer\Renderer2D.cpp" />
   </ItemGroup>
 </Project>

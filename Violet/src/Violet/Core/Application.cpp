@@ -49,8 +49,9 @@ namespace Violet {
 		// VL_CORE_INFO("{0}", e);
 		// VL_CORE_TRACE("{0}", e);
 
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
-			(*--it)->OnEvent(e);
+		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
+		{
+			(*it)->OnEvent(e);
 			if (e.IsHandled())
 				break;
 		}
