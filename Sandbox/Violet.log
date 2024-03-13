@@ -1,8 +1,7 @@
-[18:35:04] [warning] HAZEL: Initialized Log!
-[18:35:04] [info] APP: Hello!
-[18:35:04] [info] HAZEL: Creating window Violet Engine (1200, 800)
-[18:35:05] [info] HAZEL: OpenGL Info: 
-[18:35:05] [info] HAZEL:  Vendor: ATI Technologies Inc. 
-[18:35:05] [info] HAZEL:  Renderer : AMD Radeon(TM) Graphics 
-[18:35:05] [info] HAZEL:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
-[18:35:22] [info] HAZEL: Terminating GLFW
+[19:30:46] [warning] HAZEL: Initialized Log!
+[19:30:46] [info] APP: Hello!
+[19:30:46] [info] HAZEL: Creating window Violet Engine (1200, 800)
+[19:30:47] [info] HAZEL: OpenGL Info: 
+[19:30:47] [info] HAZEL:  Vendor: ATI Technologies Inc. 
+[19:30:47] [info] HAZEL:  Renderer : AMD Radeon(TM) Graphics 
+[19:30:47] [info] HAZEL:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
