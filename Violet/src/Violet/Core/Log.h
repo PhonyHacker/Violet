@@ -30,4 +30,4 @@ namespace Violet {
 #define VL_WARN(...) ::Violet::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define VL_ERROR(...) ::Violet::Log::GetClientLogger()->error(__VA_ARGS__)
 #define VL_FATAL(...) ::Violet::Log::GetClientLogger()->fatal(__VA_ARGS__)
-
+#define VL_CRITICAL(...) ::Hazel::Log::GetClientLogger()->critical(__VA_ARGS__)

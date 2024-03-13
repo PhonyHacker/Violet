@@ -15,6 +15,7 @@
 
 // --äÖÈ¾Ïà¹Ø--------------------
 #include "Violet/Renderer/Renderer.h"
+#include "Violet/Renderer/Renderer2D.h"
 #include "Violet/Renderer/RenderCommand.h"
 
 #include "Violet/Renderer/Buffer.h"

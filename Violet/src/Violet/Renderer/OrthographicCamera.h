@@ -16,7 +16,7 @@ namespace Violet {
 
 		const glm::mat4 GetProjectionMartix()	  const { return m_ProjectionMatrix; }
 		const glm::mat4 GetViewMartix()			  const { return m_ViewMatrix; }
-		const glm::mat4 GetViewProjectionMartix() const { return m_ViewProjectionMatrix; }
+		const glm::mat4 GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
 	
 	private:
 		void RecalculateViewMartix();

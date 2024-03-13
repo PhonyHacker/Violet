@@ -17,7 +17,7 @@ public:
 
 		// glGenVertexArrays(1, &m_VertexArray);
 		// glBindVertexArray(m_VertexArray);
-		m_VertexArray.reset(Violet::VertexArray::Create());
+		m_VertexArray = Violet::VertexArray::Create();
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
@@ -38,7 +38,7 @@ public:
 		indexBuffer.reset(Violet::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
-		m_SquareVA.reset(Violet::VertexArray::Create());
+		m_SquareVA = Violet::VertexArray::Create();
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 			0.5f, -0.5f, 0.0f, 1.0f, 0.0f,

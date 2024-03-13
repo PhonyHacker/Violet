@@ -1,6 +1,7 @@
 #include "vlpch.h"
 #include "Renderer.h"
 #include "RenderCommand.h"
+#include "Renderer2D.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
@@ -9,11 +10,12 @@ namespace Violet {
 
 	void Renderer::Init() {
 		RenderCommand::Init();
+		Renderer2D::Init();
 	}
 
 	void Renderer::BeginScene(OrthographicCamera& camera)
 	{
-		m_SceneData->ViewProjectionView = camera.GetViewProjectionMartix();
+		m_SceneData->ViewProjectionView = camera.GetViewProjectionMatrix();
 	}
 
 	void Renderer::EndScene()
