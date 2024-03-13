@@ -23,16 +23,22 @@ namespace Violet {
 	
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		VL_PROFILE_FUNCTION();
+
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow() 
 	{
+		VL_PROFILE_FUNCTION();
+
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		VL_PROFILE_FUNCTION();
+
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
@@ -42,17 +48,21 @@ namespace Violet {
 
 		if (s_GLFWWindowCount == 0)
 		{
+			VL_PROFILE_SCOPE("glfwInit");
+
 			int success = glfwInit();
 			VL_CORE_ASSERT(success, "Could not intialize GLFW!");
 
 			glfwSetErrorCallback(GLFWErrorCallback);
 		}
+		{
+			VL_PROFILE_SCOPE("glfwCreateWindow");
 
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		s_GLFWWindowCount++;
+			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+			s_GLFWWindowCount++;
+		}
+		
 		m_Context = new OpenGLContext(m_Window);
-
-
 		m_Context->Init();
 		// ^
 
@@ -153,6 +163,8 @@ namespace Violet {
 
 	void WindowsWindow::Shutdown()
 	{
+		VL_PROFILE_FUNCTION();
+
 		glfwDestroyWindow(m_Window);
 		if (--s_GLFWWindowCount == 0) {
 			VL_CORE_INFO("Terminating GLFW");
@@ -162,6 +174,8 @@ namespace Violet {
 
 	void WindowsWindow::OnUpdate()
 	{
+		VL_PROFILE_FUNCTION();
+
 		glfwPollEvents();
 
 		m_Context->SwapBuffers();

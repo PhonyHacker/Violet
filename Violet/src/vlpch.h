@@ -15,6 +15,8 @@
 
 #include "Violet/Core/Log.h"
 
+#include "Violet/Debug/Instrumentor.h"
+
 #ifdef VL_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif

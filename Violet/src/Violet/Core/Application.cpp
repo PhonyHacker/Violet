@@ -19,8 +19,10 @@ namespace Violet {
 	Application::Application()
 		// :m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
-		VL_CORE_ASSERT(!s_Instance, "Application already exists!")
-			s_Instance = this;
+		VL_PROFILE_FUNCTION();
+
+		VL_CORE_ASSERT(!s_Instance, "Application already exists!");
+		s_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
@@ -31,10 +33,15 @@ namespace Violet {
 		PushOverlay(m_ImGuiLayer);
 	}
 
-	Application::~Application() {}
+	Application::~Application() {
+		VL_PROFILE_FUNCTION();
+		Renderer::Shutdown();
+	}
 
 	void Application::OnEvent(Event& e)
 	{
+		VL_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
@@ -49,14 +56,19 @@ namespace Violet {
 		}
 	}
 	void  Application::Run() {
+		VL_PROFILE_FUNCTION();
+
 		while (m_Running)
 		{	
+			VL_PROFILE_SCOPE("RunLoop");
 			float time = (float)glfwGetTime();
 
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
 			if (!m_Minimized) {
+				VL_PROFILE_SCOPE("LayerStackOnUpdate");
+
 				for (Layer* layer : m_LayerStack) {
 					layer->OnUpdate(timestep);
 				}
@@ -64,6 +76,8 @@ namespace Violet {
 
 			// imgui
 			{
+				VL_PROFILE_SCOPE("LayerStackOnImGui");
+
 				m_ImGuiLayer->Begin();
 				for (Layer* layer : m_LayerStack)
 					layer->OnImGuiRender();
@@ -83,6 +97,8 @@ namespace Violet {
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
+		VL_PROFILE_FUNCTION();
+
 		if (e.GetWidth() == 0 || e.GetHeight() == 0)
 			m_Minimized = true;
 		else 
@@ -93,10 +109,14 @@ namespace Violet {
 	}
 
 	void Application::PushLayer(Layer* layer) {
+		VL_PROFILE_FUNCTION();
+
 		m_LayerStack.PushLayer(layer);
 		layer->OnAttach();
 	}
 	void Application::PushOverlay(Layer* layer) {
+		VL_PROFILE_FUNCTION();
+
 		m_LayerStack.PushOverlay(layer);
 		layer->OnAttach();
 	}

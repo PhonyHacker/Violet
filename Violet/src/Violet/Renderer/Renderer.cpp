@@ -8,9 +8,17 @@
 namespace Violet {
 	Renderer::SceneData* Renderer::m_SceneData = new SceneData();
 
-	void Renderer::Init() {
+	void Renderer::Init() 
+	{
+		VL_PROFILE_FUNCTION();
+
 		RenderCommand::Init();
 		Renderer2D::Init();
+	}
+
+	void Renderer::Shutdown()
+	{
+		Renderer2D::Shutdown();
 	}
 
 	void Renderer::BeginScene(OrthographicCamera& camera)

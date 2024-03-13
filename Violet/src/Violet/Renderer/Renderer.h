@@ -11,6 +11,7 @@ namespace Violet {
 	{
 	public:
 		static void Init();
+		static void Shutdown();
 
 		static void BeginScene(OrthographicCamera& camera);
 		static void EndScene();

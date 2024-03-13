@@ -6,10 +6,13 @@
 
 namespace Violet {
 	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle)
-		:m_WindowHandle(windowHandle){
+		:m_WindowHandle(windowHandle)
+	{
 		VL_CORE_ASSERT(windowHandle, "Window Handle is null!");
 	}
 	void OpenGLContext::Init() {
+		VL_PROFILE_FUNCTION();
+
 		glfwMakeContextCurrent(m_WindowHandle);
 
 		// GLADø‚≥ı ºªØ
@@ -21,7 +24,10 @@ namespace Violet {
 		VL_CORE_INFO(" Renderer : {0} ", glGetString(GL_RENDERER));
 		VL_CORE_INFO(" Version: {0} ", glGetString(GL_VERSION));
 	}
-	void OpenGLContext::SwapBuffers() {
+	void OpenGLContext::SwapBuffers() 
+	{
+		VL_PROFILE_FUNCTION();
+
 		glfwSwapBuffers(m_WindowHandle);
 	}
 
