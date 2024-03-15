@@ -18,6 +18,7 @@ void Sandbox2D::OnAttach()
 	VL_PROFILE_FUNCTION();
 
 	m_CheckerboardTexture = Violet::Texture2D::Create("assets/textures/test.png");
+	m_TextureAltas = Violet::Texture2D::Create("assets/textures/TextureAltas.png");
 
 	// Particle Init
 	m_Particle.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
@@ -50,7 +51,7 @@ void Sandbox2D::OnUpdate(Violet::Timestep timestep)
 		Violet::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		Violet::RenderCommand::Clear();
 	}
-
+#if 0
 	{
 		static float rotation = 0.0f;
 		rotation += timestep * 50.0f;
@@ -80,23 +81,33 @@ void Sandbox2D::OnUpdate(Violet::Timestep timestep)
 
 		Violet::Renderer2D::EndScene();
 	}
-
-	if (Violet::Input::IsMouseButtonPressed(VL_MOUSE_BUTTON_LEFT))
+#endif
 	{
-		auto [x, y] = Violet::Input::GetMousePosition();
-		auto width = Violet::Application::Get().GetWindow().GetWidth();
-		auto height = Violet::Application::Get().GetWindow().GetHeight();
+		// 粒子系统demo
+		if (Violet::Input::IsMouseButtonPressed(VL_MOUSE_BUTTON_LEFT))
+		{
+			auto [x, y] = Violet::Input::GetMousePosition();
+			auto width = Violet::Application::Get().GetWindow().GetWidth();
+			auto height = Violet::Application::Get().GetWindow().GetHeight();
 
-		auto bounds = m_CameraController.GetBounds();
-		auto pos = m_CameraController.GetCamera().GetPosition();
-		x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
-		y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
-		m_Particle.Position = { x + pos.x, y + pos.y };
-		for (int i = 0; i < 5; i++)
-			m_ParticleSystem.Emit(m_Particle);
+			auto bounds = m_CameraController.GetBounds();
+			auto pos = m_CameraController.GetCamera().GetPosition();
+			x = (x / width) * bounds.GetWidth() - bounds.GetWidth() * 0.5f;
+			y = bounds.GetHeight() * 0.5f - (y / height) * bounds.GetHeight();
+			m_Particle.Position = { x + pos.x, y + pos.y };
+			for (int i = 0; i < 5; i++)
+				m_ParticleSystem.Emit(m_Particle);
+		}
+		m_ParticleSystem.OnUpdate(timestep);
+		m_ParticleSystem.OnRender(m_CameraController.GetCamera());
 	}
-	m_ParticleSystem.OnUpdate(timestep);
-	m_ParticleSystem.OnRender(m_CameraController.GetCamera());
+
+	{
+		// 绘制纹理集的一个
+		Violet::Renderer2D::BeginScene(m_CameraController.GetCamera());
+		Violet::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.4f }, { 1.0f, 1.0f }, m_TextureAltas, 1.0f);
+		Violet::Renderer2D::EndScene();
+	}
 }
 
 void Sandbox2D::OnImGuiRender()

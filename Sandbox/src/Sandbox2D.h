@@ -23,6 +23,7 @@ protected:
 	Violet::Ref<Violet::Shader> m_FlatColorShader;
 
 	Violet::Ref<Violet::Texture2D> m_CheckerboardTexture;
+	Violet::Ref<Violet::Texture2D> m_TextureAltas;
 
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 

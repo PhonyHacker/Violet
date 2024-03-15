@@ -24,7 +24,7 @@ namespace Violet {
 				return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
 		}
 
-		VL_CORE_ASSERT(false, "Î´ÖªµÄäÖÈ¾API(Unkown RendererAPI)");
+		VL_CORE_ASSERT(false, "Unkown RendererAPI!");
 		return nullptr;
 	}
 
