@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Violet.h"
 #include "ParticleSystem.h"
@@ -23,10 +23,14 @@ protected:
 	Violet::Ref<Violet::Shader> m_FlatColorShader;
 
 	Violet::Ref<Violet::Texture2D> m_CheckerboardTexture;
-	Violet::Ref<Violet::Texture2D> m_TextureAltas;
 
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 
+	Violet::Ref<Violet::Texture2D> m_TextureAltas;
+	Violet::Ref<Violet::SubTexture2D> m_TextureStair, m_TextureTree, m_TextureBush;
+
 	ParticleProps m_Particle;
 	ParticleSystem m_ParticleSystem;
+private:
+	Violet::Timestep m_Tiemstep = 0.0f;
 };

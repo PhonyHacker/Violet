@@ -18,7 +18,12 @@ void Sandbox2D::OnAttach()
 	VL_PROFILE_FUNCTION();
 
 	m_CheckerboardTexture = Violet::Texture2D::Create("assets/textures/test.png");
+
 	m_TextureAltas = Violet::Texture2D::Create("assets/textures/TextureAltas.png");
+	//m_TextureStairs, m_TextureTree, m_TextureBush
+	m_TextureStair = Violet::SubTexture2D::CreateFromCoords(m_TextureAltas, { 7, 6 }, { 128, 128 });
+	m_TextureBush = Violet::SubTexture2D::CreateFromCoords(m_TextureAltas, { 2, 3 }, { 128, 128 });
+	m_TextureTree = Violet::SubTexture2D::CreateFromCoords(m_TextureAltas, { 4, 1 }, { 128, 128 }, { 1,2 });
 
 	// Particle Init
 	m_Particle.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
@@ -39,6 +44,7 @@ void Sandbox2D::OnDetach()
 void Sandbox2D::OnUpdate(Violet::Timestep timestep)
 {
 	VL_PROFILE_FUNCTION();
+	// VL_TRACE("FPS: {0} ({1} / ms) ", 1/timestep, timestep);
 
 	// Update
 	m_CameraController.OnUpdate(timestep);
@@ -103,9 +109,11 @@ void Sandbox2D::OnUpdate(Violet::Timestep timestep)
 	}
 
 	{
-		// 绘制纹理集的一个
+		// 绘制纹理集的一个		
 		Violet::Renderer2D::BeginScene(m_CameraController.GetCamera());
-		Violet::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.4f }, { 1.0f, 1.0f }, m_TextureAltas, 1.0f);
+		Violet::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.9f }, { 1.0f, 1.0f }, m_TextureBush, 1.0f);
+		Violet::Renderer2D::DrawQuad({ 1.0f, 0.0f, 0.9f }, { 1.0f, 1.0f }, m_TextureStair, 1.0f);
+		Violet::Renderer2D::DrawQuad({ -1.0f, 0.0f, 0.9f }, { 1.0f, 2.0f }, m_TextureTree, 1.0f);
 		Violet::Renderer2D::EndScene();
 	}
 }

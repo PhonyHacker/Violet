@@ -28,6 +28,8 @@ namespace Violet {
 		inline Window& GetWindow() { return *m_Window; }
 
 		inline static Application& Get() { return *s_Instance; }
+
+		inline Timestep GetTimeSetp() { return m_LastFrameTime; };
 	private:
 		Timestep m_LastFrameTime = 0.0f;
 

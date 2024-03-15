@@ -66,7 +66,7 @@ void ParticleSystem::OnRender(Violet::OrthographicCamera& camera)
 		
 		float size = glm::lerp(particle.SizeEnd, particle.SizeBegin, life);
 
-		glm::vec3 position = { particle.Position.x, particle.Position.y, 0.2f };
+		glm::vec3 position = { particle.Position.x, particle.Position.y, 0.9f };
 		
 		Violet::Renderer2D::DrawRotatedQuad(position, { size, size }, particle.Rotation, color);
 	}

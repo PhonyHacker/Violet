@@ -184,6 +184,7 @@
     <ClInclude Include="src\Violet\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Violet\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Violet\Renderer\Shader.h" />
+    <ClInclude Include="src\Violet\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\Violet\Renderer\Texture.h" />
     <ClInclude Include="src\Violet\Renderer\VertexArray.h" />
     <ClInclude Include="src\vlpch.h" />
@@ -574,6 +575,7 @@
     <ClCompile Include="src\Violet\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Violet\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Violet\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Violet\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\Violet\Renderer\Texture.cpp" />
     <ClCompile Include="src\Violet\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\vlpch.cpp">
