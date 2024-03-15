@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Violet.h"
+#include "ParticleSystem.h"
 
 class Sandbox2D : public Violet::Layer {
 public:
@@ -24,4 +25,7 @@ protected:
 	Violet::Ref<Violet::Texture2D> m_CheckerboardTexture;
 
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+
+	ParticleProps m_Particle;
+	ParticleSystem m_ParticleSystem;
 };
