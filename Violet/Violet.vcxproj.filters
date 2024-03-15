@@ -87,7 +87,7 @@
     <ClInclude Include="src\Violet\Core\Application.h">
       <Filter>src\Violet\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Violet\Core\Core.h">
+    <ClInclude Include="src\Violet\Core\Base.h">
       <Filter>src\Violet\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Core\EntryPoint.h">
@@ -1261,6 +1261,8 @@
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Renderer\SubTexture2D.h" />
+    <ClInclude Include="src\Violet\Renderer\Framebuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1342,5 +1344,7 @@
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
     <ClCompile Include="src\Violet\Renderer\SubTexture2D.cpp" />
+    <ClCompile Include="src\Violet\Renderer\Framebuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
   </ItemGroup>
 </Project>

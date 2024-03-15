@@ -151,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
@@ -159,7 +160,7 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Violet.h" />
     <ClInclude Include="src\Violet\Core\Application.h" />
-    <ClInclude Include="src\Violet\Core\Core.h" />
+    <ClInclude Include="src\Violet\Core\Base.h" />
     <ClInclude Include="src\Violet\Core\EntryPoint.h" />
     <ClInclude Include="src\Violet\Core\Input.h" />
     <ClInclude Include="src\Violet\Core\KeyCode.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="src\Violet\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Violet\OrthographicCameraController.h" />
     <ClInclude Include="src\Violet\Renderer\Buffer.h" />
+    <ClInclude Include="src\Violet\Renderer\Framebuffer.h" />
     <ClInclude Include="src\Violet\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Violet\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\Violet\Renderer\RenderCommand.h" />
@@ -555,6 +557,7 @@
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTextue.cpp" />
@@ -569,6 +572,7 @@
     <ClCompile Include="src\Violet\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Violet\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Violet\Renderer\Buff.cpp" />
+    <ClCompile Include="src\Violet\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\Violet\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Violet\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Violet\Renderer\Renderer.cpp" />

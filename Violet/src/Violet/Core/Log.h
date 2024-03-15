@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Core.h"
+#include "Violet/Core/Base.h"
+
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
 namespace Violet {

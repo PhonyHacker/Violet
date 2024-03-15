@@ -53,6 +53,12 @@ void Sandbox2D::OnAttach()
 	m_CheckerboardTexture = Violet::Texture2D::Create("assets/textures/test.png");
 
 	m_TextureAltas = Violet::Texture2D::Create("assets/textures/TextureAltas.png");
+
+	Violet::FramebufferSpecification fbSpec;
+	fbSpec.Width = 1200;
+	fbSpec.Height = 720;
+	m_Framebuffer = Violet::Framebuffer::Create(fbSpec);
+
 	//m_TextureStairs, m_TextureTree, m_TextureBush
 	m_TextureStair = Violet::SubTexture2D::CreateFromCoords(m_TextureAltas, { 7, 6 }, { 128, 128 });
 	m_TextureBush = Violet::SubTexture2D::CreateFromCoords(m_TextureAltas, { 2, 3 }, { 128, 128 });
@@ -62,7 +68,7 @@ void Sandbox2D::OnAttach()
 	s_TextureMap['2'] = Violet::SubTexture2D::CreateFromCoords(m_TextureAltas, { 1, 11 }, { 128, 128 });
 	s_TextureMap['3'] = Violet::SubTexture2D::CreateFromCoords(m_TextureAltas, { 11, 11 }, { 128, 128 });
 
-	// Particle Init
+	// 粒子系统初始化
 	m_Particle.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
 	m_Particle.ColorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
 	m_Particle.SizeBegin = 0.1f, m_Particle.SizeVariation = 0.3f, m_Particle.SizeEnd = 0.0f;
@@ -93,9 +99,12 @@ void Sandbox2D::OnUpdate(Violet::Timestep timestep)
 	{
 		// Render
 		VL_PROFILE_SCOPE("Renderer Prep");
+		m_Framebuffer->Bind();
 		Violet::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		Violet::RenderCommand::Clear();
 	}
+
+// 基本渲染API
 #if 0
 	{
 		static float rotation = 0.0f;
@@ -127,6 +136,9 @@ void Sandbox2D::OnUpdate(Violet::Timestep timestep)
 		Violet::Renderer2D::EndScene();
 	}
 #endif
+
+// 粒子系统Demo
+#if 0
 	{
 		// 粒子系统demo
 		if (Violet::Input::IsMouseButtonPressed(VL_MOUSE_BUTTON_LEFT))
@@ -146,6 +158,8 @@ void Sandbox2D::OnUpdate(Violet::Timestep timestep)
 		m_ParticleSystem.OnUpdate(timestep);
 		m_ParticleSystem.OnRender(m_CameraController.GetCamera());
 	}
+#endif
+
 
 	{
 		// 绘制纹理集的一个		
@@ -154,6 +168,10 @@ void Sandbox2D::OnUpdate(Violet::Timestep timestep)
 		// Violet::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.9f }, { 1.0f, 1.0f }, m_TextureBush, 1.0f);
 		// Violet::Renderer2D::DrawQuad({ 1.0f, 0.0f, 0.9f }, { 1.0f, 1.0f }, m_TextureStair, 1.0f);
 		// Violet::Renderer2D::DrawQuad({ -1.0f, 0.0f, 0.9f }, { 1.0f, 2.0f }, m_TextureTree, 1.0f);
+		
+		Violet::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 30.0f, 30.0f }, m_CheckerboardTexture, 10.0f);
+
+
 		for (uint32_t y = 0; y < m_MapHeight; y++) {
 			for (uint32_t x = 0; x < m_MapWidth; x++) {
 				// x + y * m_MapWidth; 切割成2维数组
@@ -162,17 +180,21 @@ void Sandbox2D::OnUpdate(Violet::Timestep timestep)
 					continue;
 				}
 				Violet::Ref<Violet::SubTexture2D> texture;
-				if (s_TextureMap.find(titleType) != s_TextureMap.end()) {
+				if (s_TextureMap.find(titleType) != s_TextureMap.end())
+				{
 					texture = s_TextureMap[titleType];
 				}
-				else {
+				else 
+				{
 					texture = m_TextureBush;
 				}
 				Violet::Renderer2D::DrawQuad({ x - m_MapWidth / 2.0f, m_MapHeight / 2.0f - y, 0.5f }, { 1.0f, 1.0f }, texture); // x - m_MapWidth / 2.0f,  y - m_MapHeight / 2.0f, 0.5f // 会导致y轴相反绘画
 			}
 		}
-		Violet::Renderer2D::EndScene();
+		
 
+		Violet::Renderer2D::EndScene();
+		m_Framebuffer->Unbind();
 	}
 }
 
@@ -180,16 +202,107 @@ void Sandbox2D::OnImGuiRender()
 {
 	VL_PROFILE_FUNCTION();
 
-	ImGui::Begin("Settings");
+	// Note: Switch this to true to enable dockspace
+	static bool dockingEnabled = true;
+	if (dockingEnabled)
+	{
+		static bool dockspaceOpen = true;
+		static bool opt_fullscreen_persistant = true;
+		bool opt_fullscreen = opt_fullscreen_persistant;
+		static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
-	auto stats = Violet::Renderer2D::GetStats();
-	ImGui::Text("Renderer2D Stats:");
-	ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-	ImGui::Text("Quads: %d", stats.QuadCount);
-	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+		// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
+		// because it would be confusing to have two docking targets within each others.
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+		if (opt_fullscreen)
+		{
+			ImGuiViewport* viewport = ImGui::GetMainViewport();
+			ImGui::SetNextWindowPos(viewport->Pos);
+			ImGui::SetNextWindowSize(viewport->Size);
+			ImGui::SetNextWindowViewport(viewport->ID);
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+			window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+			window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+		}
 
-	ImGui::End();
+		// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
+		if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
+			window_flags |= ImGuiWindowFlags_NoBackground;
+
+		// Important: note that we proceed even if Begin() returns false (aka window is collapsed).
+		// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive, 
+		// all active windows docked into it will lose their parent and become undocked.
+		// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise 
+		// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+		ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
+		ImGui::PopStyleVar();
+
+		if (opt_fullscreen)
+			ImGui::PopStyleVar(2);
+
+		// DockSpace
+		ImGuiIO& io = ImGui::GetIO();
+		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
+		{
+			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
+		}
+
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				// Disabling fullscreen would allow the window to be moved to the front of other windows, 
+				// which we can't undo at the moment without finer window depth/z control.
+				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
+
+				if (ImGui::MenuItem("Exit")) Violet::Application::Get().Close();
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMenuBar();
+		}
+
+		ImGui::Begin("Settings");
+
+		auto stats = Violet::Renderer2D::GetStats();
+		ImGui::Text("Renderer2D Stats:");
+		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+		ImGui::Text("Quads: %d", stats.QuadCount);
+		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+
+		ImGui::End();
+
+		ImGui::Begin("Image: ");
+
+		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+		ImGui::Image((void*)textureID, ImVec2{ 1200.0f, 800.0f });
+
+		ImGui::End();
+
+		ImGui::End();
+	}
+	else
+	{
+		ImGui::Begin("Settings");
+
+		auto stats = Violet::Renderer2D::GetStats();
+		ImGui::Text("Renderer2D Stats:");
+		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
+		ImGui::Text("Quads: %d", stats.QuadCount);
+		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
+		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+
+		ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+
+		uint32_t textureID = m_CheckerboardTexture->GetRendererID();
+		ImGui::Image((void*)textureID, ImVec2{ 256.0f, 256.0f });
+		ImGui::End();
+	}
 }
 
 void Sandbox2D::OnEvent(Violet::Event& e)

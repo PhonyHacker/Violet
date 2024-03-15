@@ -1,6 +1,6 @@
-[17:53:24] [info] VIOLET: Creating window Violet Engine (1200, 800)
-[17:53:26] [info] VIOLET: OpenGL Info: 
-[17:53:26] [info] VIOLET:  Vendor: NVIDIA Corporation 
-[17:53:26] [info] VIOLET:  Renderer : NVIDIA GeForce GTX 1650/PCIe/SSE2 
-[17:53:26] [info] VIOLET:  Version: 4.6.0 NVIDIA 512.59 
-[17:53:52] [info] VIOLET: Terminating GLFW
+[00:08:07] [info] VIOLET: Creating window Violet Engine (1200, 800)
+[00:08:09] [info] VIOLET: OpenGL Info: 
+[00:08:09] [info] VIOLET:  Vendor: NVIDIA Corporation 
+[00:08:09] [info] VIOLET:  Renderer : NVIDIA GeForce GTX 1650/PCIe/SSE2 
+[00:08:09] [info] VIOLET:  Version: 4.6.0 NVIDIA 512.59 
+[00:08:16] [info] VIOLET: Terminating GLFW

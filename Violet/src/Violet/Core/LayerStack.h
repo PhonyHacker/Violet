@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Violet/Core/Core.h"
-#include "Layer.h"
+#include "Violet/Core/Base.h"
+#include "Violet/Core/Layer.h"
 
 namespace Violet {
 	class VIOLET_API LayerStack {

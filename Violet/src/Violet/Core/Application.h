@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Violet/Core/Core.h"
+#include "Violet/Core/Base.h"
 #include "Violet/Events/Event.h"
 #include "Window.h"
 #include "Violet/Core/Layer.h"
@@ -19,6 +19,7 @@ namespace Violet {
 		virtual ~Application();
 
 		void Run();
+		void Close();
 
 		void OnEvent(Event& e);
 

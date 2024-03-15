@@ -56,6 +56,12 @@ namespace Violet {
 				break;
 		}
 	}
+
+	void Application::Close()
+	{
+		m_Running = false;
+	}
+
 	void  Application::Run() {
 		VL_PROFILE_FUNCTION();
 
