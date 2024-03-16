@@ -2,42 +2,47 @@
 
 #include "Violet.h"
 
-class EditorLayer: public Violet::Layer {
-public:
-	EditorLayer();
-	virtual ~EditorLayer() = default;
+namespace Violet {
+	class EditorLayer : public Layer {
+	public:
+		EditorLayer();
+		virtual ~EditorLayer() = default;
 
-	virtual void OnAttach() override;
-	virtual void OnDetach() override;
+		virtual void OnAttach() override;
+		virtual void OnDetach() override;
 
-	virtual void OnUpdate(Violet::Timestep step) override;
-	virtual void OnImGuiRender() override;
+		virtual void OnUpdate(Timestep step) override;
+		virtual void OnImGuiRender() override;
 
-	virtual void OnEvent(Violet::Event& event) override;
-protected:
-	Violet::OrthographicCameraController m_CameraController;
+		virtual void OnEvent(Event& event) override;
+	protected:
+		OrthographicCameraController m_CameraController;
 
-	//Temp
-	Violet::Ref<Violet::VertexArray> m_SquareVA;
-	Violet::Ref<Violet::Shader> m_FlatColorShader;
+		//Temp
+		Ref<VertexArray> m_SquareVA;
+		Ref<Shader> m_FlatColorShader;
 
-	Violet::Ref<Violet::Framebuffer> m_Framebuffer;
+		Ref<Framebuffer> m_Framebuffer;
 
-	Violet::Ref<Violet::Texture2D> m_CheckerboardTexture;
-	
-	bool m_ViewportFocused = false, m_ViewportHovered = false;
+		Ref<Texture2D> m_CheckerboardTexture;
 
-	glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
+		bool m_ViewportFocused = false, m_ViewportHovered = false;
 
-	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 
-	/*
-	Violet::Ref<Violet::Texture2D> m_TextureAltas;
-	Violet::Ref<Violet::SubTexture2D> m_TextureStair, m_TextureTree, m_TextureBush;
+		glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 
-	uint32_t m_MapWidth, m_MapHeight;
-	std::unordered_map<char, Violet::Ref<Violet::SubTexture2D>> s_TextureMap;
-	*/
-private:
-	Violet::Timestep m_Timestep = 0.0f;
-};
+		Ref<Scene> m_ActiveScene;
+		entt::entity m_SquareEntity;
+
+		/*
+		Ref<Texture2D> m_TextureAltas;
+		Ref<SubTexture2D> m_TextureStair, m_TextureTree, m_TextureBush;
+
+		uint32_t m_MapWidth, m_MapHeight;
+		std::unordered_map<char, Ref<SubTexture2D>> s_TextureMap;
+		*/
+	private:
+		Timestep m_Timestep = 0.0f;
+	};
+}

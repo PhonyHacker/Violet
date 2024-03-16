@@ -18,7 +18,7 @@ workspace "Violet"
 	IncludeDir["ImGui"] = "Violet/vendor/imgui"
 	IncludeDir["glm"] = "Violet/vendor/glm"
 	IncludeDir["stb_image"] = "Violet/vendor/stb_image"
-
+	IncludeDir["entt"] = "Violet/vendor/entt/include"
 
 	include "Violet/vendor/GLFW"
 	include "Violet/vendor/Glad"
@@ -59,7 +59,8 @@ workspace "Violet"
 			"%{IncludeDir.Glad}",
 			"%{IncludeDir.ImGui}",
 			"%{IncludeDir.glm}",
-			"%{IncludeDir.stb_image}"
+			"%{IncludeDir.stb_image}",
+			"%{IncludeDir.entt}"
 		}
 		links
 		{
@@ -164,7 +165,8 @@ project "Violet-Editor"
 		"Violet/vendor/spdlog/include",
 		"Violet/src",
 		"Violet/vendor",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links
