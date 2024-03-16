@@ -41,7 +41,8 @@ void EditorLayer::OnUpdate(Violet::Timestep timestep)
 	//VL_TRACE("FPS: {0} ({1} ms) ", 1/timestep, m_Timestep);
 
 	// Update
-	m_CameraController.OnUpdate(timestep);
+	if (m_ViewportFocused)
+		m_CameraController.OnUpdate(timestep);
 
 	Violet::Renderer2D::ResetStats();
 
@@ -148,6 +149,10 @@ void EditorLayer::OnImGuiRender()
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
 		ImGui::Begin("Viewport");
 		
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
+		Violet::Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		if (m_ViewportSize != *(glm::vec2*)&viewportPanelSize)
 		{

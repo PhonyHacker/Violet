@@ -28,6 +28,8 @@ namespace Violet {
 
 		inline Window& GetWindow() { return *m_Window; }
 
+		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
+
 		inline static Application& Get() { return *s_Instance; }
 
 		inline Timestep GetTimeSetp() { return m_LastFrameTime; };
