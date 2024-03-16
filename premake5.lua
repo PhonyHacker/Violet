@@ -1,7 +1,7 @@
 workspace "Violet"
 	architecture "x86_64"
 
-	startproject "Sandbox"
+	startproject "Violet-Editor"
 
 	configurations
 	{
@@ -142,3 +142,50 @@ workspace "Violet"
 			defines "VL_DIST"
 			runtime "Release"
 			optimize "On"
+
+project "Violet-Editor"
+	location "Violet-Editor"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"Violet/vendor/spdlog/include",
+		"Violet/src",
+		"Violet/vendor",
+		"%{IncludeDir.glm}"
+	}
+
+	links
+	{
+		"Violet"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+	filter "configurations:Debug"
+		defines "VL_DEBUG"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "VL_RELEASE"
+		runtime "Release"
+		optimize "on"
+
+	filter "configurations:Dist"
+		defines "VL_DIST"
+		runtime "Release"
+		optimize "on"

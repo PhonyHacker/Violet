@@ -12,10 +12,10 @@
 #include "Violet/Core/Timestep.h"
 
 namespace Violet {
-	class VIOLET_API Application
+	class Application
 	{
 	public:
-		Application();
+		Application(const std::string& name = "Violet App");
 		virtual ~Application();
 
 		void Run();

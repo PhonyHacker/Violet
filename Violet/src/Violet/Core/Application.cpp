@@ -16,7 +16,7 @@ namespace Violet {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(const std::string& name)
 		// :m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		VL_PROFILE_FUNCTION();
@@ -24,7 +24,7 @@ namespace Violet {
 		VL_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
-		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window = std::unique_ptr<Window>(Window::Create(WindowProps(name)));
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();
