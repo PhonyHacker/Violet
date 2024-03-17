@@ -45,6 +45,8 @@ namespace Violet {
 		public:
 			void OnCreate()
 			{
+				auto& transform = GetComponent<TransformComponent>().Transform;
+				transform[3][0] = rand() % 10 - 5.0f;
 			}
 
 			void OnDestroy()
