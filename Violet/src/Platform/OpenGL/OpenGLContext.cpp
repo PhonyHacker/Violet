@@ -23,6 +23,8 @@ namespace Violet {
 		VL_CORE_INFO(" Vendor: {0} ", glGetString(GL_VENDOR));
 		VL_CORE_INFO(" Renderer : {0} ", glGetString(GL_RENDERER));
 		VL_CORE_INFO(" Version: {0} ", glGetString(GL_VERSION));
+
+		VL_CORE_ASSERT(GLVersion.major > 4 || (GLVersion.major == 4 && GLVersion.minor >= 5), "Violet requires at least OpenGL version 4.5!");
 	}
 	void OpenGLContext::SwapBuffers() 
 	{

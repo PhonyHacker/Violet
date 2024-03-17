@@ -1,5 +1,9 @@
 #pragma once
 
+
+#include "Violet/Core/Base.h"
+#include "Violet/Debug/Instrumentor.h"
+
 #ifdef VL_PLATFORM_WINDOWS
 
 extern Violet::Application* Violet::CreateApplication();
@@ -7,7 +11,7 @@ extern Violet::Application* Violet::CreateApplication();
 int main(int argc, char** argv)
 {
 	Violet::Log::Init();
-	VL_PROFILE_BEGIN_SESSION("Startup", "VioletProfile-Startup.json");
+ 	VL_PROFILE_BEGIN_SESSION("Startup", "VioletProfile-Startup.json");
 	auto app = Violet::CreateApplication();
 	VL_PROFILE_END_SESSION();
 

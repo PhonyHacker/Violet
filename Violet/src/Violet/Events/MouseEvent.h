@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Event.h"
+#include "Violet/Core/MouseButtonCode.h"
 
 namespace Violet {
 
 	class VIOLET_API MouseMovedEvent : public Event
 	{
 	public:
-		MouseMovedEvent(float x, float y)
+		MouseMovedEvent(const float x, const float y)
 			: m_MouseX(x), m_MouseY(y) {}
 
 		inline float GetX() const { return m_MouseX; }
@@ -29,7 +30,7 @@ namespace Violet {
 	class VIOLET_API MouseScrolledEvent : public Event
 	{
 	public:
-		MouseScrolledEvent(float xOffset, float yOffset)
+		MouseScrolledEvent(const float xOffset, const float yOffset)
 			: m_XOffset(xOffset), m_YOffset(yOffset) {}
 
 		inline float GetXOffset() const { return m_XOffset; }
@@ -51,20 +52,20 @@ namespace Violet {
 	class VIOLET_API MouseButtonEvent : public Event
 	{
 	public:
-		inline int GetMouseButton() const { return m_Button; }
+		inline MouseButtonCode GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		MouseButtonEvent(int button)
+		MouseButtonEvent(const MouseButtonCode button)
 			: m_Button(button) {}
 
-		int m_Button;
+		MouseButtonCode m_Button;
 	};
 
 	class VIOLET_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(int button)
+		MouseButtonPressedEvent(const MouseButtonCode button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override
@@ -80,7 +81,7 @@ namespace Violet {
 	class VIOLET_API MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(int button)
+		MouseButtonReleasedEvent(const MouseButtonCode button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override

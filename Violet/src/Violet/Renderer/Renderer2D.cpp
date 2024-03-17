@@ -269,7 +269,7 @@ namespace Violet {
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
 		{
 			// 当前纹理，如果已经存储在纹理槽，就直接读取
-			if (*s_Data.TextureSlots[i].get() == *texture.get()) {
+			if (*s_Data.TextureSlots[i] == *texture) {
 				textureIndex = (float)i;
 				break;
 			}

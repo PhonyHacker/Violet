@@ -1278,6 +1278,7 @@
     <ClInclude Include="src\Violet\Renderer\Camera.h" />
     <ClInclude Include="src\Violet\Scene\SceneCamera.h" />
     <ClInclude Include="src\Violet\Scene\ScriptableEntity.h" />
+    <ClInclude Include="src\Violet\Core\PlatformDetection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
