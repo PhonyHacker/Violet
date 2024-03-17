@@ -10,6 +10,7 @@
 
 #include <chrono>
 namespace Violet {
+	// static entt::entity testSquad;
 
 	EditorLayer::EditorLayer()
 		:Layer("EditorLayer"), m_CameraController(1200.0f / 800.0f, true), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f }) {}
@@ -25,6 +26,13 @@ namespace Violet {
 		fbSpec.Height = 720;
 		m_Framebuffer = Violet::Framebuffer::Create(fbSpec);
 
+		m_Framebuffer = Framebuffer::Create(fbSpec);
+
+		m_ActiveScene = CreateRef<Scene>();
+
+		m_SquareEntity = m_ActiveScene->CreateEntity();
+		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
+	
 		// À­Ô¶ÉãÏñ»ú
 		// m_CameraController.SetZoomLevel(8.0f);
 	}
@@ -37,6 +45,15 @@ namespace Violet {
 	void EditorLayer::OnUpdate(Violet::Timestep timestep)
 	{
 		VL_PROFILE_FUNCTION();
+
+		// Resize
+		if (Violet::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+			m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
+			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
+		{
+			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+		}
 
 		m_Timestep = timestep;
 		//VL_TRACE("FPS: {0} ({1} ms) ", 1/timestep, m_Timestep);
@@ -58,6 +75,8 @@ namespace Violet {
 
 		{
 			Violet::Renderer2D::BeginScene(m_CameraController.GetCamera());
+
+			m_ActiveScene->OnUpdate(timestep);
 
 			Violet::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 30.0f, 30.0f }, m_CheckerboardTexture, 10.0f);
 
@@ -143,7 +162,16 @@ namespace Violet {
 			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 			ImGui::Text("FPS: %s", std::to_string(1 / m_Timestep).c_str());
 
-			ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+			if (m_SquareEntity)
+			{
+				ImGui::Separator();
+				auto& tag = m_SquareEntity.GetComponent<TagComponent>().Tag;
+				ImGui::Text("%s", tag.c_str());
+
+				auto& squareColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
+				ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
+				ImGui::Separator();
+			}
 
 			ImGui::End();
 
@@ -155,12 +183,7 @@ namespace Violet {
 			Violet::Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
 			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-			if (m_ViewportSize != *(glm::vec2*)&viewportPanelSize)
-			{
-				m_Framebuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
-				m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-				m_CameraController.OnResize(viewportPanelSize.x, viewportPanelSize.y);
-			}
+			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
 			uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 			ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });

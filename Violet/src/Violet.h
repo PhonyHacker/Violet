@@ -14,6 +14,7 @@
 #include "Violet/ImGui/ImGuiLayer.h"
 
 #include "Violet/Scene/Scene.h"
+#include "Violet/Scene/Entity.h"
 #include "Violet/Scene/Components.h"
 // --‰÷»æœ‡πÿ--------------------
 #include "Violet/Renderer/Renderer.h"

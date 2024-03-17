@@ -1274,6 +1274,7 @@
     </ClInclude>
     <ClInclude Include="vendor\entt\include\entt.hpp" />
     <ClInclude Include="src\Violet\Scene\Components.h" />
+    <ClInclude Include="src\Violet\Scene\Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1364,5 +1365,6 @@
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
     <ClCompile Include="src\Violet\Scene\Scene.cpp" />
+    <ClCompile Include="src\Violet\Scene\Entity.cpp" />
   </ItemGroup>
 </Project>

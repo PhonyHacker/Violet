@@ -189,6 +189,7 @@
     <ClInclude Include="src\Violet\Renderer\Texture.h" />
     <ClInclude Include="src\Violet\Renderer\VertexArray.h" />
     <ClInclude Include="src\Violet\Scene\Components.h" />
+    <ClInclude Include="src\Violet\Scene\Entity.h" />
     <ClInclude Include="src\Violet\Scene\Scene.h" />
     <ClInclude Include="src\vlpch.h" />
     <ClInclude Include="vendor\entt\include\entt.hpp" />
@@ -584,6 +585,7 @@
     <ClCompile Include="src\Violet\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\Violet\Renderer\Texture.cpp" />
     <ClCompile Include="src\Violet\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Violet\Scene\Entity.cpp" />
     <ClCompile Include="src\Violet\Scene\Scene.cpp" />
     <ClCompile Include="src\vlpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
