@@ -34,14 +34,10 @@ namespace Violet {
 
 		Ref<Scene> m_ActiveScene;
 		Entity m_SquareEntity;
+		Entity m_CameraEntity;
+		Entity m_SecondCamera;
 
-		/*
-		Ref<Texture2D> m_TextureAltas;
-		Ref<SubTexture2D> m_TextureStair, m_TextureTree, m_TextureBush;
-
-		uint32_t m_MapWidth, m_MapHeight;
-		std::unordered_map<char, Ref<SubTexture2D>> s_TextureMap;
-		*/
+		bool m_PrimaryCamera = true;
 	private:
 		Timestep m_Timestep = 0.0f;
 	};

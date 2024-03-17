@@ -14,8 +14,10 @@ namespace Violet {
 		inline entt::registry& Reg() { return m_Registry; }
 
 		void OnUpdate(Timestep timestep);
+		void OnViewportResize(uint32_t m_Width, uint32_t m_Height);
 	private:
 		entt::registry m_Registry;
+		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
 
 		friend class Entity;
 	};
