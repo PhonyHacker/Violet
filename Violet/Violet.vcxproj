@@ -193,6 +193,7 @@
     <ClInclude Include="src\Violet\Scene\Entity.h" />
     <ClInclude Include="src\Violet\Scene\Scene.h" />
     <ClInclude Include="src\Violet\Scene\SceneCamera.h" />
+    <ClInclude Include="src\Violet\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\vlpch.h" />
     <ClInclude Include="vendor\entt\include\entt.hpp" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />

@@ -16,6 +16,8 @@
 #include "Violet/Scene/Scene.h"
 #include "Violet/Scene/Entity.h"
 #include "Violet/Scene/Components.h"
+#include "Violet/Scene/ScriptableEntity.h"
+
 // --‰÷»æœ‡πÿ--------------------
 #include "Violet/Renderer/Renderer.h"
 #include "Violet/Renderer/Renderer2D.h"
