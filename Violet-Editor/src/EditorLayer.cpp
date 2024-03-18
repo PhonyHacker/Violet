@@ -30,7 +30,7 @@ namespace Violet {
 
 		m_ActiveScene = CreateRef<Scene>();
 
-		m_SquareEntity = m_ActiveScene->CreateEntity();
+		m_SquareEntity = m_ActiveScene->CreateEntity("Squad Sprit");
 		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 	
 		m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
@@ -43,17 +43,17 @@ namespace Violet {
 		class CameraController : public ScriptableEntity
 		{
 		public:
-			void OnCreate()
+			virtual void OnCreate() override
 			{
 				auto& transform = GetComponent<TransformComponent>().Transform;
 				transform[3][0] = rand() % 10 - 5.0f;
 			}
 
-			void OnDestroy()
+			virtual void OnDestroy() override
 			{
 			}
 
-			void OnUpdate(Timestep ts)
+			virtual void OnUpdate(Timestep ts) override
 			{
 				auto& transform = GetComponent<TransformComponent>().Transform;
 				float speed = 5.0f;
@@ -71,6 +71,7 @@ namespace Violet {
 
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
+		m_SceneHierachyPanel.SetContext(m_ActiveScene);
 		// À­Ô¶ÉãÏñ»ú
 		// m_CameraController.SetZoomLevel(8.0f);
 	}
@@ -190,6 +191,8 @@ namespace Violet {
 
 				ImGui::EndMenuBar();
 			}
+
+			m_SceneHierachyPanel.OnImGuiRender();
 
 			ImGui::Begin("Settings");
 

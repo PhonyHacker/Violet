@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Violet.h"
+#include "../Panels/SceneHierarchyPanel.h"
 
 namespace Violet {
 	class EditorLayer : public Layer {
@@ -36,6 +37,8 @@ namespace Violet {
 		Entity m_SquareEntity;
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;
+
+		SceneHierarchyPanel m_SceneHierachyPanel;
 
 		bool m_PrimaryCamera = true;
 	private:
