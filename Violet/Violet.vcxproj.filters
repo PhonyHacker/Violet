@@ -114,6 +114,9 @@
     <ClInclude Include="src\Violet\Core\MouseButtonCode.h">
       <Filter>src\Violet\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Violet\Core\PlatformDetection.h">
+      <Filter>src\Violet\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Violet\Core\Timestep.h">
       <Filter>src\Violet\Core</Filter>
     </ClInclude>
@@ -142,6 +145,9 @@
       <Filter>src\Violet</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Renderer\Buffer.h">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Renderer\Camera.h">
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Renderer\Framebuffer.h">
@@ -177,7 +183,19 @@
     <ClInclude Include="src\Violet\Renderer\VertexArray.h">
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Violet\Scene\Components.h">
+      <Filter>src\Violet\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Scene\Entity.h">
+      <Filter>src\Violet\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\Violet\Scene\Scene.h">
+      <Filter>src\Violet\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Scene\SceneCamera.h">
+      <Filter>src\Violet\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Scene\ScriptableEntity.h">
       <Filter>src\Violet\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\vlpch.h">
@@ -1272,13 +1290,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="vendor\entt\include\entt.hpp" />
-    <ClInclude Include="src\Violet\Scene\Components.h" />
-    <ClInclude Include="src\Violet\Scene\Entity.h" />
-    <ClInclude Include="src\Violet\Renderer\Camera.h" />
-    <ClInclude Include="src\Violet\Scene\SceneCamera.h" />
-    <ClInclude Include="src\Violet\Scene\ScriptableEntity.h" />
-    <ClInclude Include="src\Violet\Core\PlatformDetection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1362,14 +1373,20 @@
     <ClCompile Include="src\Violet\Renderer\VertexArray.cpp">
       <Filter>src\Violet\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Violet\Scene\Entity.cpp">
+      <Filter>src\Violet\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Violet\Scene\Scene.cpp">
+      <Filter>src\Violet\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Violet\Scene\SceneCamera.cpp">
+      <Filter>src\Violet\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\vlpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Violet\Scene\Scene.cpp" />
-    <ClCompile Include="src\Violet\Scene\Entity.cpp" />
-    <ClCompile Include="src\Violet\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>

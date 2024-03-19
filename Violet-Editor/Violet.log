@@ -1,6 +1,6 @@
-[15:18:20] [info] VIOLET: Creating window Violet Editor (1200, 800)
-[15:18:21] [info] VIOLET: OpenGL Info: 
-[15:18:21] [info] VIOLET:  Vendor: ATI Technologies Inc. 
-[15:18:21] [info] VIOLET:  Renderer : AMD Radeon(TM) Graphics 
-[15:18:21] [info] VIOLET:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
-[15:19:11] [info] VIOLET: Terminating GLFW
+[16:04:09] [info] VIOLET: Creating window Violet Editor (1600, 900)
+[16:04:10] [info] VIOLET: OpenGL Info: 
+[16:04:10] [info] VIOLET:  Vendor: ATI Technologies Inc. 
+[16:04:10] [info] VIOLET:  Renderer : AMD Radeon(TM) Graphics 
+[16:04:10] [info] VIOLET:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
+[16:05:36] [info] VIOLET: Terminating GLFW

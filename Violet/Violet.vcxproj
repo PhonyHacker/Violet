@@ -178,6 +178,7 @@
     <ClInclude Include="src\Violet\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Violet\OrthographicCameraController.h" />
     <ClInclude Include="src\Violet\Renderer\Buffer.h" />
+    <ClInclude Include="src\Violet\Renderer\Camera.h" />
     <ClInclude Include="src\Violet\Renderer\Framebuffer.h" />
     <ClInclude Include="src\Violet\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Violet\Renderer\OrthographicCamera.h" />
@@ -189,14 +190,12 @@
     <ClInclude Include="src\Violet\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\Violet\Renderer\Texture.h" />
     <ClInclude Include="src\Violet\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Violet\Renderer\Camera.h" />
     <ClInclude Include="src\Violet\Scene\Components.h" />
     <ClInclude Include="src\Violet\Scene\Entity.h" />
     <ClInclude Include="src\Violet\Scene\Scene.h" />
     <ClInclude Include="src\Violet\Scene\SceneCamera.h" />
     <ClInclude Include="src\Violet\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\vlpch.h" />
-    <ClInclude Include="vendor\entt\include\entt.hpp" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />
