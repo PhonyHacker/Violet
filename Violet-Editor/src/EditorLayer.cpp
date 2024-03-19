@@ -6,6 +6,9 @@
 #include <glm/glm/ext/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Violet/Scene/SceneSerializer.h"
+#include "Violet/Utils/PlatformUtils.h"
+
 #include "Platform/OpenGL/OpenGLShader.h"
 
 #include <chrono>
@@ -70,12 +73,26 @@ namespace Violet {
 					translation.y += speed * ts;
 				if (Input::IsKeyPressed(Key::S))
 					translation.y -= speed * ts;
+
+				/*
+				auto& rotation = GetComponent<TransformComponent>().Rotation;
+				float rotationSpeed = 1.0f;
+
+				if (Input::IsKeyPressed(Key::Q))
+					rotation.x += rotationSpeed * ts;
+				if (Input::IsKeyPressed(Key::E))
+					rotation.x -= rotationSpeed * ts;
+				if (rotation.x >= 360.0f)
+					rotation.x -= 360.0f;
+				if (rotation.x <= -360.0f)
+					rotation.x += 360.0f;
+				*/
 			}
 		};
 
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
 
-		m_SceneHierachyPanel.SetContext(m_ActiveScene);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 		// À­Ô¶ÉãÏñ»ú
 		// m_CameraController.SetZoomLevel(8.0f);
 	}
@@ -196,6 +213,15 @@ namespace Violet {
 					// which we can't undo at the moment without finer window depth/z control.
 					//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
+					if (ImGui::MenuItem("New", "Ctrl+N"))
+						NewScene();
+
+					if (ImGui::MenuItem("Open...", "Ctrl+O"))
+						OpenScene();
+
+					if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
+						SaveSceneAs();
+
 					if (ImGui::MenuItem("Exit")) Violet::Application::Get().Close();
 					ImGui::EndMenu();
 				}
@@ -203,7 +229,7 @@ namespace Violet {
 				ImGui::EndMenuBar();
 			}
 
-			m_SceneHierachyPanel.OnImGuiRender();
+			m_SceneHierarchyPanel.OnImGuiRender();
 
 			ImGui::Begin("States");
 
@@ -240,6 +266,70 @@ namespace Violet {
 	void EditorLayer::OnEvent(Violet::Event& e)
 	{
 		m_CameraController.OnEvent(e);
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<KeyPressedEvent>(VL_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+	}
+
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+	{
+		// Shortcuts
+		if (e.GetRepeatCount() > 0)
+				return false;
+
+		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+		switch (e.GetKeyCode())
+		{
+			case Key::N:
+			{
+				if (control)
+					NewScene();
+				break;
+			}
+			case Key::O:
+			{
+				if (control)
+					OpenScene();
+				break;
+			}
+			case Key::S:
+			{
+				if (control && shift)
+					SaveSceneAs();
+				break;
+			}
+		}
+	}
+
+	void EditorLayer::NewScene()
+	{
+		m_ActiveScene = CreateRef<Scene>();
+		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+	}
+
+	void EditorLayer::OpenScene()
+	{
+		std::string filepath = FileDialogs::OpenFile("Violet Scene (*.violet)\0*.violet\0");
+		if (!filepath.empty())
+		{
+			m_ActiveScene = CreateRef<Scene>();
+			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Deserialize(filepath);
+		}
+	}
+
+	void EditorLayer::SaveSceneAs()
+	{
+		std::string filepath = FileDialogs::SaveFile("Violet Scene (*.violet)\0*.violet\0");
+		if (!filepath.empty())
+		{
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Serialize(filepath);
+		}
 	}
 
 }

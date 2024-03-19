@@ -19,10 +19,13 @@ workspace "Violet"
 	IncludeDir["glm"] = "Violet/vendor/glm"
 	IncludeDir["stb_image"] = "Violet/vendor/stb_image"
 	IncludeDir["entt"] = "Violet/vendor/entt/include"
+	IncludeDir["yaml_cpp"] = "Violet/vendor/yaml-cpp/include"
+
 
 	include "Violet/vendor/GLFW"
 	include "Violet/vendor/Glad"
 	include "Violet/vendor/imgui"
+	include "Violet/vendor/yaml-cpp"
 
 	project "Violet"
 		location "Violet"
@@ -60,13 +63,15 @@ workspace "Violet"
 			"%{IncludeDir.ImGui}",
 			"%{IncludeDir.glm}",
 			"%{IncludeDir.stb_image}",
-			"%{IncludeDir.entt}"
+			"%{IncludeDir.entt}",
+			"%{IncludeDir.yaml_cpp}"
 		}
 		links
 		{
 			"GLFW",
 			"Glad",
 			"ImGui",
+			"yaml-cpp",
 			"opengl32.lib"
 		}
 

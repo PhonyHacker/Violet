@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Violet.h"
-#include "../Panels/SceneHierarchyPanel.h"
+#include "Panels/SceneHierarchyPanel.h"
 
 namespace Violet {
 	class EditorLayer : public Layer {
@@ -16,6 +16,12 @@ namespace Violet {
 		virtual void OnImGuiRender() override;
 
 		virtual void OnEvent(Event& event) override;
+	private:
+		bool OnKeyPressed(KeyPressedEvent& e);
+
+		void NewScene();
+		void OpenScene();
+		void SaveSceneAs();
 	protected:
 		OrthographicCameraController m_CameraController;
 
@@ -38,7 +44,8 @@ namespace Violet {
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;
 
-		SceneHierarchyPanel m_SceneHierachyPanel;
+		// Panels
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 
 		bool m_PrimaryCamera = true;
 	private:

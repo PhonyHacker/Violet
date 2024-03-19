@@ -58,6 +58,9 @@
     <Filter Include="vendor\stb_image">
       <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Violet\Utils">
+      <UniqueIdentifier>{ae5c0731-3475-4342-8723-9f5f282bab26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
@@ -193,6 +196,9 @@
       <Filter>src\Violet\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Scene\SceneCamera.h">
+      <Filter>src\Violet\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Scene\SceneSerializer.h">
       <Filter>src\Violet\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Scene\ScriptableEntity.h">
@@ -1290,6 +1296,9 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Violet\Utils\PlatformUtils.h">
+      <Filter>src\Violet\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1382,11 +1391,17 @@
     <ClCompile Include="src\Violet\Scene\SceneCamera.cpp">
       <Filter>src\Violet\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Violet\Scene\SceneSerializer.cpp">
+      <Filter>src\Violet\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\vlpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowsPlatformUtils.cpp">
+      <Filter>src\Platform\Windows</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
