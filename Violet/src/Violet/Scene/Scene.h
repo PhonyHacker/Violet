@@ -16,10 +16,12 @@ namespace Violet {
 
 		void OnUpdate(Timestep timestep);
 		void OnViewportResize(uint32_t m_Width, uint32_t m_Height);
+		Entity GetPrimaryCameraEntity();
+
 	private:
+		// void OnComponentAdded(Entity entity, CameraComponent& component);
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);
-		// void OnComponentAdded(Entity entity, CameraComponent& component);
 	private:
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;

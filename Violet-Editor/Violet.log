@@ -1,6 +1,16 @@
-[22:30:08] [info] VIOLET: Creating window Violet Editor (1600, 900)
-[22:30:08] [info] VIOLET: OpenGL Info: 
-[22:30:08] [info] VIOLET:  Vendor: ATI Technologies Inc. 
-[22:30:08] [info] VIOLET:  Renderer : AMD Radeon(TM) Graphics 
-[22:30:08] [info] VIOLET:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
-[22:30:24] [info] VIOLET: Terminating GLFW
+[01:27:20] [info] VIOLET: Creating window Violet Editor (1600, 900)
+[01:27:20] [info] VIOLET: OpenGL Info: 
+[01:27:20] [info] VIOLET:  Vendor: ATI Technologies Inc. 
+[01:27:20] [info] VIOLET:  Renderer : AMD Radeon(TM) Graphics 
+[01:27:20] [info] VIOLET:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
+[01:27:25] [trace] VIOLET: Deserializing scene 'Untitled'
+[01:27:25] [trace] VIOLET: Deserialized entity with ID = 12837192831273, name = Top
+[01:27:25] [trace] VIOLET: Deserialized entity with ID = 12837192831273, name = Camera
+[01:27:25] [trace] VIOLET: Deserialized entity with ID = 12837192831273, name = Right
+[01:27:25] [trace] VIOLET: Deserialized entity with ID = 12837192831273, name = Left
+[01:27:34] [trace] VIOLET: Deserializing scene 'Untitled'
+[01:27:34] [trace] VIOLET: Deserialized entity with ID = 12837192831273, name = Green Square
+[01:27:34] [trace] VIOLET: Deserialized entity with ID = 12837192831273, name = Red Square
+[01:27:34] [trace] VIOLET: Deserialized entity with ID = 12837192831273, name = Camera A
+[01:27:34] [trace] VIOLET: Deserialized entity with ID = 12837192831273, name = Camera B
+[01:27:40] [info] VIOLET: Terminating GLFW

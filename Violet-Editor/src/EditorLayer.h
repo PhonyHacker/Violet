@@ -47,6 +47,8 @@ namespace Violet {
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 
+		int m_GizmoType = -1;
+
 		bool m_PrimaryCamera = true;
 	private:
 		Timestep m_Timestep = 0.0f;

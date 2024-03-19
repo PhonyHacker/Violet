@@ -20,6 +20,7 @@ workspace "Violet"
 	IncludeDir["stb_image"] = "Violet/vendor/stb_image"
 	IncludeDir["entt"] = "Violet/vendor/entt/include"
 	IncludeDir["yaml_cpp"] = "Violet/vendor/yaml-cpp/include"
+	IncludeDir["ImGuizmo"] = "Violet/vendor/ImGuizmo"
 
 
 	include "Violet/vendor/GLFW"
@@ -48,6 +49,8 @@ workspace "Violet"
 			"%{prj.name}/vendor/stb_image/**.cpp",
 			"%{prj.name}/vendor/glm/glm/**.hpp",
 			"%{prj.name}/vendor/glm/glm/**.inl",
+			"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
+			"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
 		}
 
 		defines
@@ -64,7 +67,8 @@ workspace "Violet"
 			"%{IncludeDir.glm}",
 			"%{IncludeDir.stb_image}",
 			"%{IncludeDir.entt}",
-			"%{IncludeDir.yaml_cpp}"
+			"%{IncludeDir.yaml_cpp}",
+			"%{IncludeDir.ImGuizmo}"
 		}
 		links
 		{
@@ -74,6 +78,9 @@ workspace "Violet"
 			"yaml-cpp",
 			"opengl32.lib"
 		}
+
+		filter "files:Violet/vendor/ImGuizmo/**.cpp"
+		flags { "NoPCH" }
 
 		filter "system:windows"
 			cppdialect "C++17"
@@ -171,7 +178,8 @@ project "Violet-Editor"
 		"Violet/src",
 		"Violet/vendor",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.ImGuizmo}"
 	}
 
 	links

@@ -28,14 +28,23 @@
     <Filter Include="src\Violet\ImGui">
       <UniqueIdentifier>{59B40400-45AD-2352-6EDF-08D75A37035E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Violet\Math">
+      <UniqueIdentifier>{28FA4717-9485-B5DB-9D96-38D009A111DC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Violet\Renderer">
       <UniqueIdentifier>{75E8ACD4-E149-8AE2-6AB7-D094D617C1A1}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Violet\Scene">
       <UniqueIdentifier>{4CACB400-38A5-D352-61D7-B8D74D2FB35E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Violet\Utils">
+      <UniqueIdentifier>{8F40E200-7B39-0153-A46B-E6D790C3E05E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\ImGuizmo">
+      <UniqueIdentifier>{73BF7F4C-DF4A-ED10-E85B-700554664911}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor\glm">
       <UniqueIdentifier>{829FC5A8-6E57-07F6-D75E-E051C335A2E6}</UniqueIdentifier>
@@ -57,9 +66,6 @@
     </Filter>
     <Filter Include="vendor\stb_image">
       <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Violet\Utils">
-      <UniqueIdentifier>{ae5c0731-3475-4342-8723-9f5f282bab26}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +150,9 @@
     <ClInclude Include="src\Violet\ImGui\ImGuiLayer.h">
       <Filter>src\Violet\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\Violet\Math\Math.h">
+      <Filter>src\Violet\Math</Filter>
+    </ClInclude>
     <ClInclude Include="src\Violet\OrthographicCameraController.h">
       <Filter>src\Violet</Filter>
     </ClInclude>
@@ -204,8 +213,14 @@
     <ClInclude Include="src\Violet\Scene\ScriptableEntity.h">
       <Filter>src\Violet\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\Violet\Utils\PlatformUtils.h">
+      <Filter>src\Violet\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="src\vlpch.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\ImGuizmo\ImGuizmo.h">
+      <Filter>vendor\ImGuizmo</Filter>
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\common.hpp">
       <Filter>vendor\glm\glm</Filter>
@@ -1296,9 +1311,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Violet\Utils\PlatformUtils.h">
-      <Filter>src\Violet\Utils</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1325,6 +1337,9 @@
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsPlatformUtils.cpp">
+      <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
@@ -1345,6 +1360,9 @@
     </ClCompile>
     <ClCompile Include="src\Violet\ImGui\ImGuiLayer.cpp">
       <Filter>src\Violet\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Violet\Math\Math.cpp">
+      <Filter>src\Violet\Math</Filter>
     </ClCompile>
     <ClCompile Include="src\Violet\OrthographicCameraController.cpp">
       <Filter>src\Violet</Filter>
@@ -1397,11 +1415,11 @@
     <ClCompile Include="src\vlpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp">
+      <Filter>vendor\ImGuizmo</Filter>
+    </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowsPlatformUtils.cpp">
-      <Filter>src\Platform\Windows</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
