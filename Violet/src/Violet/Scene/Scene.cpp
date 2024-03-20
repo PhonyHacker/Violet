@@ -75,9 +75,9 @@ namespace Violet {
 
 			for (auto entity : group)
 			{
-				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+				// auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+				// Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, static_cast<int>(entity));
 			}
 
 			Renderer2D::EndScene();
@@ -94,7 +94,7 @@ namespace Violet {
 		{
 			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-			Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+			Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (int32_t)entity);
 		}
 
 		Renderer2D::EndScene();
