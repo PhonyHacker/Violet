@@ -1,7 +1,9 @@
 #pragma once
 
 #include "entt.hpp"
+
 #include "Violet/Core/Timestep.h"
+#include "Violet/Renderer/EditorCamera.h"
 
 namespace Violet {
 	class Entity;
@@ -14,7 +16,8 @@ namespace Violet {
 		void DestroyEntity(Entity entity);
 		inline entt::registry& Reg() { return m_Registry; }
 
-		void OnUpdate(Timestep timestep);
+		void OnUpdateRuntime(Timestep timestep);
+		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t m_Width, uint32_t m_Height);
 		Entity GetPrimaryCameraEntity();
 

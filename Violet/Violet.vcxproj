@@ -180,6 +180,7 @@
     <ClInclude Include="src\Violet\OrthographicCameraController.h" />
     <ClInclude Include="src\Violet\Renderer\Buffer.h" />
     <ClInclude Include="src\Violet\Renderer\Camera.h" />
+    <ClInclude Include="src\Violet\Renderer\EditorCamera.h" />
     <ClInclude Include="src\Violet\Renderer\Framebuffer.h" />
     <ClInclude Include="src\Violet\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Violet\Renderer\OrthographicCamera.h" />
@@ -584,6 +585,7 @@
     <ClCompile Include="src\Violet\Math\Math.cpp" />
     <ClCompile Include="src\Violet\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Violet\Renderer\Buff.cpp" />
+    <ClCompile Include="src\Violet\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\Violet\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\Violet\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Violet\Renderer\RenderCommand.cpp" />

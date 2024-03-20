@@ -36,6 +36,8 @@ namespace Violet {
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
 		m_ActiveScene = CreateRef<Scene>();
+
+		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 #if 0
 		m_SquareEntity = m_ActiveScene->CreateEntity("Squad Sprit");
 		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
@@ -117,6 +119,7 @@ namespace Violet {
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 
@@ -126,6 +129,8 @@ namespace Violet {
 		// Update
 		if (m_ViewportFocused)
 			m_CameraController.OnUpdate(timestep);
+
+		m_EditorCamera.OnUpdate(timestep);
 
 		Violet::Renderer2D::ResetStats();
 
@@ -137,15 +142,10 @@ namespace Violet {
 			Violet::RenderCommand::Clear();
 		}
 
-
 		{
-			// Violet::Renderer2D::BeginScene(m_CameraController.GetCamera());
+			// Update Scene
+			m_ActiveScene->OnUpdateEditor(timestep, m_EditorCamera);
 
-			m_ActiveScene->OnUpdate(timestep);
-
-			// Violet::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 30.0f, 30.0f }, m_CheckerboardTexture, 10.0f);
-
-			// Violet::Renderer2D::EndScene();
 			m_Framebuffer->Unbind();
 		}
 	}
@@ -272,40 +272,43 @@ namespace Violet {
 				ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
 				// Camera
-				auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-				if (cameraEntity)
+				// --Runtime
+				// auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
+				// const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
+				// const glm::mat4& cameraProjection = camera.GetProjection();
+				// glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+
+				// Camera
+				// --Editor
+				const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
+				glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
+
+				// Entity transform
+				auto& tc = selectedEntity.GetComponent<TransformComponent>();
+				glm::mat4 transform = tc.GetTransform();
+
+				// Snapping
+				bool snap = Input::IsKeyPressed(Key::LeftControl);
+				float snapValue = 0.5f; // Snap to 0.5m for translation/scale
+				// Snap to 45 degrees for rotation
+				if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
+					snapValue = 45.0f;
+
+				float snapValues[3] = { snapValue, snapValue, snapValue };
+
+				ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
+					(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform),
+					nullptr, snap ? snapValues : nullptr);
+
+				if (ImGuizmo::IsUsing())
 				{
-					const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
-					const glm::mat4& cameraProjection = camera.GetProjection();
-					glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+					glm::vec3 translation, rotation, scale;
+					Math::DecomposeTransform(transform, translation, rotation, scale);
 
-					// Entity transform
-					auto& tc = selectedEntity.GetComponent<TransformComponent>();
-					glm::mat4 transform = tc.GetTransform();
-
-					// Snapping
-					bool snap = Input::IsKeyPressed(Key::LeftControl);
-					float snapValue = 0.5f; // Snap to 0.5m for translation/scale
-					// Snap to 45 degrees for rotation
-					if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
-						snapValue = 45.0f;
-
-					float snapValues[3] = { snapValue, snapValue, snapValue };
-
-					ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
-						(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform),
-						nullptr, snap ? snapValues : nullptr);
-
-					if (ImGuizmo::IsUsing())
-					{
-						glm::vec3 translation, rotation, scale;
-						Math::DecomposeTransform(transform, translation, rotation, scale);
-
-						glm::vec3 deltaRotation = rotation - tc.Rotation;
-						tc.Translation = translation;
-						tc.Rotation += deltaRotation;
-						tc.Scale = scale;
-					}
+					glm::vec3 deltaRotation = rotation - tc.Rotation;
+					tc.Translation = translation;
+					tc.Rotation += deltaRotation;
+					tc.Scale = scale;
 				}
 				
 			}
@@ -320,6 +323,8 @@ namespace Violet {
 	void EditorLayer::OnEvent(Violet::Event& e)
 	{
 		m_CameraController.OnEvent(e);
+		m_EditorCamera.OnEvent(e);
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(VL_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
 	}

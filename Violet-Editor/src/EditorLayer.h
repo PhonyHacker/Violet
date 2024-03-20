@@ -3,6 +3,8 @@
 #include "Violet.h"
 #include "Panels/SceneHierarchyPanel.h"
 
+#include "Violet/Renderer/EditorCamera.h"
+
 namespace Violet {
 	class EditorLayer : public Layer {
 	public:
@@ -50,6 +52,8 @@ namespace Violet {
 		int m_GizmoType = -1;
 
 		bool m_PrimaryCamera = true;
+
+		EditorCamera m_EditorCamera;
 	private:
 		Timestep m_Timestep = 0.0f;
 	};
