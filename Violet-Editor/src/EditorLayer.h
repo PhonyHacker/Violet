@@ -21,6 +21,8 @@ namespace Violet {
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);
 
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
+
 		void NewScene();
 		void OpenScene();
 		void SaveSceneAs();
@@ -46,6 +48,7 @@ namespace Violet {
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;
 
+		Entity m_HoveredEntity;
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
 

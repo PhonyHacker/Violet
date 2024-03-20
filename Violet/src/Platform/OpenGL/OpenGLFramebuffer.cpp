@@ -98,6 +98,18 @@ namespace Violet {
 			return false;
 		}
 
+		static GLenum VioletFBTextureFormatToGL(FramebufferTextureFormat format)
+		{
+			switch (format)
+			{
+				case FramebufferTextureFormat::RGBA8: return GL_RGBA8;
+				case FramebufferTextureFormat::RED_INTEGER: return GL_RED_INTEGER;
+			}
+
+			VL_CORE_ASSERT(false, "Invaild FBTexture Format");
+			return 0;
+		}
+
 	}
 
 	OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& spec)
@@ -242,6 +254,13 @@ namespace Violet {
 		int pixelData;
 		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
 		return pixelData;
+	}
 
+	void OpenGLFramebuffer::ClearAttachment(uint32_t attachmentIndex, int value)
+	{
+		VL_CORE_ASSERT(attachmentIndex < m_ColorAttachments.size(),"AttachmentIndex Index Out of Range");
+
+		auto& spec = m_ColorAttachmentSpecifications[attachmentIndex];
+		glClearTexImage(m_ColorAttachments[attachmentIndex], 0, Utils::VioletFBTextureFormatToGL(spec.TextureFormat), GL_INT, &value);
 	}
 }
