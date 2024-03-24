@@ -16,8 +16,8 @@ namespace Violet {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(const std::string& name)
-		// :m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
+	Application::Application(const std::string& name, ApplicationCommandLineArgs args)
+		: m_CommandLineArgs(args)
 	{
 		VL_PROFILE_FUNCTION();
 

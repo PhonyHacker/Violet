@@ -5,7 +5,7 @@
 #include "Violet/Core/Timestep.h"
 
 namespace Violet {
-	class VIOLET_API Layer {
+	class Layer {
 	public :
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer();

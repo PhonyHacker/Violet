@@ -6,7 +6,7 @@
 
 namespace Violet
 {
-	class VIOLET_API KeyEvent : public Event
+	class KeyEvent : public Event
 	{
 	public:
 		inline KeyCode GetKeyCode() const { return m_KeyCode; }
@@ -18,7 +18,7 @@ namespace Violet
 		KeyCode m_KeyCode;
 	};
 
-	class VIOLET_API KeyPressedEvent : public KeyEvent
+	class KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(const KeyCode keycode, const uint16_t repeatCount)
@@ -38,7 +38,7 @@ namespace Violet
 		uint16_t m_RepeatCount;
 	};
 
-	class VIOLET_API KeyReleasedEvent : public KeyEvent
+	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
 		KeyReleasedEvent(const KeyCode keycode)
@@ -53,7 +53,7 @@ namespace Violet
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
 
-	class VIOLET_API KeyTypedEvent : public KeyEvent
+	class KeyTypedEvent : public KeyEvent
 	{
 	public:
 		KeyTypedEvent(const KeyCode keycode)

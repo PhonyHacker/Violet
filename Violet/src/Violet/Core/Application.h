@@ -12,10 +12,22 @@
 #include "Violet/Core/Timestep.h"
 
 namespace Violet {
+	struct ApplicationCommandLineArgs
+	{
+		int Count = 0;
+		char** Args = nullptr;
+
+		const char* operator[](int index) const
+		{
+			// VL_CORE_ASSERT(index < Count);
+			return Args[index];
+		}
+	};
+
 	class Application
 	{
 	public:
-		Application(const std::string& name = "Violet App");
+		Application(const std::string& name = "Violet App", ApplicationCommandLineArgs args = ApplicationCommandLineArgs());
 		virtual ~Application();
 
 		void Run();
@@ -33,13 +45,18 @@ namespace Violet {
 		inline static Application& Get() { return *s_Instance; }
 
 		inline Timestep GetTimeSetp() { return m_LastFrameTime; };
-	private:
-		Timestep m_LastFrameTime = 0.0f;
 
+		ApplicationCommandLineArgs GetCommandLineArgs() const { return m_CommandLineArgs; }
+	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 
-		std::unique_ptr<Window> m_Window;
+	private:
+		Timestep m_LastFrameTime = 0.0f;
+
+		ApplicationCommandLineArgs m_CommandLineArgs;
+
+		Scope<Window> m_Window;
 		bool m_Running = true;
 		bool m_Minimized = false;
 		
@@ -47,10 +64,11 @@ namespace Violet {
 
 		LayerStack m_LayerStack;
 
+
 		static Application* s_Instance;
 	};
 
 	// To be defined in CLIENT
-	Application* CreateApplication();
+	Application* CreateApplication(ApplicationCommandLineArgs args);
 
 }

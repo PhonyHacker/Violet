@@ -1,3 +1,4 @@
+include "Dependencies.lua"
 workspace "Violet"
 	architecture "x86_64"
 
@@ -8,21 +9,32 @@ workspace "Violet"
 		"Debug",
 		"Release",
 		"Dist"
-	}
+	}	
 
-	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-	IncludeDir = {}
-	IncludeDir["GLFW"] = "Violet/vendor/GLFW/include"
-	IncludeDir["Glad"] = "Violet/vendor/Glad/include"
-	IncludeDir["ImGui"] = "Violet/vendor/imgui"
-	IncludeDir["glm"] = "Violet/vendor/glm"
-	IncludeDir["stb_image"] = "Violet/vendor/stb_image"
-	IncludeDir["entt"] = "Violet/vendor/entt/include"
-	IncludeDir["yaml_cpp"] = "Violet/vendor/yaml-cpp/include"
-	IncludeDir["ImGuizmo"] = "Violet/vendor/ImGuizmo"
+VULKAN_SDK = os.getenv("VULKAN_SDK")
+
+LibraryDir = {}
+
+LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/Lib"
+LibraryDir["VulkanSDK_Debug"] = "%{wks.location}/Violet/vendor/VulkanSDK/Lib"
+
+Library = {}
+Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"
+Library["VulkanUtils"] = "%{LibraryDir.VulkanSDK}/VkLayer_utils.lib"
+
+Library["ShaderC_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/shaderc_sharedd.lib"
+Library["SPIRV_Cross_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/spirv-cross-cored.lib"
+Library["SPIRV_Cross_GLSL_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/spirv-cross-glsld.lib"
+Library["SPIRV_Tools_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/SPIRV-Toolsd.lib"
+
+Library["ShaderC_Release"] = "%{LibraryDir.VulkanSDK}/shaderc_shared.lib"
+Library["SPIRV_Cross_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-core.lib"
+Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
 
 
+group "Dependencies"
 	include "Violet/vendor/GLFW"
 	include "Violet/vendor/Glad"
 	include "Violet/vendor/imgui"
@@ -33,7 +45,7 @@ workspace "Violet"
 		kind "StaticLib"
 		language "C++"
 		cppdialect "C++17"
-		staticruntime "on"
+		staticruntime "off"
 
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -68,7 +80,8 @@ workspace "Violet"
 			"%{IncludeDir.stb_image}",
 			"%{IncludeDir.entt}",
 			"%{IncludeDir.yaml_cpp}",
-			"%{IncludeDir.ImGuizmo}"
+			"%{IncludeDir.ImGuizmo}",
+			"%{IncludeDir.VulkanSDK}"
 		}
 		links
 		{
@@ -88,6 +101,7 @@ workspace "Violet"
 			
 			defines
 			{
+				"VL_PLATFORM_WINDOWS",
 				"VL_BUILD_DLL",
 				"GLFW_INCLUDE_NONE"
 			}
@@ -101,21 +115,44 @@ workspace "Violet"
 			defines "VL_DEBUG"
 			runtime "Debug"
 			symbols "On"
+
+			links
+			{
+				"%{Library.ShaderC_Debug}",
+				"%{Library.SPIRV_Cross_Debug}",
+				"%{Library.SPIRV_Cross_GLSL_Debug}"
+			}
+
 		filter "configurations:Release"
 			defines "VL_RELEASE"
 			runtime "Release"
 			optimize "On"
+
+			links
+			{
+				"%{Library.ShaderC_Release}",
+				"%{Library.SPIRV_Cross_Release}",
+				"%{Library.SPIRV_Cross_GLSL_Release}"
+			}
+
 		filter "configurations:Dist"
 			defines "VL_DIST"
 			runtime "Release"
 			optimize "On"
 
+			links
+			{
+				"%{Library.ShaderC_Release}",
+				"%{Library.SPIRV_Cross_Release}",
+				"%{Library.SPIRV_Cross_GLSL_Release}"
+			}
+
 	project "Sandbox"
 		location "Sandbox"
-		kind "ConsoleAPP"
+		kind "ConsoleApp"
 		language "C++"
 		cppdialect "C++17"
-		staticruntime "on"
+		staticruntime "off"
 
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -139,10 +176,13 @@ workspace "Violet"
 			"Violet"
 		}
 
-		filter "system:windows"
+	filter "system:windows"
 			cppdialect "C++17"
 			systemversion "latest"
-			
+
+			defines{
+				"VL_PLATFORM_WINDOWS"
+			}
 		filter "configurations:Debug"
 			defines "VL_DEBUG"
 			runtime "Debug"
@@ -161,7 +201,7 @@ project "Violet-Editor"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
-	staticruntime "on"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -190,6 +230,9 @@ project "Violet-Editor"
 	filter "system:windows"
 		systemversion "latest"
 
+		defines{
+			"VL_PLATFORM_WINDOWS"
+		}
 	filter "configurations:Debug"
 		defines "VL_DEBUG"
 		runtime "Debug"

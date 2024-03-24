@@ -7,7 +7,7 @@
 #include "Violet/Events/MouseEvent.h"
 
 namespace Violet {
-	class VIOLET_API ImGuiLayer : public Layer{
+	class ImGuiLayer : public Layer{
 	public:
 		ImGuiLayer();
 		~ImGuiLayer();

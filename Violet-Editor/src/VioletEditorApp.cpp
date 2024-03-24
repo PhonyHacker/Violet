@@ -5,23 +5,23 @@
 
 namespace Violet {
 
-	class HazelEditor : public Application
+	class VioletEditor : public Application
 	{
 	public:
-		HazelEditor()
-			: Application("Violet Editor")
+		VioletEditor(ApplicationCommandLineArgs args)
+			: Application("VioletEditor", args)
 		{
 			PushLayer(new EditorLayer());
 		}
 
-		~HazelEditor()
+		~VioletEditor()
 		{
 		}
 	};
 
-	Application* CreateApplication()
+	Application* CreateApplication(ApplicationCommandLineArgs args)
 	{
-		return new HazelEditor();
+		return new VioletEditor(args);
 	}
 
 }
