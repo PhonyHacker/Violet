@@ -5,7 +5,8 @@
 namespace Violet {
 	class RenderCommand {
 	public:
-		inline static void Init() {
+		inline static void Init()
+		{
 			s_RendererAPI->Init();
 		}
 
@@ -14,14 +15,17 @@ namespace Violet {
 			s_RendererAPI->SetViewport(x, y, width, height);
 		}
 
-		inline static void SetClearColor(const glm::vec4& color) {
+		inline static void SetClearColor(const glm::vec4& color) 
+		{
 			s_RendererAPI->SetClearColor(color);
 		}
-		inline static void Clear() {
+		inline static void Clear()
+		{
 			s_RendererAPI->Clear();
 		}
 
-		inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t count = 0) {
+		inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t count = 0) 
+		{
 			s_RendererAPI->DrawIndexed(vertexArray, count);
 		}
 	private:

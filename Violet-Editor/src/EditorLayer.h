@@ -2,6 +2,7 @@
 
 #include "Violet.h"
 #include "Panels/SceneHierarchyPanel.h"
+#include "Panels/ContentBrowserPanel.h"
 
 #include "Violet/Renderer/EditorCamera.h"
 
@@ -25,6 +26,7 @@ namespace Violet {
 
 		void NewScene();
 		void OpenScene();
+		void OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
 	protected:
 		OrthographicCameraController m_CameraController;
@@ -51,6 +53,7 @@ namespace Violet {
 		Entity m_HoveredEntity;
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
+		ContentBrowserPanel m_ContentBrowserPanel;
 
 		int m_GizmoType = -1;
 

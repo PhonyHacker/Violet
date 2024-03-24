@@ -5,25 +5,30 @@
 #include <glad/glad.h>
 
 namespace Violet {
-
+	// 定义最大帧缓冲区大小
 	static const uint32_t s_MaxFramebufferSize = 8193;
 
 	namespace Utils {
 
+		// 获取纹理目标
 		static GLenum TextureTarget(bool multisampled)
 		{
 			return multisampled ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D;
 		}
 
+		// 创建纹理
 		static void CreateTextures(bool multisampled, uint32_t* outID, uint32_t count)
 		{
 			glCreateTextures(TextureTarget(multisampled), count, outID);
 		}
 
+		// 绑定纹理
 		static void BindTexture(bool multisampled, uint32_t id)
 		{
 			glBindTexture(TextureTarget(multisampled), id);
 		}
+
+		// 附加颜色纹理
 		static void AttachColorTexture(uint32_t id, int samples,GLenum internalFormat, GLenum format, uint32_t width, uint32_t height, int index)
 		{
 			bool multisampled = samples > 1;
@@ -46,6 +51,7 @@ namespace Violet {
 
 		}
 
+		// 附加颜色纹理（无内部格式）
 		static void AttachColorTexture(uint32_t id, int samples, GLenum format, uint32_t width, uint32_t height, int index)
 		{
 			bool multisampled = samples > 1;
@@ -67,6 +73,7 @@ namespace Violet {
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + index, TextureTarget(multisampled), id, 0);
 		}
 
+		// 附加深度纹理
 		static void AttachDepthTexture(uint32_t id, int samples, GLenum format, GLenum attachmentType, uint32_t width, uint32_t height)
 		{
 			bool multisampled = samples > 1;
@@ -88,6 +95,7 @@ namespace Violet {
 			glFramebufferTexture2D(GL_FRAMEBUFFER, attachmentType, TextureTarget(multisampled), id, 0);
 		}
 
+		// 检查是否为深度格式
 		static bool IsDepthFormat(FramebufferTextureFormat format)
 		{
 			switch (format)
@@ -98,6 +106,7 @@ namespace Violet {
 			return false;
 		}
 
+		// 将 Violet 的帧缓冲纹理格式转换为 OpenGL 格式
 		static GLenum VioletFBTextureFormatToGL(FramebufferTextureFormat format)
 		{
 			switch (format)
@@ -123,6 +132,7 @@ namespace Violet {
 				m_DepthAttachmentSpecification = spec;
 		}
 
+		// 初始化帧缓冲
 		Invalidate();
 	}
 
@@ -133,9 +143,10 @@ namespace Violet {
 		glDeleteTextures(1, &m_DepthAttachment);
 	}
 
+	// 重新创建帧缓冲
 	void OpenGLFramebuffer::Invalidate()
 	{
-
+		// 删除现有的帧缓冲
 		if (m_RendererID)
 		{
 			glDeleteFramebuffers(1, &m_RendererID); 
@@ -150,25 +161,10 @@ namespace Violet {
 		// 创建帧缓冲区对象
 		glCreateFramebuffers(1, &m_RendererID);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
-		/*
-		// 创建颜色附件纹理
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_ColorAttachment);
-		glBindTexture(GL_TEXTURE_2D, m_ColorAttachment);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Specification.Width, m_Specification.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorAttachment, 0);
-
-		// 创建深度模板附件纹理
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_DepthAttachment);
-		glBindTexture(GL_TEXTURE_2D, m_DepthAttachment);
-		glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_DepthAttachment, 0);
-		*/
 
 		bool multisample = m_Specification.Samples > 1;
 
-		// Attachments
+		// 附加颜色纹理
 		if (m_ColorAttachmentSpecifications.size())
 		{
 			m_ColorAttachments.resize(m_ColorAttachmentSpecifications.size());
@@ -221,46 +217,58 @@ namespace Violet {
 		
 	}
 
+	// 重新调整帧缓冲大小
 	void OpenGLFramebuffer::Resize(uint32_t width, uint32_t height) 
 	{
+		// 检查是否需要调整大小
 		if (width == 0 || height == 0 || width > s_MaxFramebufferSize || height > s_MaxFramebufferSize)
 		{
 			VL_CORE_WARN("Attempt to resize framebuffer to {0}, {1}" , width, height);
 			return;
 		}
 
+		// 更新帧缓冲规格
 		m_Specification.Width = width;
 		m_Specification.Height = height;
 
+		// 重新创建帧缓冲
 		Invalidate();
 	}
 
+	// 绑定帧缓冲
 	void OpenGLFramebuffer::Bind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
+		// 设置视口大小以匹配帧缓冲大小
 		glViewport(0, 0, m_Specification.Width, m_Specification.Height);
 	}
 
+	// 解绑帧缓冲
 	void OpenGLFramebuffer::Unbind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
+	// 读取特定附件的像素值
 	int OpenGLFramebuffer::ReadPixel(uint32_t attachmentIndex, int x, int y)
 	{
 		VL_CORE_ASSERT(attachmentIndex < m_ColorAttachments.size(),"");
-
+		// 设置读取缓冲
 		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachmentIndex);
 		int pixelData;
+		// 读取像素数据
 		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
 		return pixelData;
 	}
 
+	// 清除特定附件
 	void OpenGLFramebuffer::ClearAttachment(uint32_t attachmentIndex, int value)
 	{
 		VL_CORE_ASSERT(attachmentIndex < m_ColorAttachments.size(),"AttachmentIndex Index Out of Range");
 
+		// 获取附件规格
 		auto& spec = m_ColorAttachmentSpecifications[attachmentIndex];
+		// 清除附件数据
 		glClearTexImage(m_ColorAttachments[attachmentIndex], 0, Utils::VioletFBTextureFormatToGL(spec.TextureFormat), GL_INT, &value);
 	}
 }

@@ -17,10 +17,13 @@
 #include "Violet/Math/Math.h"
 
 namespace Violet {
+	extern const std::filesystem::path g_AssetPath;
+
 	// static entt::entity testSquad;
 
 	EditorLayer::EditorLayer()
-		:Layer("EditorLayer"), m_CameraController(1200.0f / 800.0f, true), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f }) {}
+		:Layer("EditorLayer"), m_CameraController(1200.0f / 800.0f, true), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
+	{}
 
 	void EditorLayer::OnAttach()
 	{
@@ -37,66 +40,7 @@ namespace Violet {
 		m_ActiveScene = CreateRef<Scene>();
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
-#if 0
-		m_SquareEntity = m_ActiveScene->CreateEntity("Squad Sprit");
-		m_SquareEntity.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
-	
-		// Temp
-		auto redSquare = m_ActiveScene->CreateEntity("Red Square");
-		redSquare.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
 
-		m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
-		m_CameraEntity.AddComponent<CameraComponent>();
-
-		m_SecondCamera = m_ActiveScene->CreateEntity("Camera B");
-		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
-		cc.Primary = false;
-
-		class CameraController : public ScriptableEntity
-		{
-		public:
-			virtual void OnCreate() override
-			{
-				// auto& transform = GetComponent<TransformComponent>().Transform;
-				// transform[3][0] = rand() % 10 - 5.0f;
-			}
-
-			virtual void OnDestroy() override
-			{
-			}
-
-			virtual void OnUpdate(Timestep ts) override
-			{
-				auto& translation = GetComponent<TransformComponent>().Translation;
-				float speed = 5.0f;
-
-				if (Input::IsKeyPressed(Key::A))
-					translation.x -= speed * ts;
-				if (Input::IsKeyPressed(Key::D))
-					translation.x += speed * ts;
-				if (Input::IsKeyPressed(Key::W))
-					translation.y += speed * ts;
-				if (Input::IsKeyPressed(Key::S))
-					translation.y -= speed * ts;
-
-				/*
-				auto& rotation = GetComponent<TransformComponent>().Rotation;
-				float rotationSpeed = 1.0f;
-
-				if (Input::IsKeyPressed(Key::Q))
-					rotation.x += rotationSpeed * ts;
-				if (Input::IsKeyPressed(Key::E))
-					rotation.x -= rotationSpeed * ts;
-				if (rotation.x >= 360.0f)
-					rotation.x -= 360.0f;
-				if (rotation.x <= -360.0f)
-					rotation.x += 360.0f;
-				*/
-			}
-		};
-
-		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-#endif
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 		// À­Ô¶ÉãÏñ»ú
 		// m_CameraController.SetZoomLevel(8.0f);
@@ -150,12 +94,16 @@ namespace Violet {
 
 			// Handle Mouse Position
 			auto [mx, my] = ImGui::GetMousePos();
+
 			mx -= m_ViewportBounds[0].x;
 			my -= m_ViewportBounds[0].y;
+
 			glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
 			my = viewportSize.y - my;
 			int mouseX = (int)mx;
 			int mouseY = (int)my;
+			// VL_TRACE("MOUSE: {0}, {1}", mouseX, mouseY);
+
 
 			if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
 			{
@@ -251,12 +199,18 @@ namespace Violet {
 			}
 
 			m_SceneHierarchyPanel.OnImGuiRender();
+			m_ContentBrowserPanel.OnImGuiRender();
 
 			ImGui::Begin("States");
 
 			std::string name = "None";
-			if (m_HoveredEntity)
+			if (m_HoveredEntity && m_HoveredEntity.HasComponent<TagComponent>())
+			{
+				auto curTag = m_HoveredEntity.GetComponent<TagComponent>();
+				
 				name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
+				
+			}
 			ImGui::Text("Hovered Entity: %s", name.c_str());
 
 			auto stats = Violet::Renderer2D::GetStats();
@@ -287,16 +241,17 @@ namespace Violet {
 
 			uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 			ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+			
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+				{
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					OpenScene(std::filesystem::path(g_AssetPath) / path);
+				}
+				ImGui::EndDragDropTarget();
+			}
 
-			auto windowSize = ImGui::GetWindowSize();
-			ImVec2 minBound = ImGui::GetWindowPos();
-			minBound.x += viewportOffset.x;
-			minBound.y += viewportOffset.y;
-
-			ImVec2 maxBound = { minBound.x + windowSize.x, minBound.y + windowSize.y };
-
-			m_ViewportBounds[0] = { minBound.x, minBound.y };
-			m_ViewportBounds[1] = { maxBound.x, maxBound.y };
 
 			// Gizmos
 			Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
@@ -432,13 +387,18 @@ namespace Violet {
 		std::string filepath = FileDialogs::OpenFile("Violet Scene (*.violet)\0*.violet\0");
 		if (!filepath.empty())
 		{
-			m_ActiveScene = CreateRef<Scene>();
-			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-
-			SceneSerializer serializer(m_ActiveScene);
-			serializer.Deserialize(filepath);
+			OpenScene(filepath);
 		}
+	}
+
+	void EditorLayer::OpenScene(const std::filesystem::path& path)
+	{
+		m_ActiveScene = CreateRef<Scene>();
+		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+		SceneSerializer serializer(m_ActiveScene);
+		serializer.Deserialize(path.string());
 	}
 
 	void EditorLayer::SaveSceneAs()
