@@ -1,0 +1,29 @@
+Scene: Untitled
+Entities:
+  - Entity: 12837192831273
+    TagComponent:
+      Tag: Squad C
+    TransformComponent:
+      Translation: [0.800000012, 1.60000002, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.250443518, 0.926640928, 0.355093032, 1]
+  - Entity: 12837192831273
+    TagComponent:
+      Tag: Squad B
+    TransformComponent:
+      Translation: [1.29999995, -0.699999988, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.749034762, 0.0578405261, 0.0578405261, 1]
+  - Entity: 12837192831273
+    TagComponent:
+      Tag: Squad A
+    TransformComponent:
+      Translation: [-1.10000002, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.165889025, 0.543241501, 0.826254845, 1]

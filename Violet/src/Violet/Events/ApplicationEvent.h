@@ -4,14 +4,14 @@
 
 namespace Violet
 {
-	class VIOLET_API WindowResizeEvent : public Event
+	class WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(unsigned int width, unsigned int height)
 			:m_Width(width), m_Height(height) {}
 
-		inline unsigned int GetWidth() { return m_Width; }
-		inline unsigned int GetHeight() { return m_Height; }
+		inline uint32_t GetWidth() { return m_Width; }
+		inline uint32_t GetHeight() { return m_Height; }
 		
 		std::string ToString() const override
 		{
@@ -23,10 +23,10 @@ namespace Violet
 		EVENT_CLASS_TYPE(WindowResize)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	private:
-		unsigned int m_Width, m_Height;
+		uint32_t m_Width, m_Height;
 	};
 
-	class VIOLET_API WindowCloseEvent: public Event
+	class WindowCloseEvent: public Event
 	{
 	public:
 		WindowCloseEvent() {}
@@ -35,7 +35,7 @@ namespace Violet
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class VIOLET_API AppTickEvent: public Event
+	class AppTickEvent: public Event
 	{
 	public:
 		AppTickEvent() {}
@@ -44,7 +44,7 @@ namespace Violet
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class VIOLET_API AppUpdateEvent : public Event
+	class AppUpdateEvent : public Event
 	{
 	public:
 		AppUpdateEvent() {}
@@ -53,7 +53,7 @@ namespace Violet
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class VIOLET_API AppRenderEvent : public Event
+	class AppRenderEvent : public Event
 	{
 	public:
 		AppRenderEvent() {}
