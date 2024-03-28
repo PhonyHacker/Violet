@@ -40,6 +40,7 @@ namespace Violet {
 		{
 			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
 				{
+					// TODO: Move to Scene::OnScenePlay
 					if (!nsc.Instance)
 					{
 						nsc.Instance = nsc.InstantiateScript();
@@ -51,6 +52,7 @@ namespace Violet {
 				});
 		}
 
+		// Render 2D
 		Camera* mainCamera = nullptr;
 		glm::mat4 cameraTransform;
 		{
@@ -58,26 +60,26 @@ namespace Violet {
 			for (auto entity : view)
 			{
 				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
-				if(camera.Primary)
+
+				if (camera.Primary)
 				{
 					mainCamera = &camera.Camera;
 					cameraTransform = transform.GetTransform();
 					break;
 				}
 			}
-
 		}
 
-		if(mainCamera)
+		if (mainCamera)
 		{
-			Renderer2D::BeginScene(mainCamera->GetProjection(), cameraTransform);
-			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			Renderer2D::BeginScene(*mainCamera, cameraTransform);
 
+			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group)
 			{
-				// auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-				// Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, static_cast<int>(entity));
+				Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
 			}
 
 			Renderer2D::EndScene();
