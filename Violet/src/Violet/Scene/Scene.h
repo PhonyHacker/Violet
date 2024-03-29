@@ -5,6 +5,8 @@
 #include "Violet/Core/Timestep.h"
 #include "Violet/Renderer/EditorCamera.h"
 
+class b2World;
+
 namespace Violet {
 	class Entity;
 	class Scene {
@@ -14,6 +16,10 @@ namespace Violet {
 
 		Entity CreateEntity(const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
+
+		void OnRuntimeStart();
+		void OnRuntimeStop();
+
 		inline entt::registry& Reg() { return m_Registry; }
 
 		void OnUpdateRuntime(Timestep timestep);
@@ -28,6 +34,8 @@ namespace Violet {
 	private:
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
+
+		b2World* m_PhysicsWorld = nullptr;
 
 		friend class Entity;
 		friend class SceneSerializer;
