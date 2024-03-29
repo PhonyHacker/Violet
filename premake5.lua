@@ -35,6 +35,7 @@ Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.
 
 
 group "Dependencies"
+	include "Violet/vendor/Box2D"
 	include "Violet/vendor/GLFW"
 	include "Violet/vendor/Glad"
 	include "Violet/vendor/imgui"
@@ -73,6 +74,7 @@ group "Dependencies"
 		{
 			"%{prj.name}/src",
 			"%{prj.name}/vendor/spdlog/include",
+			"%{IncludeDir.Box2D}",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.Glad}",
 			"%{IncludeDir.ImGui}",
@@ -85,6 +87,7 @@ group "Dependencies"
 		}
 		links
 		{
+			"Box2D",
 			"GLFW",
 			"Glad",
 			"ImGui",
@@ -113,11 +116,7 @@ group "Dependencies"
 
 		filter "configurations:Debug"
 			defines "VL_DEBUG"
-<<<<<<< HEAD
-			buildoptions "/MDd"
-=======
 			runtime "Debug"
->>>>>>> 935f86713d8b03d0f0871cb49a78d9c38a999ed7
 			symbols "On"
 
 			links
@@ -129,11 +128,7 @@ group "Dependencies"
 
 		filter "configurations:Release"
 			defines "VL_RELEASE"
-<<<<<<< HEAD
-			buildoptions "/MD"
-=======
 			runtime "Release"
->>>>>>> 935f86713d8b03d0f0871cb49a78d9c38a999ed7
 			optimize "On"
 
 			links
@@ -145,10 +140,6 @@ group "Dependencies"
 
 		filter "configurations:Dist"
 			defines "VL_DIST"
-<<<<<<< HEAD
-			buildoptions "/MD"
-			symbols "On"
-=======
 			runtime "Release"
 			optimize "On"
 
@@ -158,7 +149,6 @@ group "Dependencies"
 				"%{Library.SPIRV_Cross_Release}",
 				"%{Library.SPIRV_Cross_GLSL_Release}"
 			}
->>>>>>> 935f86713d8b03d0f0871cb49a78d9c38a999ed7
 
 	project "Sandbox"
 		location "Sandbox"
@@ -198,18 +188,6 @@ group "Dependencies"
 			}
 		filter "configurations:Debug"
 			defines "VL_DEBUG"
-<<<<<<< HEAD
-			buildoptions "/MDd"
-			symbols "On"
-		filter "configurations:Release"
-			defines "VL_RELEASE"
-			buildoptions "/MD"
-			optimize "On"
-		filter "configurations:Dist"
-			defines "VL_DIST"
-			buildoptions "/MD"
-			symbols "On"
-=======
 			runtime "Debug"
 			symbols "On"
 		filter "configurations:Release"
@@ -272,4 +250,3 @@ project "Violet-Editor"
 		defines "VL_DIST"
 		runtime "Release"
 		optimize "on"
->>>>>>> 935f86713d8b03d0f0871cb49a78d9c38a999ed7
