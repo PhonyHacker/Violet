@@ -174,6 +174,7 @@
     <ClInclude Include="src\Violet\Core\PlatformDetection.h" />
     <ClInclude Include="src\Violet\Core\Timer.h" />
     <ClInclude Include="src\Violet\Core\Timestep.h" />
+    <ClInclude Include="src\Violet\Core\UUID.h" />
     <ClInclude Include="src\Violet\Core\Window.h" />
     <ClInclude Include="src\Violet\Debug\Instrumentor.h" />
     <ClInclude Include="src\Violet\Events\ApplicationEvent.h" />
@@ -587,6 +588,7 @@
     <ClCompile Include="src\Violet\Core\Layer.cpp" />
     <ClCompile Include="src\Violet\Core\LayerStack.cpp" />
     <ClCompile Include="src\Violet\Core\Log.cpp" />
+    <ClCompile Include="src\Violet\Core\UUID.cpp" />
     <ClCompile Include="src\Violet\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Violet\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Violet\Math\Math.cpp" />

@@ -2,6 +2,7 @@
 
 #include "entt.hpp"
 
+#include "Violet/Core/UUID.h"
 #include "Violet/Core/Timestep.h"
 #include "Violet/Renderer/EditorCamera.h"
 
@@ -14,7 +15,10 @@ namespace Violet {
 		Scene();
 		~Scene();
 
+		static Ref<Scene> Copy(Ref<Scene> other);
+
 		Entity CreateEntity(const std::string& name = std::string());
+		Entity CreateEntityWithUUID(UUID uuid, const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
 
 		void OnRuntimeStart();
@@ -25,6 +29,9 @@ namespace Violet {
 		void OnUpdateRuntime(Timestep timestep);
 		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t m_Width, uint32_t m_Height);
+
+		void DuplicateEntity(Entity entity);
+
 		Entity GetPrimaryCameraEntity();
 
 	private:

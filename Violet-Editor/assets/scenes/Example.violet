@@ -1,29 +1,56 @@
 Scene: Untitled
 Entities:
-  - Entity: 12837192831273
+  - Entity: 6645248621277955267
     TagComponent:
-      Tag: Squad C
+      Tag: Green Square
     TransformComponent:
-      Translation: [0.800000012, 1.60000002, 0]
+      Translation: [2.4000001, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      Color: [0.250443518, 0.926640928, 0.355093032, 1]
-  - Entity: 12837192831273
+      Color: [0, 1, 0, 1]
+  - Entity: 17154294327283940743
     TagComponent:
-      Tag: Squad B
+      Tag: Red Square
     TransformComponent:
-      Translation: [1.29999995, -0.699999988, 0]
+      Translation: [0, 1.10000002, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
-      Color: [0.749034762, 0.0578405261, 0.0578405261, 1]
-  - Entity: 12837192831273
+      Color: [1, 0, 0, 1]
+  - Entity: 3503638098362915787
     TagComponent:
-      Tag: Squad A
+      Tag: Camera A
     TransformComponent:
-      Translation: [-1.10000002, 0, 0]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.165889025, 0.543241501, 0.826254845, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthographicNear: -1
+        OrthographicFar: 1
+      Primary: true
+      FixedAspectRatio: false
+  - Entity: 3263328598497060330
+    TagComponent:
+      Tag: Camera B
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthographicNear: -1
+        OrthographicFar: 1
+      Primary: false
+      FixedAspectRatio: false
