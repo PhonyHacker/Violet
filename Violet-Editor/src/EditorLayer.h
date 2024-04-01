@@ -24,6 +24,8 @@ namespace Violet {
 
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 
+		void OnOverlayRender();
+
 		void NewScene();
 		void OpenScene();
 		void OpenScene(const std::filesystem::path& path);
@@ -79,6 +81,8 @@ namespace Violet {
 		Ref<Texture2D> m_IconPlay, m_IconStop;
 
 		int m_GizmoType = -1;
+
+		bool m_ShowPhysicsColliders = false;
 
 		bool m_PrimaryCamera = true;
 

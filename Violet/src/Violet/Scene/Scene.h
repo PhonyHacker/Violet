@@ -34,6 +34,12 @@ namespace Violet {
 
 		Entity GetPrimaryCameraEntity();
 
+		template<typename... Components>
+		auto GetAllEntitiesWith()
+		{
+			return m_Registry.view<Components...>();
+		}
+
 	private:
 		// void OnComponentAdded(Entity entity, CameraComponent& component);
 		template<typename T>
