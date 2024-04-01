@@ -111,13 +111,13 @@ ExampleLayer::ExampleLayer()
 
 	m_FlatColorShader = Violet::Shader::Create("FlatColor", flatColorShaderVertexSrc, flatColorShaderFragmentSrc);
 
-	auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
+	auto QuadShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 	m_Texture = Violet::Texture2D::Create("assets/textures/Checkerboard.png");
 	m_ChernoLogoTexture = Violet::Texture2D::Create("assets/textures/ChernoLogo.png");
 
-	textureShader->Bind();
-	textureShader->SetInt("u_Texture", 0);
+	QuadShader->Bind();
+	QuadShader->SetInt("u_Texture", 0);
 }
 
 void ExampleLayer::OnAttach()
@@ -154,12 +154,12 @@ void ExampleLayer::OnUpdate(Violet::Timestep timestep)
 		}
 	}
 
-	auto textureShader = m_ShaderLibrary.Get("Texture");
+	auto QuadShader = m_ShaderLibrary.Get("Texture");
 
 	m_Texture->Bind();
-	Violet::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+	Violet::Renderer::Submit(QuadShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 	m_ChernoLogoTexture->Bind();
-	Violet::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+	Violet::Renderer::Submit(QuadShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 	// Triangle
 	// Violet::Renderer::Submit(m_Shader, m_VertexArray);
