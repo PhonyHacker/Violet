@@ -24,10 +24,15 @@ namespace Violet {
 		void OnRuntimeStart();
 		void OnRuntimeStop();
 
+		void OnSimulationStart();
+		void OnSimulationStop();
+
 		inline entt::registry& Reg() { return m_Registry; }
 
 		void OnUpdateRuntime(Timestep timestep);
 		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
+		void OnUpdateSimulation(Timestep ts, EditorCamera& camera);
+
 		void OnViewportResize(uint32_t m_Width, uint32_t m_Height);
 
 		void DuplicateEntity(Entity entity);
@@ -44,6 +49,11 @@ namespace Violet {
 		// void OnComponentAdded(Entity entity, CameraComponent& component);
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);
+
+		void OnPhysics2DStart();
+		void OnPhysics2DStop();
+
+		void RenderScene(EditorCamera& camera);
 	private:
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
