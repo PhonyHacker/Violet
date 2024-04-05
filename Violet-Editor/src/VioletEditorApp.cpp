@@ -8,20 +8,20 @@ namespace Violet {
 	class VioletEditor : public Application
 	{
 	public:
-		VioletEditor(ApplicationCommandLineArgs args)
-			: Application("VioletEditor", args)
+		VioletEditor(const ApplicationSpecification& spec)
+			:Application(spec)
 		{
 			PushLayer(new EditorLayer());
-		}
-
-		~VioletEditor()
-		{
 		}
 	};
 
 	Application* CreateApplication(ApplicationCommandLineArgs args)
 	{
-		return new VioletEditor(args);
+		ApplicationSpecification spec;
+		spec.Name = "VioletEditor";
+		spec.CommandLineArgs = args;
+
+		return new VioletEditor(spec);
 	}
 
 }

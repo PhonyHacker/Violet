@@ -91,9 +91,6 @@
     <Lib>
       <AdditionalDependencies>opengl32.lib;vendor\VulkanSDK\Lib\shaderc_sharedd.lib;vendor\VulkanSDK\Lib\spirv-cross-cored.lib;vendor\VulkanSDK\Lib\spirv-cross-glsld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\Violet\Violet.lib\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\Violet\Violet.lib "..\bin\Debug-windows-x86_64\Sandbox\" &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\Violet\Violet.lib "..\bin\Debug-windows-x86_64\Sandbox\" &gt; nul)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -119,9 +116,6 @@
     <Lib>
       <AdditionalDependencies>opengl32.lib;vendor\VulkanSDK\1.3.216.0\Lib\shaderc_shared.lib;vendor\VulkanSDK\1.3.216.0\Lib\spirv-cross-core.lib;vendor\VulkanSDK\1.3.216.0\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\Violet\Violet.lib\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\Violet\Violet.lib "..\bin\Release-windows-x86_64\Sandbox\" &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\Violet\Violet.lib "..\bin\Release-windows-x86_64\Sandbox\" &gt; nul)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
@@ -147,9 +141,6 @@
     <Lib>
       <AdditionalDependencies>opengl32.lib;vendor\VulkanSDK\1.3.216.0\Lib\shaderc_shared.lib;vendor\VulkanSDK\1.3.216.0\Lib\spirv-cross-core.lib;vendor\VulkanSDK\1.3.216.0\Lib\spirv-cross-glsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\Violet\Violet.lib\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\Violet\Violet.lib "..\bin\Dist-windows-x86_64\Sandbox\" &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\Violet\Violet.lib "..\bin\Dist-windows-x86_64\Sandbox\" &gt; nul)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />

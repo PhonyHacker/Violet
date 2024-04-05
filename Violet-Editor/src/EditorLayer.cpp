@@ -44,7 +44,7 @@ namespace Violet {
 		m_EditorScene = CreateRef<Scene>();
 		m_ActiveScene = m_EditorScene;
 
-		auto commandLineArgs = Application::Get().GetCommandLineArgs();
+		auto commandLineArgs = Application::Get().GetSpecification().CommandLineArgs;
 		if (commandLineArgs.Count > 1)
 		{
 			auto sceneFilePath = commandLineArgs[1];
@@ -53,8 +53,10 @@ namespace Violet {
 		}
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
+		Renderer2D::SetLineWidth(4.0f);
 
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		
 		// À­Ô¶ÉãÏñ»ú
 		// m_CameraController.SetZoomLevel(8.0f);
 	}
@@ -216,10 +218,10 @@ namespace Violet {
 
 					if (ImGui::MenuItem("New", "Ctrl+N"))
 						NewScene();
-
 					if (ImGui::MenuItem("Open...", "Ctrl+O"))
 						OpenScene();
-
+					if (ImGui::MenuItem("Save", "Ctrl+S"))
+						SaveScene();
 					if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
 						SaveSceneAs();
 
@@ -410,7 +412,7 @@ namespace Violet {
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
 	{
 		// Shortcuts
-		if (e.GetRepeatCount() > 0)
+		if (e.IsRepeat())
 				return false;
 
 		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
@@ -527,6 +529,13 @@ namespace Violet {
 					}
 				}
 			}
+			// Draw selected entity outline 
+			if (Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity())
+			{
+				const TransformComponent& transform = selectedEntity.GetComponent<TransformComponent>();
+				Renderer2D::DrawRect(transform.GetTransform(), glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
+			}
+
 		}
 
 		Renderer2D::EndScene();
@@ -543,6 +552,7 @@ namespace Violet {
 
 	void EditorLayer::OpenScene()
 	{
+		NewScene();
 		std::string filepath = FileDialogs::OpenFile("Violet Scene (*.violet)\0*.violet\0");
 		if (!filepath.empty())
 		{

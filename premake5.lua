@@ -109,11 +109,6 @@ group "Dependencies"
 				"GLFW_INCLUDE_NONE"
 			}
 
-			postbuildcommands
-			{
-				("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
-			}
-
 		filter "configurations:Debug"
 			defines "VL_DEBUG"
 			runtime "Debug"

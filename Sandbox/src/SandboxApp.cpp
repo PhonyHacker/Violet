@@ -6,7 +6,8 @@
 
 class Sandbox : public Violet::Application {
 public:
-	Sandbox()
+	Sandbox(const Violet::ApplicationSpecification& specification)
+		: Violet::Application(specification)
 	{
 		// PushLayer(new ExampleLayer());
 		PushLayer(new Sandbox2D());
@@ -17,7 +18,12 @@ public:
 	}
 };
 
-Violet::Application* Violet:: CreateApplication() {
-	return new Sandbox();
-}
+Violet::Application* Violet::CreateApplication(Violet::ApplicationCommandLineArgs args)
+{
+	ApplicationSpecification spec;
+	spec.Name = "Sandbox";
+	spec.WorkingDirectory = "../Hazelnut";
+	spec.CommandLineArgs = args;
 
+	return new Sandbox(spec);
+}

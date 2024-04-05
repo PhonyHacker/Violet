@@ -16,10 +16,16 @@ namespace Violet {
 		VL_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	Window* Window::Create(const WindowProps& props) 
+	Scope<Window> Window::Create(const WindowProps& props)
 	{
-		return new WindowsWindow(props);
+		#ifdef VL_PLATFORM_WINDOWS
+				return CreateScope<WindowsWindow>(props);
+		#else
+				VL_CORE_ASSERT(false, "Unknown platform!");
+				return nullptr;
+		#endif
 	}
+
 	
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
@@ -108,7 +114,7 @@ namespace Violet {
 				}
 				case GLFW_REPEAT:
 				{
-					KeyPressedEvent event(key, 1);
+					KeyPressedEvent event(key, true);
 					data.EventCallback(event);
 					break;
 				}
