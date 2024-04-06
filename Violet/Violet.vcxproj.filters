@@ -37,6 +37,9 @@
     <Filter Include="src\Violet\Scene">
       <UniqueIdentifier>{4CACB400-38A5-D352-61D7-B8D74D2FB35E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Violet\Scripting">
+      <UniqueIdentifier>{B1B39D46-9D42-2710-4661-3B0B32CF37B6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Violet\Utils">
       <UniqueIdentifier>{8F40E200-7B39-0153-A46B-E6D790C3E05E}</UniqueIdentifier>
     </Filter>
@@ -227,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="src\Violet\Scene\ScriptableEntity.h">
       <Filter>src\Violet\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Scripting\ScriptEngine.h">
+      <Filter>src\Violet\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Utils\PlatformUtils.h">
       <Filter>src\Violet\Utils</Filter>
@@ -1438,6 +1444,9 @@
     </ClCompile>
     <ClCompile Include="src\Violet\Scene\SceneSerializer.cpp">
       <Filter>src\Violet\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Violet\Scripting\ScriptEngine.cpp">
+      <Filter>src\Violet\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="src\vlpch.cpp">
       <Filter>src</Filter>

@@ -6,6 +6,7 @@
 
 #include "Violet/Core/Log.h"
 #include "Violet/Core/Input.h"
+#include "Violet/Scripting/ScriptEngine.h"
 
 #include <GLFW/glfw3.h>
 #include <filesystem>
@@ -33,6 +34,7 @@ namespace Violet {
 		m_Window->SetEventCallback(VL_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();
+		ScriptEngine::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -40,6 +42,7 @@ namespace Violet {
 
 	Application::~Application() {
 		VL_PROFILE_FUNCTION();
+		ScriptEngine::Shutdown();
 		Renderer::Shutdown();
 	}
 

@@ -1,13 +1,17 @@
 # Binaries
 **/bin/
-!vendor/bin/premake/
 bin-int/
-
-# Visual Studio files and folder
+Intermediates/
 .vs/
-**.sln
+
+# Violet files
+*.log
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
+**.csproj
 
-Violet/vendor/VulkanSDK/
+# Directories
+Violet/vendor/VulkanSDK
+Violet/assets/cache
+scripts/__pycache__

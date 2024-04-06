@@ -1,77 +1,53 @@
-[17:40:28] [info] VIOLET: Creating window VioletEditor (1600, 900)
-[17:40:30] [info] VIOLET: OpenGL Info: 
-[17:40:30] [info] VIOLET:  Vendor: NVIDIA Corporation 
-[17:40:30] [info] VIOLET:  Renderer : NVIDIA GeForce GTX 1650/PCIe/SSE2 
-[17:40:30] [info] VIOLET:  Version: 4.6.0 NVIDIA 512.59 
-[17:40:30] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Quad.glsl
-[17:40:30] [trace] VIOLET:     1 uniform buffers
-[17:40:30] [trace] VIOLET:     0 resources
-[17:40:30] [trace] VIOLET: Uniform buffers:
-[17:40:30] [trace] VIOLET:   _46_48
-[17:40:30] [trace] VIOLET:     Size = 64
-[17:40:30] [trace] VIOLET:     Binding = 0
-[17:40:30] [trace] VIOLET:     Members = 1
-[17:40:30] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Quad.glsl
-[17:40:30] [trace] VIOLET:     0 uniform buffers
-[17:40:30] [trace] VIOLET:     1 resources
-[17:40:30] [trace] VIOLET: Uniform buffers:
-[17:40:30] [warning] VIOLET: Shader creation took 17.0781 ms
-[17:40:30] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Circle.glsl
-[17:40:30] [trace] VIOLET:     1 uniform buffers
-[17:40:30] [trace] VIOLET:     0 resources
-[17:40:30] [trace] VIOLET: Uniform buffers:
-[17:40:30] [trace] VIOLET:   _47_49
-[17:40:30] [trace] VIOLET:     Size = 64
-[17:40:30] [trace] VIOLET:     Binding = 0
-[17:40:30] [trace] VIOLET:     Members = 1
-[17:40:30] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Circle.glsl
-[17:40:30] [trace] VIOLET:     0 uniform buffers
-[17:40:30] [trace] VIOLET:     0 resources
-[17:40:30] [trace] VIOLET: Uniform buffers:
-[17:40:30] [warning] VIOLET: Shader creation took 12.2003 ms
-[17:40:30] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Line.glsl
-[17:40:30] [trace] VIOLET:     1 uniform buffers
-[17:40:30] [trace] VIOLET:     0 resources
-[17:40:30] [trace] VIOLET: Uniform buffers:
-[17:40:30] [trace] VIOLET:   _30_32
-[17:40:30] [trace] VIOLET:     Size = 64
-[17:40:30] [trace] VIOLET:     Binding = 0
-[17:40:30] [trace] VIOLET:     Members = 1
-[17:40:30] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Line.glsl
-[17:40:30] [trace] VIOLET:     0 uniform buffers
-[17:40:30] [trace] VIOLET:     0 resources
-[17:40:30] [trace] VIOLET: Uniform buffers:
-[17:40:30] [warning] VIOLET: Shader creation took 12.6389 ms
-[17:40:34] [trace] VIOLET: Deserializing scene 'Untitled'
-[17:40:34] [trace] VIOLET: Deserialized entity with ID = 9335076965011521498, name = Camera B
-[17:40:34] [trace] VIOLET: Deserialized entity with ID = 3480369648141931921, name = Camera A
-[17:40:34] [trace] VIOLET: Deserialized entity with ID = 4212786185008784347, name = Red Square
-[17:40:34] [trace] VIOLET: Deserialized entity with ID = 6902904111259729925, name = Green Square
-[17:40:42] [trace] VIOLET: Deserializing scene 'Untitled'
-[17:40:42] [trace] VIOLET: Deserialized entity with ID = 16672940118998907085, name = Floor
-[17:40:42] [trace] VIOLET: Deserialized entity with ID = 4793924497264767156, name = Camera
-[17:40:42] [trace] VIOLET: Deserialized entity with ID = 15045535320033348975, name = Sprite
-[17:40:42] [trace] VIOLET: Deserialized entity with ID = 5134011587522944740, name = Floor
-[17:40:42] [trace] VIOLET: Deserialized entity with ID = 8804479042241551551, name = Circle
-[17:40:46] [trace] VIOLET: Deserializing scene 'Untitled'
-[17:40:46] [trace] VIOLET: Deserialized entity with ID = 9335076965011521498, name = Camera B
-[17:40:46] [trace] VIOLET: Deserialized entity with ID = 3480369648141931921, name = Camera A
-[17:40:46] [trace] VIOLET: Deserialized entity with ID = 4212786185008784347, name = Red Square
-[17:40:46] [trace] VIOLET: Deserialized entity with ID = 6902904111259729925, name = Green Square
-[17:41:09] [trace] VIOLET: Deserializing scene 'Untitled'
-[17:41:09] [trace] VIOLET: Deserialized entity with ID = 9335076965011521498, name = Camera B
-[17:41:09] [trace] VIOLET: Deserialized entity with ID = 3480369648141931921, name = Camera A
-[17:41:09] [trace] VIOLET: Deserialized entity with ID = 4212786185008784347, name = Red Square
-[17:41:09] [trace] VIOLET: Deserialized entity with ID = 6902904111259729925, name = Green Square
-[17:41:19] [trace] VIOLET: Deserializing scene 'Untitled'
-[17:41:19] [trace] VIOLET: Deserialized entity with ID = 8244940659429586525, name = Left
-[17:41:19] [trace] VIOLET: Deserialized entity with ID = 2335431429201735937, name = Right
-[17:41:19] [trace] VIOLET: Deserialized entity with ID = 15355018394736438603, name = Camera
-[17:41:19] [trace] VIOLET: Deserialized entity with ID = 9235617827118161440, name = Top
-[17:41:25] [trace] VIOLET: Deserializing scene 'Untitled'
-[17:41:25] [trace] VIOLET: Deserialized entity with ID = 16672940118998907085, name = Floor
-[17:41:25] [trace] VIOLET: Deserialized entity with ID = 4793924497264767156, name = Camera
-[17:41:25] [trace] VIOLET: Deserialized entity with ID = 15045535320033348975, name = Sprite
-[17:41:25] [trace] VIOLET: Deserialized entity with ID = 5134011587522944740, name = Floor
-[17:41:25] [trace] VIOLET: Deserialized entity with ID = 8804479042241551551, name = Circle
-[17:41:37] [info] VIOLET: Terminating GLFW
+[17:18:04] [info] VIOLET: Creating window VioletEditor (1600, 900)
+[17:18:07] [info] VIOLET: OpenGL Info: 
+[17:18:07] [info] VIOLET:  Vendor: NVIDIA Corporation 
+[17:18:07] [info] VIOLET:  Renderer : NVIDIA GeForce GTX 1650/PCIe/SSE2 
+[17:18:07] [info] VIOLET:  Version: 4.6.0 NVIDIA 512.59 
+[17:18:07] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Quad.glsl
+[17:18:07] [trace] VIOLET:     1 uniform buffers
+[17:18:07] [trace] VIOLET:     0 resources
+[17:18:07] [trace] VIOLET: Uniform buffers:
+[17:18:07] [trace] VIOLET:   _46_48
+[17:18:07] [trace] VIOLET:     Size = 64
+[17:18:07] [trace] VIOLET:     Binding = 0
+[17:18:07] [trace] VIOLET:     Members = 1
+[17:18:07] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Quad.glsl
+[17:18:07] [trace] VIOLET:     0 uniform buffers
+[17:18:07] [trace] VIOLET:     1 resources
+[17:18:07] [trace] VIOLET: Uniform buffers:
+[17:18:07] [warning] VIOLET: Shader creation took 56.7283 ms
+[17:18:07] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Circle.glsl
+[17:18:07] [trace] VIOLET:     1 uniform buffers
+[17:18:07] [trace] VIOLET:     0 resources
+[17:18:07] [trace] VIOLET: Uniform buffers:
+[17:18:07] [trace] VIOLET:   _47_49
+[17:18:07] [trace] VIOLET:     Size = 64
+[17:18:07] [trace] VIOLET:     Binding = 0
+[17:18:07] [trace] VIOLET:     Members = 1
+[17:18:07] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Circle.glsl
+[17:18:07] [trace] VIOLET:     0 uniform buffers
+[17:18:07] [trace] VIOLET:     0 resources
+[17:18:07] [trace] VIOLET: Uniform buffers:
+[17:18:07] [warning] VIOLET: Shader creation took 18.5672 ms
+[17:18:07] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Line.glsl
+[17:18:07] [trace] VIOLET:     1 uniform buffers
+[17:18:07] [trace] VIOLET:     0 resources
+[17:18:07] [trace] VIOLET: Uniform buffers:
+[17:18:07] [trace] VIOLET:   _30_32
+[17:18:07] [trace] VIOLET:     Size = 64
+[17:18:07] [trace] VIOLET:     Binding = 0
+[17:18:07] [trace] VIOLET:     Members = 1
+[17:18:07] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Line.glsl
+[17:18:07] [trace] VIOLET:     0 uniform buffers
+[17:18:07] [trace] VIOLET:     0 resources
+[17:18:07] [trace] VIOLET: Uniform buffers:
+[17:18:07] [warning] VIOLET: Shader creation took 16.9431 ms
+[17:18:07] [trace] VIOLET: ---.<Module>
+[17:18:07] [trace] VIOLET: ---Violet.Main
+[17:18:17] [trace] VIOLET: Deserializing scene 'Untitled'
+[17:18:17] [trace] VIOLET: Deserialized entity with ID = 16672940118998907085, name = Floor
+[17:18:17] [trace] VIOLET: Deserialized entity with ID = 4793924497264767156, name = Camera
+[17:18:17] [trace] VIOLET: Deserialized entity with ID = 15045535320033348975, name = Sprite
+[17:18:17] [trace] VIOLET: Deserialized entity with ID = 5134011587522944740, name = Floor
+[17:18:17] [trace] VIOLET: Deserialized entity with ID = 8804479042241551551, name = Circle
+[17:18:22] [info] VIOLET: Terminating GLFW

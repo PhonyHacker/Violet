@@ -1,7 +1,6 @@
 include "Dependencies.lua"
 workspace "Violet"
 	architecture "x86_64"
-
 	startproject "Violet-Editor"
 
 	configurations
@@ -15,32 +14,15 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 VULKAN_SDK = os.getenv("VULKAN_SDK")
 
-LibraryDir = {}
-
-LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/Lib"
-LibraryDir["VulkanSDK_Debug"] = "%{wks.location}/Violet/vendor/VulkanSDK/Lib"
-
-Library = {}
-Library["Vulkan"] = "%{LibraryDir.VulkanSDK}/vulkan-1.lib"
-Library["VulkanUtils"] = "%{LibraryDir.VulkanSDK}/VkLayer_utils.lib"
-
-Library["ShaderC_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/shaderc_sharedd.lib"
-Library["SPIRV_Cross_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/spirv-cross-cored.lib"
-Library["SPIRV_Cross_GLSL_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/spirv-cross-glsld.lib"
-Library["SPIRV_Tools_Debug"] = "%{LibraryDir.VulkanSDK_Debug}/SPIRV-Toolsd.lib"
-
-Library["ShaderC_Release"] = "%{LibraryDir.VulkanSDK}/shaderc_shared.lib"
-Library["SPIRV_Cross_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-core.lib"
-Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
-
-
 group "Dependencies"
 	include "Violet/vendor/Box2D"
 	include "Violet/vendor/GLFW"
 	include "Violet/vendor/Glad"
 	include "Violet/vendor/imgui"
 	include "Violet/vendor/yaml-cpp"
+group ""
 
+group "Core"
 	project "Violet"
 		location "Violet"
 		kind "StaticLib"
@@ -48,8 +30,9 @@ group "Dependencies"
 		cppdialect "C++17"
 		staticruntime "off"
 
-		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+		targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+		objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
+
 		
 		pchheader "vlpch.h"
 		pchsource "Violet/src/vlpch.cpp"
@@ -68,7 +51,8 @@ group "Dependencies"
 
 		defines
 		{
-			"_CRT_SECURE_NO_WARINGS"
+			"_CRT_SECURE_NO_WARNINGS",
+			"GLFW_INCLUDE_NONE"
 		}
 		includedirs
 		{
@@ -81,6 +65,7 @@ group "Dependencies"
 			"%{IncludeDir.glm}",
 			"%{IncludeDir.stb_image}",
 			"%{IncludeDir.entt}",
+			"%{IncludeDir.mono}",
 			"%{IncludeDir.yaml_cpp}",
 			"%{IncludeDir.ImGuizmo}",
 			"%{IncludeDir.VulkanSDK}"
@@ -92,23 +77,27 @@ group "Dependencies"
 			"Glad",
 			"ImGui",
 			"yaml-cpp",
-			"opengl32.lib"
+			"opengl32.lib",
+			"%{Library.mono}",
 		}
 
 		filter "files:Violet/vendor/ImGuizmo/**.cpp"
 		flags { "NoPCH" }
 
 		filter "system:windows"
-			cppdialect "C++17"
 			systemversion "latest"
 			
 			defines
 			{
-				"VL_PLATFORM_WINDOWS",
-				"VL_BUILD_DLL",
-				"GLFW_INCLUDE_NONE"
 			}
-
+			
+			links
+			{
+				"%{Library.WinSock}",
+				"%{Library.WinMM}",
+				"%{Library.WinVersion}",
+				"%{Library.BCrypt}",
+			}
 		filter "configurations:Debug"
 			defines "VL_DEBUG"
 			runtime "Debug"
@@ -144,16 +133,45 @@ group "Dependencies"
 				"%{Library.SPIRV_Cross_Release}",
 				"%{Library.SPIRV_Cross_GLSL_Release}"
 			}
+------------------------------
+	project "Violet-ScriptCore"
+		location "Violet-ScriptCore"
+		kind "SharedLib"
+		language "C#"
+		dotnetframework "4.7.2"
 
-	project "Sandbox"
-		location "Sandbox"
+		targetdir ("%{wks.location}/Violet-Editor/Resources/Scripts")
+		objdir ("%{wks.location}/Violet-Editor/Resources/Scripts/Intermediates")
+
+		files 
+		{
+			"Source/**.cs",
+			"Properties/**.cs"
+		}
+
+		filter "configurations:Debug"
+			optimize "Off"
+			symbols "Default"
+
+		filter "configurations:Release"
+			optimize "On"
+			symbols "Default"
+
+		filter "configurations:Dist"
+			optimize "Full"
+			symbols "Off"
+group ""
+
+group "Tools"
+	project "Violet-Editor"
+		location "Violet-Editor"
 		kind "ConsoleApp"
 		language "C++"
 		cppdialect "C++17"
 		staticruntime "off"
 
-		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+		targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+		objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
 		files
 		{
@@ -163,10 +181,63 @@ group "Dependencies"
 
 		includedirs
 		{
-			"Violet/vendor/spdlog/include",
-			"Violet/src",
-			"Violet/vendor",
-			"%{IncludeDir.glm}"
+			"%{wks.location}/Violet/vendor/spdlog/include",
+			"%{wks.location}/Violet/src",
+			"%{wks.location}/Violet/vendor",
+			"%{IncludeDir.glm}",
+			"%{IncludeDir.entt}",
+			"%{IncludeDir.ImGuizmo}"
+		}
+
+		links
+		{
+			"Violet"
+		}
+
+		filter "system:windows"
+			systemversion "latest"
+
+		filter "configurations:Debug"
+			defines "VL_DEBUG"
+			runtime "Debug"
+			symbols "on"
+
+		filter "configurations:Release"
+			defines "VL_RELEASE"
+			runtime "Release"
+			optimize "on"
+
+		filter "configurations:Dist"
+			defines "VL_DIST"
+			runtime "Release"
+			optimize "on"
+
+group ""
+
+group "Misc"
+	project "Sandbox"
+		location "Sandbox"
+		kind "ConsoleApp"
+		language "C++"
+		cppdialect "C++17"
+		staticruntime "off"
+
+		targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+		objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
+
+		files
+		{
+			"%{prj.name}/src/**.h",
+			"%{prj.name}/src/**.cpp"
+		}
+
+		includedirs
+		{
+			"%{wks.location}/Violet/vendor/spdlog/include",
+			"%{wks.location}/Violet/src",
+			"%{wks.location}/Violet/vendor",
+			"%{IncludeDir.glm}",
+			"%{IncludeDir.entt}"
 		}
 
 		links
@@ -175,7 +246,6 @@ group "Dependencies"
 		}
 
 	filter "system:windows"
-			cppdialect "C++17"
 			systemversion "latest"
 
 			defines{
@@ -193,55 +263,4 @@ group "Dependencies"
 			defines "VL_DIST"
 			runtime "Release"
 			optimize "On"
-
-project "Violet-Editor"
-	location "Violet-Editor"
-	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "off"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-
-	includedirs
-	{
-		"Violet/vendor/spdlog/include",
-		"Violet/src",
-		"Violet/vendor",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.entt}",
-		"%{IncludeDir.ImGuizmo}"
-	}
-
-	links
-	{
-		"Violet"
-	}
-
-	filter "system:windows"
-		systemversion "latest"
-
-		defines{
-			"VL_PLATFORM_WINDOWS"
-		}
-	filter "configurations:Debug"
-		defines "VL_DEBUG"
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		defines "VL_RELEASE"
-		runtime "Release"
-		optimize "on"
-
-	filter "configurations:Dist"
-		defines "VL_DIST"
-		runtime "Release"
-		optimize "on"
+group ""
