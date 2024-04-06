@@ -197,6 +197,7 @@
     <ClInclude Include="src\Violet\Scene\SceneSerializer.h" />
     <ClInclude Include="src\Violet\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\Violet\Scripting\ScriptEngine.h" />
+    <ClInclude Include="src\Violet\Scripting\ScriptGlue.h" />
     <ClInclude Include="src\Violet\Utils\PlatformUtils.h" />
     <ClInclude Include="src\vlpch.h" />
     <ClInclude Include="vendor\ImGuizmo\ImGuizmo.h" />
@@ -603,6 +604,7 @@
     <ClCompile Include="src\Violet\Scene\SceneCamera.cpp" />
     <ClCompile Include="src\Violet\Scene\SceneSerializer.cpp" />
     <ClCompile Include="src\Violet\Scripting\ScriptEngine.cpp" />
+    <ClCompile Include="src\Violet\Scripting\ScriptGlue.cpp" />
     <ClCompile Include="src\vlpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
