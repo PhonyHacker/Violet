@@ -8,44 +8,48 @@ using Violet;
 
 namespace Sandbox
 {
-	public class Player : Entity
-	{
-		private TransformComponent m_Transform;
-		private Rigidbody2DComponent m_Rigidbody;
+    public class Player : Entity
+    {
+        public float Speed = 0.1f;
+        public float Time = 0.0f;
 
-		void OnCreate()
-		{
-			Console.WriteLine($"Player.OnCreate - {ID}");
+        private TransformComponent m_Transform;
+        private Rigidbody2DComponent m_Rigidbody;
 
-			m_Transform = GetComponent<TransformComponent>();
-			m_Rigidbody = GetComponent<Rigidbody2DComponent>();
-		}
+        void OnCreate()
+        {
+            Console.WriteLine($"Player.OnCreate - {ID}");
 
-		void OnUpdate(float ts)
-		{
-			Console.WriteLine($"Player.OnUpdate: {ts}");
+            m_Transform = GetComponent<TransformComponent>();
+            m_Rigidbody = GetComponent<Rigidbody2DComponent>();
+        }
 
-			float speed = 0.1f;
-			Vector3 velocity = Vector3.Zero;
+        void OnUpdate(float ts)
+        {
+            Time += ts;
+            // Console.WriteLine($"Player.OnUpdate: {ts}");
 
-			if (Input.IsKeyDown(KeyCode.W))
-				velocity.Y = 1.0f;
-			else if (Input.IsKeyDown(KeyCode.S))
-				velocity.Y = -1.0f;
+            float speed = Speed;
+            Vector3 velocity = Vector3.Zero;
 
-			if (Input.IsKeyDown(KeyCode.A))
-				velocity.X = -1.0f;
-			else if (Input.IsKeyDown(KeyCode.D))
-				velocity.X = 1.0f;
+            if (Input.IsKeyDown(KeyCode.W))
+                velocity.Y = 0.1f;
+            else if (Input.IsKeyDown(KeyCode.S))
+                velocity.Y = -1.0f;
 
-			velocity *= speed;
+            if (Input.IsKeyDown(KeyCode.A))
+                velocity.X = -1.0f;
+            else if (Input.IsKeyDown(KeyCode.D))
+                velocity.X = 1.0f;
 
-			m_Rigidbody.ApplyLinearImpulse(velocity.XY, true);
+            velocity *= speed;
 
-			//Vector3 translation = m_Transform.Translation;
-			//translation += velocity * ts;
-			//m_Transform.Translation = translation;
-		}
+            m_Rigidbody.ApplyLinearImpulse(velocity.XY, true);
 
-	}
+            //Vector3 translation = m_Transform.Translation;
+            //translation += velocity * ts;
+            //m_Transform.Translation = translation;
+        }
+
+    }
 }

@@ -151,7 +151,11 @@ namespace Violet {
 		entity.AddComponent<IDComponent>(uuid);
 		entity.AddComponent<TransformComponent>();
 		auto& tag = entity.AddComponent<TagComponent>();
-		tag.Tag = name.empty() ? "Entity" : name;
+		auto i = name.size();
+		if (i > 20)
+			tag.Tag = "Entity";
+		else
+			tag.Tag = name.empty() ? "Entity" : name;
 
 		m_EntityMap[uuid] = entity;
 
@@ -357,6 +361,7 @@ namespace Violet {
 
 	void Scene::DuplicateEntity(Entity entity)
 	{
+		auto name = entity.GetName();
 		Entity newEntity = CreateEntity(entity.GetName());
 		CopyComponentIfExists(AllComponents{}, newEntity, entity);
 	}

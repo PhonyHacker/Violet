@@ -8276,7 +8276,7 @@ public:
      */
     template<typename... Component>
     bool has(const entity_type entity) const {
-        ENTT_ASSERT(valid(entity));
+        // ENTT_ASSERT(valid(entity));
         if (!valid(entity)) return false;
         return (assure<Component>().contains(entity) && ...);
     }

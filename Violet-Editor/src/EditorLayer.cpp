@@ -543,6 +543,7 @@ namespace Violet {
 
 	void EditorLayer::NewScene()
 	{
+		// Renderer2D::Init();
 		m_ActiveScene = CreateRef<Scene>();
 		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
@@ -552,7 +553,6 @@ namespace Violet {
 
 	void EditorLayer::OpenScene()
 	{
-		NewScene();
 		std::string filepath = FileDialogs::OpenFile("Violet Scene (*.violet)\0*.violet\0");
 		if (!filepath.empty())
 		{
@@ -562,6 +562,8 @@ namespace Violet {
 
 	void EditorLayer::OpenScene(const std::filesystem::path& path)
 	{
+		Renderer::Init();
+		NewScene();
 		if (m_SceneState != SceneState::Edit)
 			OnSceneStop();
 
