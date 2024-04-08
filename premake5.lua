@@ -140,8 +140,8 @@ group "Core"
 		language "C#"
 		dotnetframework "4.7.2"
 
-		targetdir ("%{wks.location}/Violet-Editor/Resources/Scripts")
-		objdir ("%{wks.location}/Violet-Editor/Resources/Scripts/Intermediates")
+		targetdir ("%../Violet-Editor/Resources/Scripts")
+		objdir ("%../Violet-Editor/Resources/Scripts/Intermediates")
 
 		files 
 		{
