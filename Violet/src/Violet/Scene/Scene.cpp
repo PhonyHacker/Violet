@@ -11,6 +11,7 @@
 // Box2D
 #include "box2d/b2_world.h"
 #include "box2d/b2_body.h"
+#include "box2d/b2_contact.h"
 #include "box2d/b2_fixture.h"
 #include "box2d/b2_polygon_shape.h"
 #include "box2d/b2_circle_shape.h"
@@ -170,6 +171,8 @@ namespace Violet {
 
 	void Scene::OnRuntimeStart()
 	{
+
+		m_IsRunning = true;
 		OnPhysics2DStart();
 
 		// Scripting
@@ -188,6 +191,7 @@ namespace Violet {
 
 	void Scene::OnRuntimeStop()
 	{
+		m_IsRunning = false;
 		OnPhysics2DStop();
 	}
 
@@ -375,10 +379,29 @@ namespace Violet {
 		return {};
 	}
 
+	/*
+	class MyContactListener : public b2ContactListener {
+		void BeginContact(b2Contact* contact) {
+			// 获取碰撞的两个物体
+			b2Fixture* fixtureA = contact->GetFixtureA();
+			b2Fixture* fixtureB = contact->GetFixtureB();
+
+			// 根据需要，你可以检查碰撞的物体类型或其他属性
+			// 在这个简单示例中，我们只是打印碰撞发生的消息
+			std::cout << "Collision detected!" << std::endl;
+		}
+
+		void EndContact(b2Contact* contact) {
+			// 碰撞结束时的处理逻辑
+		}
+	};
+
+	static MyContactListener contactListener;
+	*/
 	void Scene::OnPhysics2DStart() 
 	{
 		m_PhysicsWorld = new b2World({ 0.0f, -9.8f });
-
+		//m_PhysicsWorld->SetContactListener(&contactListener);
 		auto view = m_Registry.view<Rigidbody2DComponent>();
 		for (auto e : view)
 		{
@@ -390,6 +413,7 @@ namespace Violet {
 			bodyDef.type = Rigidbody2DTypeToBox2DBody(rb2d.Type);
 			bodyDef.position.Set(transform.Translation.x, transform.Translation.y);
 			bodyDef.angle = transform.Rotation.z;
+			bodyDef.gravityScale = rb2d.GravityScale;
 
 			b2Body* body = m_PhysicsWorld->CreateBody(&bodyDef);
 			body->SetFixedRotation(rb2d.FixedRotation);

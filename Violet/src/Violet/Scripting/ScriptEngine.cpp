@@ -163,6 +163,7 @@ namespace Violet {
 
 		std::unordered_map<std::string, Ref<ScriptClass>> EntityClasses;
 		std::unordered_map<UUID, Ref<ScriptInstance>> EntityInstances;
+		std::unordered_map<UUID, ScriptFieldMap> EntityScriptFields;
 
 		// Runtime
 		Scene* SceneContext = nullptr;
@@ -252,9 +253,20 @@ namespace Violet {
 	void ScriptEngine::OnCreateEntity(Entity entity)
 	{
 		const auto& sc = entity.GetComponent<ScriptComponent>();		// 得到这个实体的组件
-		if (ScriptEngine::EntityClassExists(sc.ClassName)) {			// 组件的脚本名称是否正确
+		if (ScriptEngine::EntityClassExists(sc.ClassName))				// 组件的脚本名称是否正确
+		{			
+			UUID entityID = entity.GetUUID();
 			Ref<ScriptInstance> instance = CreateRef<ScriptInstance>(s_MonoData->EntityClasses[sc.ClassName], entity);// 实例化类对象，并存储OnCreate、OnUpdate函数，调用父类Entity的构造函数，传入实体的UUID
-			s_MonoData->EntityInstances[entity.GetUUID()] = instance;	// 运行脚本map存储这些ScriptInstance(类对象)
+			s_MonoData->EntityInstances[entityID] = instance;	// 运行脚本map存储这些ScriptInstance(类对象)
+			
+			// Copy field values
+			if (s_MonoData->EntityScriptFields.find(entityID) != s_MonoData->EntityScriptFields.end())
+			{
+				const ScriptFieldMap& fieldMap = s_MonoData->EntityScriptFields.at(entityID);
+				for (const auto& [name, fieldInstance] : fieldMap)
+					instance->SetFieldValueInternal(name, fieldInstance.m_Buffer);
+			}
+			
 			instance->InvokeOnCreate();									// 调用C#的OnCreate函数
 		}
 	}
@@ -282,6 +294,13 @@ namespace Violet {
 		return it->second;
 	}
 
+	Ref<ScriptClass> ScriptEngine::GetEntityClass(const std::string& name)
+	{
+		if (s_MonoData->EntityClasses.find(name) == s_MonoData->EntityClasses.end())
+			return nullptr;
+
+		return s_MonoData->EntityClasses.at(name);
+	}
 
 	void ScriptEngine::OnRuntimeStop()
 	{
@@ -293,6 +312,14 @@ namespace Violet {
 	std::unordered_map<std::string, Ref<ScriptClass>> ScriptEngine::GetEntityClasses()
 	{
 		return s_MonoData->EntityClasses;
+	}
+
+	ScriptFieldMap& ScriptEngine::GetScriptFieldMap(Entity entity)
+	{
+		VL_CORE_ASSERT(entity);
+
+		UUID entityID = entity.GetUUID();
+		return s_MonoData->EntityScriptFields[entityID];
 	}
 
 	void ScriptEngine::LoadAssemblyClasses()
