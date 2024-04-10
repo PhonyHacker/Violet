@@ -10,6 +10,8 @@
 #include "mono/metadata/assembly.h"
 #include "mono/metadata/object.h"
 #include "mono/metadata/tabledefs.h"
+#include "mono/metadata/mono-debug.h"
+#include "mono/metadata/threads.h"
 
 #include "FileWatch.h"
 
@@ -66,7 +68,7 @@ namespace Violet {
 		}
 
 		// 加在C#程序集
-		MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath)
+		static MonoAssembly* LoadMonoAssembly(const std::filesystem::path& assemblyPath, bool loadPDB = false)
 		{
 			uint32_t fileSize = 0;
 			char* fileData = ReadBytes(assemblyPath, &fileSize);	// 读取文件数据
@@ -82,6 +84,21 @@ namespace Violet {
 				const char* errorMessage = mono_image_strerror(status);
 				VL_CORE_TRACE(errorMessage);
 				return nullptr;
+			}
+
+			if (loadPDB)
+			{
+				std::filesystem::path pdbPath = assemblyPath;
+				pdbPath.replace_extension(".pdb");
+
+				if (std::filesystem::exists(pdbPath))
+				{
+					uint32_t pdbFileSize = 0;
+					char* pdbFileData = ReadBytes(pdbPath, &pdbFileSize);
+					mono_debug_open_image_from_memory(image, (const mono_byte*)pdbFileData, pdbFileSize);
+					VL_CORE_INFO("Loaded PDB {}", pdbPath);
+					delete[] pdbFileData;
+				}
 			}
 
 			std::string pathString = assemblyPath.string();
@@ -151,7 +168,7 @@ namespace Violet {
 
 		Scope<filewatch::FileWatch<std::string>> AppAssemblyFileWatcher;
 		bool AssemblyReloadPending = false;
-
+		bool EnableDebugging = true;
 		// Runtime
 		Scene* SceneContext = nullptr;
 	};
@@ -202,11 +219,27 @@ namespace Violet {
 	{
 		mono_set_assemblies_path("mono/lib");	// 设置程序集路径
 
+		if (s_MonoData->EnableDebugging)
+		{
+			const char* argv[2] = {
+				"--debugger-agent=transport=dt_socket,address=127.0.0.1:2550,server=y,suspend=n,loglevel=3,logfile=MonoDebugger.log",
+				"--soft-breakpoints"
+			};
+
+			mono_jit_parse_options(2, (char**)argv);
+			mono_debug_init(MONO_DEBUG_FORMAT_MONO);
+		}
+
 		MonoDomain* rootDomain = mono_jit_init("VioletJITRuntime");	// 初始化根域
 		VL_CORE_ASSERT(rootDomain);
 
 		// 存储根域指针
 		s_MonoData->RootDomain = rootDomain;
+
+		if (s_MonoData->EnableDebugging)
+			mono_debug_domain_create(s_MonoData->RootDomain);
+
+		mono_thread_set_main(mono_thread_current());
 	}
 
 	// 关闭Mono运行时
@@ -230,7 +263,7 @@ namespace Violet {
 
 		// Move this maybe
 		s_MonoData->CoreAssemblyFilepath = filepath;
-		s_MonoData->CoreAssembly = Utils::LoadMonoAssembly(filepath);
+		s_MonoData->CoreAssembly = Utils::LoadMonoAssembly(filepath, s_MonoData->EnableDebugging);
 		s_MonoData->CoreAssemblyImage = mono_assembly_get_image(s_MonoData->CoreAssembly);
 		// Utils::PrintAssemblyTypes(s_MonoData->CoreAssembly);
 	}
@@ -239,7 +272,7 @@ namespace Violet {
 	{
 		// Move this maybe
 		s_MonoData->AppAssemblyFilepath = filepath;
-		s_MonoData->AppAssembly = Utils::LoadMonoAssembly(filepath);
+		s_MonoData->AppAssembly = Utils::LoadMonoAssembly(filepath, s_MonoData->EnableDebugging);
 		auto assemb = s_MonoData->AppAssembly;
 		s_MonoData->AppAssemblyImage = mono_assembly_get_image(s_MonoData->AppAssembly);
 		auto assembi = s_MonoData->AppAssemblyImage;
@@ -444,7 +477,8 @@ namespace Violet {
 
 	MonoObject* ScriptClass::InvokeMethod(MonoObject* instance, MonoMethod* method, void** params)
 	{
-		return mono_runtime_invoke(method, instance, params, nullptr);
+		MonoObject* exception = nullptr;
+		return mono_runtime_invoke(method, instance, params, &exception);
 	}
 
 	MonoObject* ScriptEngine::GetManagedInstance(UUID uuid)
