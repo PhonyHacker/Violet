@@ -111,19 +111,26 @@ namespace Violet {
 	{
 		([]()
 			{
+				// 获取每个组件的类型名称
 				std::string_view typeName = typeid(Component).name();
+				// 查找最后一个冒号的位置以提取实际的结构名称
 				size_t pos = typeName.find_last_of(':');
 				std::string_view structName = typeName.substr(pos + 1);
+				// 构造对应C#类的完整名称
 				std::string managedTypename = fmt::format("Violet.{}", structName);
 
-				auto data = managedTypename.data();
-				auto image = ScriptEngine::GetCoreAssemblyImage();
+				// 从核心程序集中检索托管类型的MonoType*
 				MonoType* managedType = mono_reflection_type_from_name(managedTypename.data(), ScriptEngine::GetCoreAssemblyImage());
 				if (!managedType)
 				{
-					VL_CORE_ERROR("Could not find component type {}", managedTypename);
+					VL_CORE_ERROR("无法找到组件类型 {}", managedTypename);
 					return;
 				}
+				else
+				{
+					VL_CORE_TRACE("注册组件类型 {}", managedTypename);
+				}
+				// 将每个组件类型与一个Lambda函数关联起来，以检查实体是否具有该组件
 				s_EntityHasComponentFuncs[managedType] = [](Entity entity) { return entity.HasComponent<Component>(); };
 			}(), ...);
 	}

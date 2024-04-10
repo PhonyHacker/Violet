@@ -188,7 +188,7 @@ void Sandbox2D::OnUpdate(Violet::Timestep timestep)
 				{
 					texture = m_TextureBush;
 				}
-				Violet::Renderer2D::DrawQuad({ x - m_MapWidth / 2.0f, m_MapHeight / 2.0f - y, 0.5f }, { 1.0f, 1.0f }, texture); // x - m_MapWidth / 2.0f,  y - m_MapHeight / 2.0f, 0.5f // 会导致y轴相反绘画
+				//	Violet::Renderer2D::DrawQuad({ x - m_MapWidth / 2.0f, m_MapHeight / 2.0f - y, 0.5f }, { 1.0f, 1.0f }, texture); // x - m_MapWidth / 2.0f,  y - m_MapHeight / 2.0f, 0.5f // 会导致y轴相反绘画
 			}
 		}
 		

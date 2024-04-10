@@ -121,30 +121,6 @@ namespace Violet {
 			return it->second;
 		}
 
-		const char* ScriptFieldTypeToString(ScriptFieldType type)
-		{
-			switch (type)
-			{
-			case ScriptFieldType::Float:   return "Float";
-			case ScriptFieldType::Double:  return "Double";
-			case ScriptFieldType::Bool:    return "Bool";
-			case ScriptFieldType::Char:    return "Char";
-			case ScriptFieldType::Byte:    return "Byte";
-			case ScriptFieldType::Short:   return "Short";
-			case ScriptFieldType::Int:     return "Int";
-			case ScriptFieldType::Long:    return "Long";
-			case ScriptFieldType::UByte:   return "UByte";
-			case ScriptFieldType::UShort:  return "UShort";
-			case ScriptFieldType::UInt:    return "UInt";
-			case ScriptFieldType::ULong:   return "ULong";
-			case ScriptFieldType::Vector2: return "Vector2";
-			case ScriptFieldType::Vector3: return "Vector3";
-			case ScriptFieldType::Vector4: return "Vector4";
-			case ScriptFieldType::Entity:  return "Entity";
-			}
-			return "<Invalid>";
-		}
-
 	}
 
 	// 存储脚本引擎的数据结构
@@ -227,7 +203,7 @@ namespace Violet {
 		// Move this maybe
 		s_MonoData->CoreAssembly = Utils::LoadMonoAssembly(filepath);
 		s_MonoData->CoreAssemblyImage = mono_assembly_get_image(s_MonoData->CoreAssembly);
-		Utils::PrintAssemblyTypes(s_MonoData->CoreAssembly);
+		// Utils::PrintAssemblyTypes(s_MonoData->CoreAssembly);
 	}
 
 	void ScriptEngine::LoadAppAssembly(const std::filesystem::path& filepath)
@@ -324,18 +300,23 @@ namespace Violet {
 
 	void ScriptEngine::LoadAssemblyClasses()
 	{
+		// 清除已加载的实体类信息
 		s_MonoData->EntityClasses.clear();
 
+		// 获取类型定义表信息
 		const MonoTableInfo* typeDefinitionsTable = mono_image_get_table_info(s_MonoData->AppAssemblyImage, MONO_TABLE_TYPEDEF);
 
+		// 获取类型数量
 		int32_t numTypes = mono_table_info_get_rows(typeDefinitionsTable);
 		MonoClass* entityClass = mono_class_from_name(s_MonoData->CoreAssemblyImage, "Violet", "Entity");
 
+		// 遍历类型定义表
 		for (int32_t i = 0; i < numTypes; i++)
 		{
 			uint32_t cols[MONO_TYPEDEF_SIZE];
 			mono_metadata_decode_row(typeDefinitionsTable, i, cols, MONO_TYPEDEF_SIZE);
 
+			// 获取命名空间和类名
 			const char* nameSpace = mono_metadata_string_heap(s_MonoData->AppAssemblyImage, cols[MONO_TYPEDEF_NAMESPACE]);
 			const char* className = mono_metadata_string_heap(s_MonoData->AppAssemblyImage, cols[MONO_TYPEDEF_NAME]);
 			std::string fullName;
@@ -344,32 +325,31 @@ namespace Violet {
 			else
 				fullName = className;
 
+			// 获取类信息
 			MonoClass* monoClass = mono_class_from_name(s_MonoData->AppAssemblyImage, nameSpace, className);
 
+			// 检查类是否是实体类的子类
 			if (monoClass == entityClass)
 				continue;
 
-			bool isEntity = mono_class_is_subclass_of(monoClass, entityClass, false);
-			if (!isEntity)
+			if (!mono_class_is_subclass_of(monoClass, entityClass, false))
 				continue;
 
+			// 创建 ScriptClass 对象并存储在 EntityClasses 字典中
 			Ref<ScriptClass> scriptClass = CreateRef<ScriptClass>(nameSpace, className);
 			s_MonoData->EntityClasses[fullName] = scriptClass;
 
-
-			// This routine is an iterator routine for retrieving the fields in a class.
-			// You must pass a gpointer that points to zero and is treated as an opaque handle
-			// to iterate over all of the elements. When no more values are available, the return value is NULL.
-
+			// 遍历类的字段信息
 			int fieldCount = mono_class_num_fields(monoClass);
 			VL_CORE_WARN("{} has {} fields:", className, fieldCount);
 			void* iterator = nullptr;
 			while (MonoClassField* field = mono_class_get_fields(monoClass, &iterator))
 			{
 				const char* fieldName = mono_field_get_name(field);
-				uint32_t flags = mono_field_get_flags(field);
+				uint32_t flags = mono_field_get_flags(field);	// 访问级别
 				if (flags & FIELD_ATTRIBUTE_PUBLIC)
 				{
+					// 获取字段类型并存储在 ScriptClass 对象中
 					MonoType* type = mono_field_get_type(field);
 					ScriptFieldType fieldType = Utils::MonoTypeToScriptFieldType(type);
 					VL_CORE_TRACE("  {} ({})", fieldName, Utils::ScriptFieldTypeToString(fieldType));
@@ -380,8 +360,6 @@ namespace Violet {
 		}
 
 		auto& entityClasses = s_MonoData->EntityClasses;
-
-		//mono_field_get_value()
 	}
 
 	MonoImage* ScriptEngine::GetCoreAssemblyImage()
