@@ -5,6 +5,7 @@
 
 #include "Violet/Core/Application.h"
 #include "Violet/Core/Timer.h"
+#include "Violet/Project/Project.h"
 
 #include "mono/jit/jit.h"
 #include "mono/metadata/assembly.h"
@@ -206,7 +207,9 @@ namespace Violet {
 			VL_CORE_ERROR("[ScriptEngine] Could not load Violet-ScriptCore assembly.");
 			return;
 		}
-		status = LoadAppAssembly("SandboxProject/Assets/Scripts/Binaries/Sandbox.dll");
+
+		auto scriptModulePath = Project::GetAssetDirectory() / Project::GetActive()->GetConfig().ScriptModulePath;
+		status = LoadAppAssembly(scriptModulePath);
 		if (!status)
 		{
 			VL_CORE_ERROR("[ScriptEngine] Could not load app assembly.");

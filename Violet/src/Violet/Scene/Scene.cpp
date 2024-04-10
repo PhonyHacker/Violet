@@ -7,6 +7,7 @@
 
 #include "Violet/Scripting/ScriptEngine.h"
 #include "Violet/Renderer/Renderer2D.h"
+#include "Violet/Physics/Physics2D.h"
 
 // Box2D
 #include "box2d/b2_world.h"
@@ -19,24 +20,8 @@
 #include <glm/glm.hpp>
 
 namespace Violet {
-
-	static b2BodyType Rigidbody2DTypeToBox2DBody(Rigidbody2DComponent::BodyType bodyType)
-	{
-		switch (bodyType)
-		{
-		case Rigidbody2DComponent::BodyType::Static:    return b2_staticBody;
-		case Rigidbody2DComponent::BodyType::Dynamic:   return b2_dynamicBody;
-		case Rigidbody2DComponent::BodyType::Kinematic: return b2_kinematicBody;
-		}
-
-		VL_CORE_ASSERT(false, "Unknown body type");
-		return b2_staticBody;
-	}
-
 	Scene::Scene()
-	{
-
-	}
+	{}
 
 	Scene::~Scene()
 	{
@@ -47,19 +32,6 @@ namespace Violet {
 	template<typename Component>
 	static void CopyComponent(entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap)
 	{
-		/*
-		auto view = src.view<Component>();
-		for (auto e : view)
-		{
-			UUID uuid = src.get<IDComponent>(e).ID;
-			VL_CORE_ASSERT(enttMap.find(uuid) != enttMap.end());
-			entt::entity dstEnttID = enttMap.at(uuid);
-
-			auto& component = src.get<Component>(e);
-			dst.emplace_or_replace<Component>(dstEnttID, component);
-		}
-		*/
-
 		([&]()
 			{
 				auto view = src.view<Component>();
@@ -165,8 +137,8 @@ namespace Violet {
 
 	void Scene::DestroyEntity(Entity entity)
 	{
-		m_Registry.destroy(entity);
 		m_EntityMap.erase(entity.GetUUID());
+		m_Registry.destroy(entity);
 	}
 
 	void Scene::OnRuntimeStart()
@@ -377,11 +349,12 @@ namespace Violet {
 		m_StepFrames = frames;
 	}
 
-	void Scene::DuplicateEntity(Entity entity)
+	Entity Scene::DuplicateEntity(Entity entity)
 	{
-		auto name = entity.GetName();
-		Entity newEntity = CreateEntity(entity.GetName());
+		std::string name = entity.GetName();
+		Entity newEntity = CreateEntity(name);
 		CopyComponentIfExists(AllComponents{}, newEntity, entity);
+		return newEntity;
 	}
 
 	Entity Scene::FindEntityByName(std::string_view name)
@@ -436,7 +409,7 @@ namespace Violet {
 			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
 
 			b2BodyDef bodyDef;
-			bodyDef.type = Rigidbody2DTypeToBox2DBody(rb2d.Type);
+			bodyDef.type = Utils::Rigidbody2DTypeToBox2DBody(rb2d.Type);
 			bodyDef.position.Set(transform.Translation.x, transform.Translation.y);
 			bodyDef.angle = transform.Rotation.z;
 			bodyDef.gravityScale = rb2d.GravityScale;

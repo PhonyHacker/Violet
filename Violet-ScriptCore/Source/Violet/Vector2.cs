@@ -1,4 +1,5 @@
-﻿namespace Violet
+﻿using System;
+namespace Violet
 {
 	public struct Vector2
 	{
@@ -27,6 +28,14 @@
 		{
 			return new Vector2(vector.X * scalar, vector.Y * scalar);
 		}
+        public float LengthSquared()
+        {
+            return X * X + Y * Y;
+        }
 
-	}
+        public float Length()
+        {
+            return (float)Math.Sqrt(LengthSquared());
+        }
+    }
 }

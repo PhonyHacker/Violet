@@ -1467,5 +1467,6 @@
     </ClCompile>
     <ClCompile Include="src\Violet\Project\Project.cpp" />
     <ClCompile Include="src\Violet\Project\ProjectSerializer.cpp" />
+    <ClCompile Include="src\Violet\Physics\Physics2D.h" />
   </ItemGroup>
 </Project>

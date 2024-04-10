@@ -12,7 +12,9 @@ namespace Sandbox
     {
         public float Speed = 0.5f;
         public float Time = 0.0f;
-        public Vector3 v3;
+        // public Vector3 v3;
+        public float curSpeedX = 0.0f;
+        public float curSpeedY = 0.0f;
 
         private TransformComponent m_Transform;
         private Rigidbody2DComponent m_Rigidbody;
@@ -29,6 +31,13 @@ namespace Sandbox
         {
             Time += ts;
             // Console.WriteLine($"Player.OnUpdate: {ts}");
+
+            curSpeedX = m_Rigidbody.LinearVelocity.X;
+
+            float tempY = m_Rigidbody.LinearVelocity.Y;
+            if (tempY < float.Epsilon && tempY < -float.Epsilon)
+                tempY = 0;
+            curSpeedY = tempY;
 
             float speed = Speed;
             Vector3 velocity = Vector3.Zero;
