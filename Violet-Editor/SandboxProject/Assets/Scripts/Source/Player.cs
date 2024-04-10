@@ -10,7 +10,7 @@ namespace Sandbox
 {
     public class Player : Entity
     {
-        public float Speed = 0.1f;
+        public float Speed = 0.5f;
         public float Time = 0.0f;
 
         private TransformComponent m_Transform;
@@ -42,13 +42,25 @@ namespace Sandbox
             else if (Input.IsKeyDown(KeyCode.D))
                 velocity.X = 1.0f;
 
+            Entity cameraEntity = FindEntityByName("Camera");
+            if (cameraEntity != null)
+            {
+                Camera camera = cameraEntity.As<Camera>();
+
+                if (Input.IsKeyDown(KeyCode.Q))
+                {
+                    Console.WriteLine("Q From C#");
+                    camera.DistanceFromPlayer += speed * 2.0f * ts;
+                }
+                else if (Input.IsKeyDown(KeyCode.E))
+                {
+                    camera.DistanceFromPlayer -= speed * 2.0f * ts;
+                }
+            }
+
             velocity *= speed * ts;
 
             m_Rigidbody.ApplyLinearImpulse(velocity.XY, true);
-
-            //Vector3 translation = m_Transform.Translation;
-            //translation += velocity * ts;
-            //m_Transform.Translation = translation;
         }
 
     }

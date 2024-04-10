@@ -398,6 +398,12 @@ namespace Violet {
 		return mono_runtime_invoke(method, instance, params, nullptr);
 	}
 
+	MonoObject* ScriptEngine::GetManagedInstance(UUID uuid)
+	{
+		VL_CORE_ASSERT(s_MonoData->EntityInstances.find(uuid) != s_MonoData->EntityInstances.end());
+		return s_MonoData->EntityInstances.at(uuid)->GetManagedObject();
+	}
+
 	ScriptInstance::ScriptInstance(Ref<ScriptClass> scriptClass, Entity entity)
 		: m_ScriptClass(scriptClass)
 	{
