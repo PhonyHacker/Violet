@@ -168,7 +168,11 @@ namespace Violet {
 
 		Scope<filewatch::FileWatch<std::string>> AppAssemblyFileWatcher;
 		bool AssemblyReloadPending = false;
+#ifdef VL_DEBUG
 		bool EnableDebugging = true;
+#else
+		bool EnableDebugging = false;
+#endif
 		// Runtime
 		Scene* SceneContext = nullptr;
 	};
@@ -196,9 +200,18 @@ namespace Violet {
 		InitMono();	// 初始化Mono运行时
 		ScriptGlue::RegisterFunctions();
 
-		LoadAssembly("Resources/Scripts/Violet-ScriptCore.dll");
-		LoadAppAssembly("SandboxProject/Assets/Scripts/Binaries/Sandbox.dll");
-
+		bool status = LoadAssembly("Resources/Scripts/Violet-ScriptCore.dll");
+		if (!status)
+		{
+			VL_CORE_ERROR("[ScriptEngine] Could not load Violet-ScriptCore assembly.");
+			return;
+		}
+		status = LoadAppAssembly("SandboxProject/Assets/Scripts/Binaries/Sandbox.dll");
+		if (!status)
+		{
+			VL_CORE_ERROR("[ScriptEngine] Could not load app assembly.");
+			return;
+		}
 		LoadAssemblyClasses();
 
 		ScriptGlue::RegisterComponents();
@@ -255,7 +268,7 @@ namespace Violet {
 		s_MonoData->RootDomain = nullptr;
 	}
 
-	void ScriptEngine::LoadAssembly(const std::filesystem::path& filepath)
+	bool ScriptEngine::LoadAssembly(const std::filesystem::path& filepath)
 	{
 		// Create an App Domain
 		s_MonoData->AppDomain = mono_domain_create_appdomain("VioletScriptRuntime", nullptr);
@@ -264,15 +277,22 @@ namespace Violet {
 		// Move this maybe
 		s_MonoData->CoreAssemblyFilepath = filepath;
 		s_MonoData->CoreAssembly = Utils::LoadMonoAssembly(filepath, s_MonoData->EnableDebugging);
+		if (s_MonoData->CoreAssembly == nullptr)
+			return false;
 		s_MonoData->CoreAssemblyImage = mono_assembly_get_image(s_MonoData->CoreAssembly);
 		// Utils::PrintAssemblyTypes(s_MonoData->CoreAssembly);
+
+		return true;
 	}
 
-	void ScriptEngine::LoadAppAssembly(const std::filesystem::path& filepath)
+	bool ScriptEngine::LoadAppAssembly(const std::filesystem::path& filepath)
 	{
 		// Move this maybe
 		s_MonoData->AppAssemblyFilepath = filepath;
 		s_MonoData->AppAssembly = Utils::LoadMonoAssembly(filepath, s_MonoData->EnableDebugging);
+		if (s_MonoData->CoreAssembly == nullptr)
+			return false;
+
 		auto assemb = s_MonoData->AppAssembly;
 		s_MonoData->AppAssemblyImage = mono_assembly_get_image(s_MonoData->AppAssembly);
 		auto assembi = s_MonoData->AppAssemblyImage;
@@ -280,6 +300,8 @@ namespace Violet {
 
 		s_MonoData->AppAssemblyFileWatcher = CreateScope<filewatch::FileWatch<std::string>>(filepath.string(), OnAppAssemblyFileSystemEvent);
 		s_MonoData->AssemblyReloadPending = false;
+		
+		return true;
 	}
 
 	void ScriptEngine::ReloadAssembly()
@@ -332,10 +354,16 @@ namespace Violet {
 	void ScriptEngine::OnUpdateEntity(Entity entity, Timestep ts)
 	{
 		UUID entityUUID = entity.GetUUID();
-		VL_CORE_ASSERT(s_MonoData->EntityInstances.find(entityUUID) != s_MonoData->EntityInstances.end());
 
-		Ref<ScriptInstance> instance = s_MonoData->EntityInstances[entityUUID];
-		instance->InvokeOnUpdate((float)ts);
+		if (s_MonoData->EntityInstances.find(entityUUID) != s_MonoData->EntityInstances.end())
+		{
+			Ref<ScriptInstance> instance = s_MonoData->EntityInstances[entityUUID];
+			instance->InvokeOnUpdate((float)ts);
+		}
+		else
+		{
+			VL_CORE_ERROR("Could not find ScriptInstance for entity {}", entityUUID);
+		}
 	}
 
 	Scene* ScriptEngine::GetSceneContext()

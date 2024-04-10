@@ -24,6 +24,11 @@ namespace Violet {
 
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 
+		void NewProject();
+		bool OpenProject();
+		void OpenProject(const std::filesystem::path& path);
+		void SaveProject();
+
 		void OnOverlayRender();
 
 		void NewScene();
@@ -77,7 +82,7 @@ namespace Violet {
 
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
-		ContentBrowserPanel m_ContentBrowserPanel;
+		Scope<ContentBrowserPanel> m_ContentBrowserPanel;
 
 		// Editor icon resources
 		Ref<Texture2D> m_IconPlay, m_IconPause, m_IconStep, m_IconSimulate, m_IconStop;

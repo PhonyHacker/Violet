@@ -175,6 +175,8 @@
     <ClInclude Include="src\Violet\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Violet\Math\Math.h" />
     <ClInclude Include="src\Violet\OrthographicCameraController.h" />
+    <ClInclude Include="src\Violet\Project\Project.h" />
+    <ClInclude Include="src\Violet\Project\ProjectSerializer.h" />
     <ClInclude Include="src\Violet\Renderer\Buffer.h" />
     <ClInclude Include="src\Violet\Renderer\Camera.h" />
     <ClInclude Include="src\Violet\Renderer\EditorCamera.h" />
@@ -586,6 +588,8 @@
     <ClCompile Include="src\Violet\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Violet\Math\Math.cpp" />
     <ClCompile Include="src\Violet\OrthographicCameraController.cpp" />
+    <ClCompile Include="src\Violet\Project\Project.cpp" />
+    <ClCompile Include="src\Violet\Project\ProjectSerializer.cpp" />
     <ClCompile Include="src\Violet\Renderer\Buff.cpp" />
     <ClCompile Include="src\Violet\Renderer\EditorCamera.cpp" />
     <ClCompile Include="src\Violet\Renderer\Framebuffer.cpp" />
