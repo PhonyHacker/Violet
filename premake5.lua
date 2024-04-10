@@ -64,6 +64,7 @@ group "Core"
 			"%{IncludeDir.ImGui}",
 			"%{IncludeDir.glm}",
 			"%{IncludeDir.stb_image}",
+			"%{IncludeDir.filewatch}",
 			"%{IncludeDir.entt}",
 			"%{IncludeDir.mono}",
 			"%{IncludeDir.yaml_cpp}",
@@ -186,6 +187,8 @@ group "Tools"
 			"%{wks.location}/Violet/vendor",
 			"%{IncludeDir.glm}",
 			"%{IncludeDir.entt}",
+			"%{IncludeDir.filewatch}",
+			"%{IncludeDir.glm}",
 			"%{IncludeDir.ImGuizmo}"
 		}
 

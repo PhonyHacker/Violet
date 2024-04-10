@@ -12,6 +12,7 @@ namespace Sandbox
     {
         public float Speed = 0.5f;
         public float Time = 0.0f;
+        public Vector3 v3;
 
         private TransformComponent m_Transform;
         private Rigidbody2DComponent m_Rigidbody;
@@ -49,7 +50,7 @@ namespace Sandbox
 
                 if (Input.IsKeyDown(KeyCode.Q))
                 {
-                    Console.WriteLine("Q From C#");
+                    //Console.WriteLine("Q From C#");
                     camera.DistanceFromPlayer += speed * 2.0f * ts;
                 }
                 else if (Input.IsKeyDown(KeyCode.E))

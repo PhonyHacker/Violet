@@ -344,6 +344,25 @@ namespace Violet {
 									scriptInstance->SetFieldValue(name, data);
 								}
 							}
+#if 0
+							if (field.Type == ScriptFieldType::Vector3)
+							{
+								glm::vec3 data = scriptInstance->GetFieldValue<glm::vec3>(name);
+								if (ImGui::DragFloat("x", &data.x))
+								{
+									scriptInstance->SetFieldValue(name, data);
+								}
+								if (ImGui::DragFloat("Y", &data.y))
+								{
+									scriptInstance->SetFieldValue(name, data);
+								}
+								if (ImGui::DragFloat("Z", &data.z))
+								{
+									scriptInstance->SetFieldValue(name, data);
+								}
+							}
+
+#endif
 						}
 					}
 				}

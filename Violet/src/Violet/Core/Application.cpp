@@ -46,6 +46,15 @@ namespace Violet {
 		Renderer::Shutdown();
 	}
 
+	void Application::SubmitToMainThread(const std::function<void()>& function)
+	{
+		// 使用互斥量保护共享资源 m_MainThreadQueue
+		std::scoped_lock<std::mutex> lock(m_MainThreadQueueMutex);
+
+		// 将传入的函数添加到主线程队列中
+		m_MainThreadQueue.emplace_back(function);
+	}
+
 	void Application::OnEvent(Event& e)
 	{
 		VL_PROFILE_FUNCTION();
@@ -80,6 +89,8 @@ namespace Violet {
 
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
+
+			ExecuteMainThreadQueue();
 
 			if (!m_Minimized) {
 				VL_PROFILE_SCOPE("LayerStackOnUpdate");
@@ -134,5 +145,18 @@ namespace Violet {
 
 		m_LayerStack.PushOverlay(layer);
 		layer->OnAttach();
+	}
+
+	void Application::ExecuteMainThreadQueue()
+	{
+		// 使用互斥量保护共享资源 m_MainThreadQueue
+		std::scoped_lock<std::mutex> lock(m_MainThreadQueueMutex);
+
+		// 遍历主线程队列，依次执行队列中的函数
+		for (auto& func : m_MainThreadQueue)
+			func();
+
+		// 执行完成后清空主线程队列
+		m_MainThreadQueue.clear();
 	}
 }

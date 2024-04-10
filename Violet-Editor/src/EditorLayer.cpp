@@ -7,14 +7,15 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Violet/Scene/SceneSerializer.h"
+#include "Violet/Math/Math.h"
 #include "Violet/Utils/PlatformUtils.h"
+#include "Violet/Scripting/ScriptEngine.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
 #include <chrono>
 
 #include "ImGuizmo.h"
-#include "Violet/Math/Math.h"
 
 namespace Violet {
 	extern const std::filesystem::path g_AssetPath;
@@ -227,7 +228,15 @@ namespace Violet {
 					if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
 						SaveSceneAs();
 
-					if (ImGui::MenuItem("Exit")) Violet::Application::Get().Close();
+					if (ImGui::MenuItem("Exit"))
+						Violet::Application::Get().Close();
+					ImGui::EndMenu();
+				}
+
+				if (ImGui::BeginMenu("Script"))
+				{
+					if (ImGui::MenuItem("Reload assembly", "Ctrl + R"))
+						ScriptEngine::ReloadAssembly();
 					ImGui::EndMenu();
 				}
 
@@ -466,8 +475,18 @@ namespace Violet {
 				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
 				break;
 			case Key::R:
-				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+			{
+				if (control)
+				{
+					ScriptEngine::ReloadAssembly();
+				}
+				else
+				{
+					if (!ImGuizmo::IsUsing())
+						m_GizmoType = ImGuizmo::OPERATION::SCALE;
+				}
 				break;
+			}
 		}
 	}
 

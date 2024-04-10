@@ -3,10 +3,15 @@
 
 #include "ScriptGlue.h"
 
+#include "Violet/Core/Application.h"
+#include "Violet/Core/Timer.h"
+
 #include "mono/jit/jit.h"
 #include "mono/metadata/assembly.h"
 #include "mono/metadata/object.h"
 #include "mono/metadata/tabledefs.h"
+
+#include "FileWatch.h"
 
 namespace Violet {
 	static std::unordered_map<std::string, ScriptFieldType> s_ScriptFieldTypeMap =
@@ -135,11 +140,17 @@ namespace Violet {
 		MonoAssembly* AppAssembly = nullptr;
 		MonoImage* AppAssemblyImage = nullptr;
 
+		std::filesystem::path CoreAssemblyFilepath;
+		std::filesystem::path AppAssemblyFilepath;
+
 		ScriptClass EntityClass;
 
 		std::unordered_map<std::string, Ref<ScriptClass>> EntityClasses;
 		std::unordered_map<UUID, Ref<ScriptInstance>> EntityInstances;
 		std::unordered_map<UUID, ScriptFieldMap> EntityScriptFields;
+
+		Scope<filewatch::FileWatch<std::string>> AppAssemblyFileWatcher;
+		bool AssemblyReloadPending = false;
 
 		// Runtime
 		Scene* SceneContext = nullptr;
@@ -147,19 +158,33 @@ namespace Violet {
 
 	static ScriptEngineData* s_MonoData = nullptr;	// 脚本引擎的全局数据
 
+	static void OnAppAssemblyFileSystemEvent(const std::string& path, const filewatch::Event change_type)
+	{
+		if (!s_MonoData->AssemblyReloadPending && change_type == filewatch::Event::modified)
+		{
+			s_MonoData->AssemblyReloadPending = true;
+
+			Application::Get().SubmitToMainThread([]()
+				{
+					s_MonoData->AppAssemblyFileWatcher.reset();
+					ScriptEngine::ReloadAssembly();
+				});
+		}
+	}
+
 	void ScriptEngine::Init()
 	{
 		s_MonoData = new ScriptEngineData();	// 创建脚本引擎数据结构
 
 		InitMono();	// 初始化Mono运行时
-	
+		ScriptGlue::RegisterFunctions();
+
 		LoadAssembly("Resources/Scripts/Violet-ScriptCore.dll");
 		LoadAppAssembly("SandboxProject/Assets/Scripts/Binaries/Sandbox.dll");
 
 		LoadAssemblyClasses();
 
 		ScriptGlue::RegisterComponents();
-		ScriptGlue::RegisterFunctions();
 
 		// Retrieve and instantiate class
 		s_MonoData->EntityClass = ScriptClass("Violet", "Entity", true);
@@ -187,10 +212,13 @@ namespace Violet {
 	// 关闭Mono运行时
 	void ScriptEngine::ShutdownMono()
 	{
-		// NOTE(Yan): mono is a little confusing to shutdown, so maybe come back to this
+		mono_domain_set(mono_get_root_domain(), false);
 
 		// 关闭Mono应用域和根域
+		mono_domain_unload(s_MonoData->AppDomain);
 		s_MonoData->AppDomain = nullptr;
+
+		mono_jit_cleanup(s_MonoData->RootDomain);
 		s_MonoData->RootDomain = nullptr;
 	}
 
@@ -201,6 +229,7 @@ namespace Violet {
 		mono_domain_set(s_MonoData->AppDomain, true);
 
 		// Move this maybe
+		s_MonoData->CoreAssemblyFilepath = filepath;
 		s_MonoData->CoreAssembly = Utils::LoadMonoAssembly(filepath);
 		s_MonoData->CoreAssemblyImage = mono_assembly_get_image(s_MonoData->CoreAssembly);
 		// Utils::PrintAssemblyTypes(s_MonoData->CoreAssembly);
@@ -209,11 +238,31 @@ namespace Violet {
 	void ScriptEngine::LoadAppAssembly(const std::filesystem::path& filepath)
 	{
 		// Move this maybe
+		s_MonoData->AppAssemblyFilepath = filepath;
 		s_MonoData->AppAssembly = Utils::LoadMonoAssembly(filepath);
 		auto assemb = s_MonoData->AppAssembly;
 		s_MonoData->AppAssemblyImage = mono_assembly_get_image(s_MonoData->AppAssembly);
 		auto assembi = s_MonoData->AppAssemblyImage;
 		// Utils::PrintAssemblyTypes(s_Data->AppAssembly);
+
+		s_MonoData->AppAssemblyFileWatcher = CreateScope<filewatch::FileWatch<std::string>>(filepath.string(), OnAppAssemblyFileSystemEvent);
+		s_MonoData->AssemblyReloadPending = false;
+	}
+
+	void ScriptEngine::ReloadAssembly()
+	{
+		mono_domain_set(mono_get_root_domain(), false);
+
+		mono_domain_unload(s_MonoData->AppDomain);
+
+		LoadAssembly(s_MonoData->CoreAssemblyFilepath);
+		LoadAppAssembly(s_MonoData->AppAssemblyFilepath);
+		LoadAssemblyClasses();
+
+		ScriptGlue::RegisterComponents();
+
+		// Retrieve and instantiate class
+		s_MonoData->EntityClass = ScriptClass("Violet", "Entity", true);
 	}
 
 	void ScriptEngine::OnRuntimeStart(Scene* scene)
