@@ -1,139 +1,382 @@
-[17:07:52] [info] VIOLET: Creating window VioletEditor (1600, 900)
-[17:07:54] [info] VIOLET: OpenGL Info: 
-[17:07:54] [info] VIOLET:  Vendor: NVIDIA Corporation 
-[17:07:54] [info] VIOLET:  Renderer : NVIDIA GeForce GTX 1650/PCIe/SSE2 
-[17:07:54] [info] VIOLET:  Version: 4.6.0 NVIDIA 512.59 
-[17:07:54] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Quad.glsl
-[17:07:54] [trace] VIOLET:     1 uniform buffers
-[17:07:54] [trace] VIOLET:     0 resources
-[17:07:54] [trace] VIOLET: Uniform buffers:
-[17:07:54] [trace] VIOLET:   _46_48
-[17:07:54] [trace] VIOLET:     Size = 64
-[17:07:54] [trace] VIOLET:     Binding = 0
-[17:07:54] [trace] VIOLET:     Members = 1
-[17:07:54] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Quad.glsl
-[17:07:54] [trace] VIOLET:     0 uniform buffers
-[17:07:54] [trace] VIOLET:     1 resources
-[17:07:54] [trace] VIOLET: Uniform buffers:
-[17:07:54] [warning] VIOLET: Shader creation took 17.8335 ms
-[17:07:54] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Circle.glsl
-[17:07:54] [trace] VIOLET:     1 uniform buffers
-[17:07:54] [trace] VIOLET:     0 resources
-[17:07:54] [trace] VIOLET: Uniform buffers:
-[17:07:54] [trace] VIOLET:   _47_49
-[17:07:54] [trace] VIOLET:     Size = 64
-[17:07:54] [trace] VIOLET:     Binding = 0
-[17:07:54] [trace] VIOLET:     Members = 1
-[17:07:54] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Circle.glsl
-[17:07:54] [trace] VIOLET:     0 uniform buffers
-[17:07:54] [trace] VIOLET:     0 resources
-[17:07:54] [trace] VIOLET: Uniform buffers:
-[17:07:54] [warning] VIOLET: Shader creation took 11.5647 ms
-[17:07:54] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Line.glsl
-[17:07:54] [trace] VIOLET:     1 uniform buffers
-[17:07:54] [trace] VIOLET:     0 resources
-[17:07:54] [trace] VIOLET: Uniform buffers:
-[17:07:54] [trace] VIOLET:   _30_32
-[17:07:54] [trace] VIOLET:     Size = 64
-[17:07:54] [trace] VIOLET:     Binding = 0
-[17:07:54] [trace] VIOLET:     Members = 1
-[17:07:54] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Line.glsl
-[17:07:54] [trace] VIOLET:     0 uniform buffers
-[17:07:54] [trace] VIOLET:     0 resources
-[17:07:54] [trace] VIOLET: Uniform buffers:
-[17:07:54] [warning] VIOLET: Shader creation took 12.3522 ms
-[17:07:57] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Text.glsl
-[17:07:57] [trace] VIOLET:     1 uniform buffers
-[17:07:57] [trace] VIOLET:     0 resources
-[17:07:57] [trace] VIOLET: Uniform buffers:
-[17:07:57] [trace] VIOLET:   _37_39
-[17:07:57] [trace] VIOLET:     Size = 64
-[17:07:57] [trace] VIOLET:     Binding = 0
-[17:07:57] [trace] VIOLET:     Members = 1
-[17:07:57] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Text.glsl
-[17:07:57] [trace] VIOLET:     0 uniform buffers
-[17:07:57] [trace] VIOLET:     1 resources
-[17:07:57] [trace] VIOLET: Uniform buffers:
-[17:07:59] [warning] VIOLET: Shader creation took 4155.41 ms
-[17:07:59] [info] VIOLET: Loaded 191 glyphs from font (out of 224)
-[17:08:04] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
-[17:08:04] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
-[17:08:04] [warning] VIOLET: Camera has 4 fields:
-[17:08:04] [trace] VIOLET:   Speed (Float)
-[17:08:04] [trace] VIOLET:   OtherEntity (Entity)
-[17:08:04] [trace] VIOLET:   DistanceFromPlayer (Float)
-[17:08:04] [warning] VIOLET: Player has 6 fields:
-[17:08:04] [trace] VIOLET:   Speed (Float)
-[17:08:04] [trace] VIOLET:   Time (Float)
-[17:08:04] [trace] VIOLET:   curSpeedX (Float)
-[17:08:04] [trace] VIOLET:   curSpeedY (Float)
-[17:08:04] [warning] VIOLET: Test has 0 fields:
-[17:08:04] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
-[17:08:04] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
-[17:08:04] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
-[17:08:04] [error] VIOLET: 无法找到组件类型 Violet.CameraComponent
-[17:08:04] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
-[17:08:04] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
-[17:08:04] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
-[17:08:04] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
-[17:08:04] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
-[17:08:04] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Quad.glsl
-[17:08:04] [trace] VIOLET:     1 uniform buffers
-[17:08:04] [trace] VIOLET:     0 resources
-[17:08:04] [trace] VIOLET: Uniform buffers:
-[17:08:04] [trace] VIOLET:   _46_48
-[17:08:04] [trace] VIOLET:     Size = 64
-[17:08:04] [trace] VIOLET:     Binding = 0
-[17:08:04] [trace] VIOLET:     Members = 1
-[17:08:04] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Quad.glsl
-[17:08:04] [trace] VIOLET:     0 uniform buffers
-[17:08:04] [trace] VIOLET:     1 resources
-[17:08:04] [trace] VIOLET: Uniform buffers:
-[17:08:04] [warning] VIOLET: Shader creation took 15.7943 ms
-[17:08:04] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Circle.glsl
-[17:08:04] [trace] VIOLET:     1 uniform buffers
-[17:08:04] [trace] VIOLET:     0 resources
-[17:08:04] [trace] VIOLET: Uniform buffers:
-[17:08:04] [trace] VIOLET:   _47_49
-[17:08:04] [trace] VIOLET:     Size = 64
-[17:08:04] [trace] VIOLET:     Binding = 0
-[17:08:04] [trace] VIOLET:     Members = 1
-[17:08:04] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Circle.glsl
-[17:08:04] [trace] VIOLET:     0 uniform buffers
-[17:08:04] [trace] VIOLET:     0 resources
-[17:08:04] [trace] VIOLET: Uniform buffers:
-[17:08:04] [warning] VIOLET: Shader creation took 12.1312 ms
-[17:08:04] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Line.glsl
-[17:08:04] [trace] VIOLET:     1 uniform buffers
-[17:08:04] [trace] VIOLET:     0 resources
-[17:08:04] [trace] VIOLET: Uniform buffers:
-[17:08:04] [trace] VIOLET:   _30_32
-[17:08:04] [trace] VIOLET:     Size = 64
-[17:08:04] [trace] VIOLET:     Binding = 0
-[17:08:04] [trace] VIOLET:     Members = 1
-[17:08:04] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Line.glsl
-[17:08:04] [trace] VIOLET:     0 uniform buffers
-[17:08:04] [trace] VIOLET:     0 resources
-[17:08:04] [trace] VIOLET: Uniform buffers:
-[17:08:04] [warning] VIOLET: Shader creation took 12.7913 ms
-[17:08:04] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Text.glsl
-[17:08:04] [trace] VIOLET:     1 uniform buffers
-[17:08:04] [trace] VIOLET:     0 resources
-[17:08:04] [trace] VIOLET: Uniform buffers:
-[17:08:04] [trace] VIOLET:   _37_39
-[17:08:04] [trace] VIOLET:     Size = 64
-[17:08:04] [trace] VIOLET:     Binding = 0
-[17:08:04] [trace] VIOLET:     Members = 1
-[17:08:04] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Text.glsl
-[17:08:04] [trace] VIOLET:     0 uniform buffers
-[17:08:04] [trace] VIOLET:     1 resources
-[17:08:04] [trace] VIOLET: Uniform buffers:
-[17:08:04] [warning] VIOLET: Shader creation took 13.1597 ms
-[17:08:04] [trace] VIOLET: Deserializing scene 'Untitled'
-[17:08:04] [trace] VIOLET: Deserialized entity with ID = 15880974432830602851, name = Entity
-[17:08:04] [trace] VIOLET: Deserialized entity with ID = 5386604431559773965, name = Floor
-[17:08:04] [trace] VIOLET: Deserialized entity with ID = 17003390207382257219, name = Entity
-[17:08:04] [trace] VIOLET: Deserialized entity with ID = 9851252402859842416, name = Player
-[17:08:04] [trace] VIOLET: Deserialized entity with ID = 1612165136993075848, name = Camera
-[17:08:04] [trace] VIOLET: Deserialized entity with ID = 12772714911998123763, name = Floor
-[17:08:32] [info] VIOLET: Terminating GLFW
+[21:48:51] [info] VIOLET: Creating window VioletEditor (1600, 900)
+[21:48:53] [info] VIOLET: OpenGL Info: 
+[21:48:53] [info] VIOLET:  Vendor: NVIDIA Corporation 
+[21:48:53] [info] VIOLET:  Renderer : NVIDIA GeForce GTX 1650/PCIe/SSE2 
+[21:48:53] [info] VIOLET:  Version: 4.6.0 NVIDIA 512.59 
+[21:48:53] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Quad.glsl
+[21:48:53] [trace] VIOLET:     1 uniform buffers
+[21:48:53] [trace] VIOLET:     0 resources
+[21:48:53] [trace] VIOLET: Uniform buffers:
+[21:48:53] [trace] VIOLET:   _46_48
+[21:48:53] [trace] VIOLET:     Size = 64
+[21:48:53] [trace] VIOLET:     Binding = 0
+[21:48:53] [trace] VIOLET:     Members = 1
+[21:48:53] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Quad.glsl
+[21:48:53] [trace] VIOLET:     0 uniform buffers
+[21:48:53] [trace] VIOLET:     1 resources
+[21:48:53] [trace] VIOLET: Uniform buffers:
+[21:48:53] [warning] VIOLET: Shader creation took 16.0198 ms
+[21:48:53] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Circle.glsl
+[21:48:53] [trace] VIOLET:     1 uniform buffers
+[21:48:53] [trace] VIOLET:     0 resources
+[21:48:53] [trace] VIOLET: Uniform buffers:
+[21:48:53] [trace] VIOLET:   _47_49
+[21:48:53] [trace] VIOLET:     Size = 64
+[21:48:53] [trace] VIOLET:     Binding = 0
+[21:48:53] [trace] VIOLET:     Members = 1
+[21:48:53] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Circle.glsl
+[21:48:53] [trace] VIOLET:     0 uniform buffers
+[21:48:53] [trace] VIOLET:     0 resources
+[21:48:53] [trace] VIOLET: Uniform buffers:
+[21:48:53] [warning] VIOLET: Shader creation took 13.487 ms
+[21:48:53] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Line.glsl
+[21:48:53] [trace] VIOLET:     1 uniform buffers
+[21:48:53] [trace] VIOLET:     0 resources
+[21:48:53] [trace] VIOLET: Uniform buffers:
+[21:48:53] [trace] VIOLET:   _30_32
+[21:48:53] [trace] VIOLET:     Size = 64
+[21:48:53] [trace] VIOLET:     Binding = 0
+[21:48:53] [trace] VIOLET:     Members = 1
+[21:48:53] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Line.glsl
+[21:48:53] [trace] VIOLET:     0 uniform buffers
+[21:48:53] [trace] VIOLET:     0 resources
+[21:48:53] [trace] VIOLET: Uniform buffers:
+[21:48:53] [warning] VIOLET: Shader creation took 11.8341 ms
+[21:48:53] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Text.glsl
+[21:48:53] [trace] VIOLET:     1 uniform buffers
+[21:48:53] [trace] VIOLET:     0 resources
+[21:48:53] [trace] VIOLET: Uniform buffers:
+[21:48:53] [trace] VIOLET:   _37_39
+[21:48:53] [trace] VIOLET:     Size = 64
+[21:48:53] [trace] VIOLET:     Binding = 0
+[21:48:53] [trace] VIOLET:     Members = 1
+[21:48:53] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Text.glsl
+[21:48:53] [trace] VIOLET:     0 uniform buffers
+[21:48:53] [trace] VIOLET:     1 resources
+[21:48:53] [trace] VIOLET: Uniform buffers:
+[21:48:53] [warning] VIOLET: Shader creation took 12.3097 ms
+[21:48:53] [info] VIOLET: Loaded 191 glyphs from font (out of 224)
+[21:48:58] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[21:48:58] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[21:48:58] [warning] VIOLET: Camera has 4 fields:
+[21:48:58] [trace] VIOLET:   Speed (Float)
+[21:48:58] [trace] VIOLET:   OtherEntity (Entity)
+[21:48:58] [trace] VIOLET:   DistanceFromPlayer (Float)
+[21:48:58] [warning] VIOLET: Player has 6 fields:
+[21:48:58] [trace] VIOLET:   Speed (Float)
+[21:48:58] [trace] VIOLET:   Time (Float)
+[21:48:58] [trace] VIOLET:   curSpeedX (Float)
+[21:48:58] [trace] VIOLET:   curSpeedY (Float)
+[21:48:58] [warning] VIOLET: StartCamera has 3 fields:
+[21:48:58] [trace] VIOLET:   timer (Float)
+[21:48:58] [warning] VIOLET: Test has 0 fields:
+[21:48:58] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[21:48:58] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[21:48:58] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[21:48:58] [trace] VIOLET: 注册组件类型 Violet.CameraComponent
+[21:48:58] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[21:48:58] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[21:48:58] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[21:48:58] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[21:48:58] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[21:48:58] [error] VIOLET: 无法找到组件类型 Violet.TextComponent
+[21:48:58] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Quad.glsl
+[21:48:58] [trace] VIOLET:     1 uniform buffers
+[21:48:58] [trace] VIOLET:     0 resources
+[21:48:58] [trace] VIOLET: Uniform buffers:
+[21:48:58] [trace] VIOLET:   _46_48
+[21:48:58] [trace] VIOLET:     Size = 64
+[21:48:58] [trace] VIOLET:     Binding = 0
+[21:48:58] [trace] VIOLET:     Members = 1
+[21:48:58] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Quad.glsl
+[21:48:58] [trace] VIOLET:     0 uniform buffers
+[21:48:58] [trace] VIOLET:     1 resources
+[21:48:58] [trace] VIOLET: Uniform buffers:
+[21:48:58] [warning] VIOLET: Shader creation took 14.3728 ms
+[21:48:58] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Circle.glsl
+[21:48:58] [trace] VIOLET:     1 uniform buffers
+[21:48:58] [trace] VIOLET:     0 resources
+[21:48:58] [trace] VIOLET: Uniform buffers:
+[21:48:58] [trace] VIOLET:   _47_49
+[21:48:58] [trace] VIOLET:     Size = 64
+[21:48:58] [trace] VIOLET:     Binding = 0
+[21:48:58] [trace] VIOLET:     Members = 1
+[21:48:58] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Circle.glsl
+[21:48:58] [trace] VIOLET:     0 uniform buffers
+[21:48:58] [trace] VIOLET:     0 resources
+[21:48:58] [trace] VIOLET: Uniform buffers:
+[21:48:58] [warning] VIOLET: Shader creation took 13.3754 ms
+[21:48:58] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Line.glsl
+[21:48:58] [trace] VIOLET:     1 uniform buffers
+[21:48:58] [trace] VIOLET:     0 resources
+[21:48:58] [trace] VIOLET: Uniform buffers:
+[21:48:58] [trace] VIOLET:   _30_32
+[21:48:58] [trace] VIOLET:     Size = 64
+[21:48:58] [trace] VIOLET:     Binding = 0
+[21:48:58] [trace] VIOLET:     Members = 1
+[21:48:58] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Line.glsl
+[21:48:58] [trace] VIOLET:     0 uniform buffers
+[21:48:58] [trace] VIOLET:     0 resources
+[21:48:58] [trace] VIOLET: Uniform buffers:
+[21:48:58] [warning] VIOLET: Shader creation took 11.7359 ms
+[21:48:58] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Text.glsl
+[21:48:58] [trace] VIOLET:     1 uniform buffers
+[21:48:58] [trace] VIOLET:     0 resources
+[21:48:58] [trace] VIOLET: Uniform buffers:
+[21:48:58] [trace] VIOLET:   _37_39
+[21:48:58] [trace] VIOLET:     Size = 64
+[21:48:58] [trace] VIOLET:     Binding = 0
+[21:48:58] [trace] VIOLET:     Members = 1
+[21:48:58] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Text.glsl
+[21:48:58] [trace] VIOLET:     0 uniform buffers
+[21:48:58] [trace] VIOLET:     1 resources
+[21:48:58] [trace] VIOLET: Uniform buffers:
+[21:48:58] [warning] VIOLET: Shader creation took 12.3793 ms
+[21:48:58] [trace] VIOLET: Deserializing scene 'Untitled'
+[21:48:58] [trace] VIOLET: Deserialized entity with ID = 15880974432830602851, name = Entity
+[21:48:58] [trace] VIOLET: Deserialized entity with ID = 5386604431559773965, name = Floor
+[21:48:58] [trace] VIOLET: Deserialized entity with ID = 17003390207382257219, name = Entity
+[21:48:58] [trace] VIOLET: Deserialized entity with ID = 9851252402859842416, name = Player
+[21:48:58] [trace] VIOLET: Deserialized entity with ID = 1612165136993075848, name = Camera
+[21:48:58] [trace] VIOLET: Deserialized entity with ID = 12772714911998123763, name = Floor
+[21:50:23] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[21:50:23] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[21:50:23] [warning] VIOLET: Camera has 4 fields:
+[21:50:23] [trace] VIOLET:   Speed (Float)
+[21:50:23] [trace] VIOLET:   OtherEntity (Entity)
+[21:50:23] [trace] VIOLET:   DistanceFromPlayer (Float)
+[21:50:23] [warning] VIOLET: Player has 6 fields:
+[21:50:23] [trace] VIOLET:   Speed (Float)
+[21:50:23] [trace] VIOLET:   Time (Float)
+[21:50:23] [trace] VIOLET:   curSpeedX (Float)
+[21:50:23] [trace] VIOLET:   curSpeedY (Float)
+[21:50:23] [warning] VIOLET: StartCamera has 3 fields:
+[21:50:23] [trace] VIOLET:   timer (Float)
+[21:50:23] [warning] VIOLET: Test has 0 fields:
+[21:50:23] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[21:50:23] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[21:50:23] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[21:50:23] [trace] VIOLET: 注册组件类型 Violet.CameraComponent
+[21:50:23] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[21:50:23] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[21:50:23] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[21:50:23] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[21:50:23] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[21:50:23] [error] VIOLET: 无法找到组件类型 Violet.TextComponent
+[21:57:13] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[21:57:13] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[21:57:13] [warning] VIOLET: Camera has 4 fields:
+[21:57:13] [trace] VIOLET:   Speed (Float)
+[21:57:13] [trace] VIOLET:   OtherEntity (Entity)
+[21:57:13] [trace] VIOLET:   DistanceFromPlayer (Float)
+[21:57:13] [warning] VIOLET: Player has 6 fields:
+[21:57:13] [trace] VIOLET:   Speed (Float)
+[21:57:13] [trace] VIOLET:   Time (Float)
+[21:57:13] [trace] VIOLET:   curSpeedX (Float)
+[21:57:13] [trace] VIOLET:   curSpeedY (Float)
+[21:57:13] [warning] VIOLET: StartCamera has 5 fields:
+[21:57:13] [trace] VIOLET:   timer (Float)
+[21:57:13] [warning] VIOLET: Test has 0 fields:
+[21:57:13] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[21:57:13] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[21:57:13] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[21:57:13] [trace] VIOLET: 注册组件类型 Violet.CameraComponent
+[21:57:13] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[21:57:13] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[21:57:13] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[21:57:13] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[21:57:13] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[21:57:13] [error] VIOLET: 无法找到组件类型 Violet.TextComponent
+[21:58:25] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[21:58:25] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[21:58:25] [warning] VIOLET: Camera has 4 fields:
+[21:58:25] [trace] VIOLET:   Speed (Float)
+[21:58:25] [trace] VIOLET:   OtherEntity (Entity)
+[21:58:25] [trace] VIOLET:   DistanceFromPlayer (Float)
+[21:58:25] [warning] VIOLET: Player has 6 fields:
+[21:58:25] [trace] VIOLET:   Speed (Float)
+[21:58:25] [trace] VIOLET:   Time (Float)
+[21:58:25] [trace] VIOLET:   curSpeedX (Float)
+[21:58:25] [trace] VIOLET:   curSpeedY (Float)
+[21:58:25] [warning] VIOLET: StartCamera has 5 fields:
+[21:58:25] [trace] VIOLET:   timer (Float)
+[21:58:25] [warning] VIOLET: Test has 0 fields:
+[21:58:25] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[21:58:25] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[21:58:25] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[21:58:25] [trace] VIOLET: 注册组件类型 Violet.CameraComponent
+[21:58:25] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[21:58:25] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[21:58:25] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[21:58:25] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[21:58:25] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[21:58:25] [error] VIOLET: 无法找到组件类型 Violet.TextComponent
+[21:58:34] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[21:58:34] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[21:58:34] [warning] VIOLET: Camera has 4 fields:
+[21:58:34] [trace] VIOLET:   Speed (Float)
+[21:58:34] [trace] VIOLET:   OtherEntity (Entity)
+[21:58:34] [trace] VIOLET:   DistanceFromPlayer (Float)
+[21:58:34] [warning] VIOLET: Player has 6 fields:
+[21:58:34] [trace] VIOLET:   Speed (Float)
+[21:58:34] [trace] VIOLET:   Time (Float)
+[21:58:34] [trace] VIOLET:   curSpeedX (Float)
+[21:58:34] [trace] VIOLET:   curSpeedY (Float)
+[21:58:34] [warning] VIOLET: StartCamera has 5 fields:
+[21:58:34] [trace] VIOLET:   timer (Float)
+[21:58:34] [warning] VIOLET: Test has 0 fields:
+[21:58:34] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[21:58:34] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[21:58:34] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[21:58:34] [trace] VIOLET: 注册组件类型 Violet.CameraComponent
+[21:58:34] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[21:58:34] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[21:58:34] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[21:58:34] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[21:58:34] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[21:58:34] [error] VIOLET: 无法找到组件类型 Violet.TextComponent
+[21:59:23] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[21:59:23] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[21:59:23] [warning] VIOLET: Camera has 4 fields:
+[21:59:23] [trace] VIOLET:   Speed (Float)
+[21:59:23] [trace] VIOLET:   OtherEntity (Entity)
+[21:59:23] [trace] VIOLET:   DistanceFromPlayer (Float)
+[21:59:23] [warning] VIOLET: Player has 6 fields:
+[21:59:23] [trace] VIOLET:   Speed (Float)
+[21:59:23] [trace] VIOLET:   Time (Float)
+[21:59:23] [trace] VIOLET:   curSpeedX (Float)
+[21:59:23] [trace] VIOLET:   curSpeedY (Float)
+[21:59:23] [warning] VIOLET: StartCamera has 5 fields:
+[21:59:23] [trace] VIOLET:   timer (Float)
+[21:59:23] [warning] VIOLET: Test has 0 fields:
+[21:59:23] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[21:59:23] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[21:59:23] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[21:59:23] [trace] VIOLET: 注册组件类型 Violet.CameraComponent
+[21:59:23] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[21:59:23] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[21:59:23] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[21:59:23] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[21:59:23] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[21:59:23] [error] VIOLET: 无法找到组件类型 Violet.TextComponent
+[21:59:35] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[21:59:35] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[21:59:35] [warning] VIOLET: Camera has 4 fields:
+[21:59:35] [trace] VIOLET:   Speed (Float)
+[21:59:35] [trace] VIOLET:   OtherEntity (Entity)
+[21:59:35] [trace] VIOLET:   DistanceFromPlayer (Float)
+[21:59:35] [warning] VIOLET: Player has 6 fields:
+[21:59:35] [trace] VIOLET:   Speed (Float)
+[21:59:35] [trace] VIOLET:   Time (Float)
+[21:59:35] [trace] VIOLET:   curSpeedX (Float)
+[21:59:35] [trace] VIOLET:   curSpeedY (Float)
+[21:59:35] [warning] VIOLET: StartCamera has 5 fields:
+[21:59:35] [trace] VIOLET:   timer (Float)
+[21:59:35] [warning] VIOLET: Test has 0 fields:
+[21:59:35] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[21:59:35] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[21:59:35] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[21:59:35] [trace] VIOLET: 注册组件类型 Violet.CameraComponent
+[21:59:35] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[21:59:35] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[21:59:35] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[21:59:35] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[21:59:35] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[21:59:35] [error] VIOLET: 无法找到组件类型 Violet.TextComponent
+[22:01:30] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[22:01:30] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[22:01:31] [warning] VIOLET: Camera has 4 fields:
+[22:01:31] [trace] VIOLET:   Speed (Float)
+[22:01:31] [trace] VIOLET:   OtherEntity (Entity)
+[22:01:31] [trace] VIOLET:   DistanceFromPlayer (Float)
+[22:01:31] [warning] VIOLET: Player has 6 fields:
+[22:01:31] [trace] VIOLET:   Speed (Float)
+[22:01:31] [trace] VIOLET:   Time (Float)
+[22:01:31] [trace] VIOLET:   curSpeedX (Float)
+[22:01:31] [trace] VIOLET:   curSpeedY (Float)
+[22:01:31] [warning] VIOLET: StartCamera has 5 fields:
+[22:01:31] [trace] VIOLET:   timer (Float)
+[22:01:31] [warning] VIOLET: Test has 0 fields:
+[22:01:31] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[22:01:31] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[22:01:31] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[22:01:31] [trace] VIOLET: 注册组件类型 Violet.CameraComponent
+[22:01:31] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[22:01:31] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[22:01:31] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[22:01:31] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[22:01:31] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[22:01:31] [error] VIOLET: 无法找到组件类型 Violet.TextComponent
+[22:02:03] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[22:02:03] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[22:02:03] [warning] VIOLET: Camera has 4 fields:
+[22:02:03] [trace] VIOLET:   Speed (Float)
+[22:02:03] [trace] VIOLET:   OtherEntity (Entity)
+[22:02:03] [trace] VIOLET:   DistanceFromPlayer (Float)
+[22:02:03] [warning] VIOLET: Player has 6 fields:
+[22:02:03] [trace] VIOLET:   Speed (Float)
+[22:02:03] [trace] VIOLET:   Time (Float)
+[22:02:03] [trace] VIOLET:   curSpeedX (Float)
+[22:02:03] [trace] VIOLET:   curSpeedY (Float)
+[22:02:03] [warning] VIOLET: StartCamera has 5 fields:
+[22:02:03] [trace] VIOLET:   timer (Float)
+[22:02:03] [warning] VIOLET: Test has 0 fields:
+[22:02:03] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[22:02:03] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[22:02:03] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[22:02:03] [trace] VIOLET: 注册组件类型 Violet.CameraComponent
+[22:02:03] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[22:02:03] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[22:02:03] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[22:02:03] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[22:02:03] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[22:02:03] [error] VIOLET: 无法找到组件类型 Violet.TextComponent
+[22:04:59] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[22:04:59] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[22:04:59] [warning] VIOLET: Camera has 4 fields:
+[22:04:59] [trace] VIOLET:   Speed (Float)
+[22:04:59] [trace] VIOLET:   OtherEntity (Entity)
+[22:04:59] [trace] VIOLET:   DistanceFromPlayer (Float)
+[22:04:59] [warning] VIOLET: Player has 6 fields:
+[22:04:59] [trace] VIOLET:   Speed (Float)
+[22:04:59] [trace] VIOLET:   Time (Float)
+[22:04:59] [trace] VIOLET:   curSpeedX (Float)
+[22:04:59] [trace] VIOLET:   curSpeedY (Float)
+[22:04:59] [warning] VIOLET: StartCamera has 5 fields:
+[22:04:59] [trace] VIOLET:   timer (Float)
+[22:04:59] [warning] VIOLET: Test has 0 fields:
+[22:04:59] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[22:04:59] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[22:04:59] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[22:04:59] [trace] VIOLET: 注册组件类型 Violet.CameraComponent
+[22:04:59] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[22:04:59] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[22:04:59] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[22:04:59] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[22:04:59] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[22:04:59] [error] VIOLET: 无法找到组件类型 Violet.TextComponent
+[22:06:35] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[22:06:35] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[22:06:35] [warning] VIOLET: Camera has 4 fields:
+[22:06:35] [trace] VIOLET:   Speed (Float)
+[22:06:35] [trace] VIOLET:   OtherEntity (Entity)
+[22:06:35] [trace] VIOLET:   DistanceFromPlayer (Float)
+[22:06:35] [warning] VIOLET: Player has 6 fields:
+[22:06:35] [trace] VIOLET:   Speed (Float)
+[22:06:35] [trace] VIOLET:   Time (Float)
+[22:06:35] [trace] VIOLET:   curSpeedX (Float)
+[22:06:35] [trace] VIOLET:   curSpeedY (Float)
+[22:06:35] [warning] VIOLET: StartCamera has 5 fields:
+[22:06:35] [trace] VIOLET:   timer (Float)
+[22:06:35] [warning] VIOLET: Test has 0 fields:
+[22:06:35] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[22:06:35] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[22:06:35] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[22:06:35] [trace] VIOLET: 注册组件类型 Violet.CameraComponent
+[22:06:35] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[22:06:35] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[22:06:35] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[22:06:35] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[22:06:35] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[22:06:35] [error] VIOLET: 无法找到组件类型 Violet.TextComponent
+[22:07:29] [info] VIOLET: Terminating GLFW

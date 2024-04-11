@@ -165,6 +165,26 @@ namespace Violet {
 		return Input::IsKeyPressed(keycode);
 	}
 
+	static bool CameraComponent_GetIsPrimary(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+
+		return entity.GetComponent<CameraComponent>().Primary;
+	}
+	
+	static void CameraComponent_SetIsPrimary(UUID entityID, bool flag)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+
+		entity.GetComponent<CameraComponent>().Primary = flag;
+	}
+
 	template<typename... Component>
 	static void RegisterComponent()
 	{
@@ -224,6 +244,9 @@ namespace Violet {
 		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_GetLinearVelocity);
 		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_GetType);
 		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetType);
+
+		VL_ADD_INTERNAL_CALL(CameraComponent_GetIsPrimary);
+		VL_ADD_INTERNAL_CALL(CameraComponent_SetIsPrimary);
 
 		VL_ADD_INTERNAL_CALL(Input_IsKeyDown);
 	}

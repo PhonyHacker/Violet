@@ -56,4 +56,13 @@ namespace Violet
 		}
 
 	}
+
+    public class CameraComponent : Component
+    {
+        public bool Primary
+        {
+            get => InternalCalls.CameraComponent_GetIsPrimary(Entity.ID);
+            set => InternalCalls.CameraComponent_SetIsPrimary(Entity.ID, value);
+        }
+    }
 }

@@ -26,9 +26,14 @@ namespace Violet
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
 		internal extern static void Rigidbody2DComponent_ApplyLinearImpulseToCenter(ulong entityID, ref Vector2 impulse, bool wake);
-		[MethodImplAttribute(MethodImplOptions.InternalCall)]
-		internal extern static bool Input_IsKeyDown(KeyCode keycode);
 
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool CameraComponent_GetIsPrimary(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void CameraComponent_SetIsPrimary(ulong entityID, bool flag);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+		internal extern static bool Input_IsKeyDown(KeyCode keycode);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static ulong Entity_FindEntityByName(string name);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]

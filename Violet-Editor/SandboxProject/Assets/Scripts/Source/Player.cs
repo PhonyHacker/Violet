@@ -52,7 +52,7 @@ namespace Sandbox
             else if (Input.IsKeyDown(KeyCode.D))
                 velocity.X = 1.0f;
 
-            Entity cameraEntity = FindEntityByName("Camera");
+            Entity cameraEntity = FindEntityByName("CameraA");
             if (cameraEntity != null)
             {
                 Camera camera = cameraEntity.As<Camera>();

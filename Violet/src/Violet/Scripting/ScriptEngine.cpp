@@ -193,12 +193,17 @@ namespace Violet {
 				});
 		}
 	}
-
+	bool ScriptEngine::isMonoInited = false;
 	void ScriptEngine::Init()
 	{
 		s_MonoData = new ScriptEngineData();	// 创建脚本引擎数据结构
+		
+		if (!isMonoInited)
+		{
+			InitMono();	// 初始化Mono运行时
+			isMonoInited = true;
+		}
 
-		InitMono();	// 初始化Mono运行时
 		ScriptGlue::RegisterFunctions();
 
 		bool status = LoadAssembly("Resources/Scripts/Violet-ScriptCore.dll");
@@ -245,7 +250,7 @@ namespace Violet {
 			mono_jit_parse_options(2, (char**)argv);
 			mono_debug_init(MONO_DEBUG_FORMAT_MONO);
 		}
-
+		
 		MonoDomain* rootDomain = mono_jit_init("VioletJITRuntime");	// 初始化根域
 		VL_CORE_ASSERT(rootDomain);
 

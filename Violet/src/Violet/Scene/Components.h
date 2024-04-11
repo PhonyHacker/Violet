@@ -2,6 +2,7 @@
 
 #include "SceneCamera.h"
 #include "Violet/Renderer/Texture.h"
+#include "Violet/Renderer/Font.h"
 #include "Violet/Core/Log.h"
 #include "Violet/Core/UUID.h"
 
@@ -164,6 +165,15 @@ namespace Violet {
 	};
 
 
+	struct TextComponent
+	{
+		std::string TextString;
+		Ref<Font> FontAsset = Font::GetDefault();
+		glm::vec4 Color{ 1.0f };
+		float Kerning = 0.0f;
+		float LineSpacing = 0.0f;
+	};
+
 	template<typename... Component>
 	struct ComponentGroup
 	{
@@ -173,5 +183,5 @@ namespace Violet {
 		ComponentGroup<TransformComponent, SpriteRendererComponent,
 		CircleRendererComponent, CameraComponent, ScriptComponent,
 		NativeScriptComponent, Rigidbody2DComponent, BoxCollider2DComponent,
-		CircleCollider2DComponent>;
+		CircleCollider2DComponent, TextComponent>;
 }

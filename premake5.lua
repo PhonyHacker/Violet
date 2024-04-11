@@ -145,8 +145,8 @@ group "Core"
 		language "C#"
 		dotnetframework "4.7.2"
 
-		targetdir ("%../Violet-Editor/Resources/Scripts")
-		objdir ("%../Violet-Editor/Resources/Scripts/Intermediates")
+		targetdir ("../Violet-Editor/Resources/Scripts")
+		objdir ("../Violet-Editor/Resources/Scripts/Intermediates")
 
 		files 
 		{

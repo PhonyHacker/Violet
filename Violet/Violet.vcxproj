@@ -203,6 +203,7 @@
     <ClInclude Include="src\Violet\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\Violet\Scripting\ScriptEngine.h" />
     <ClInclude Include="src\Violet\Scripting\ScriptGlue.h" />
+    <ClInclude Include="src\Violet\UI\UI.h" />
     <ClInclude Include="src\Violet\Utils\PlatformUtils.h" />
     <ClInclude Include="src\vlpch.h" />
     <ClInclude Include="vendor\ImGuizmo\ImGuizmo.h" />

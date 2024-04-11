@@ -1354,6 +1354,7 @@
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Renderer\MSDFData.h" />
+    <ClInclude Include="src\Violet\UI\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">

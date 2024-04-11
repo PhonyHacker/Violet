@@ -179,6 +179,8 @@ namespace Violet{
 		static MonoObject* InstantiateClass(MonoClass* monoClass);
 		static void LoadAssemblyClasses();
 
+		static bool isMonoInited;
+
 		friend class ScriptClass;
 		friend class ScriptGlue;
 	};
