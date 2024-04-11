@@ -1,5 +1,4 @@
 #pragma once
-// 供外部程序引用
 
 #include "Violet/Core/Application.h"
 #include "Violet/Core/Layer.h"

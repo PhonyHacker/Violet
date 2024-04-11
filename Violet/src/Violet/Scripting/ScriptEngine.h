@@ -182,6 +182,8 @@ namespace Violet{
 
 		static MonoObject* InstantiateClass(MonoClass* monoClass);
 		static void LoadAssemblyClasses();
+	public:
+		static std::string s_ProjectName;
 
 		friend class ScriptClass;
 		friend class ScriptGlue;

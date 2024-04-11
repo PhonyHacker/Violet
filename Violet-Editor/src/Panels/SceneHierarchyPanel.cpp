@@ -328,6 +328,20 @@ namespace Violet {
 					component.ClassName = buffer;
 					return;
 				}
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+					{
+						const wchar_t* path = (const wchar_t*)payload->Data;
+						std::filesystem::path scriptPath(path);
+
+						component.ClassName = ScriptEngine::s_ProjectName + "." + scriptPath.stem().string();
+						// VL_CORE_INFO(component.ClassName);
+						
+						scriptClassExists = ScriptEngine::EntityClassExists(component.ClassName);
+					}
+					ImGui::EndDragDropTarget();
+				}
 
 				// Fields
 				bool sceneRunning = scene->IsRunning();

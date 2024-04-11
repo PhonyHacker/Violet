@@ -650,6 +650,9 @@ namespace Violet {
 			auto startScenePath = Project::GetAssetFileSystemPath(Project::GetActive()->GetConfig().StartScene);
 			OpenScene(startScenePath);
 			m_ContentBrowserPanel = CreateScope<ContentBrowserPanel>();
+
+			ScriptEngine::s_ProjectName = path.stem().string();
+			// VL_CORE_INFO(ScriptEngine::s_ProjectName);
 		}
 	}
 

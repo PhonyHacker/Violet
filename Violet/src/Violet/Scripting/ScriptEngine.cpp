@@ -17,6 +17,8 @@
 #include "FileWatch.h"
 
 namespace Violet {
+	std::string ScriptEngine::s_ProjectName = "";
+
 	static std::unordered_map<std::string, ScriptFieldType> s_ScriptFieldTypeMap =
 	{
 		{ "System.Single", ScriptFieldType::Float },
@@ -282,6 +284,9 @@ namespace Violet {
 	// 关闭Mono运行时
 	void ScriptEngine::ShutdownMono()
 	{
+		if (s_MonoData == nullptr)
+			return;
+
 		mono_domain_set(mono_get_root_domain(), false);
 
 		// 关闭Mono应用域和根域

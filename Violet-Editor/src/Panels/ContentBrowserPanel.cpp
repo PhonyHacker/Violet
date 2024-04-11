@@ -50,6 +50,7 @@ namespace Violet{
 			{
 				std::filesystem::path relativePath(path);
 				const wchar_t* itemPath = relativePath.c_str();
+				// VL_CORE_INFO(path);
 				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", itemPath, (wcslen(itemPath) + 1) * sizeof(wchar_t));
 				ImGui::EndDragDropSource();
 			}

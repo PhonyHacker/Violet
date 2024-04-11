@@ -2,9 +2,7 @@
 #include <Violet/Core/EntryPoint.h>
 
 #include "EditorLayer.h"
-
 namespace Violet {
-
 	class VioletEditor : public Application
 	{
 	public:
