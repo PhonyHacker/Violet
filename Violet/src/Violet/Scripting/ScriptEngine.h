@@ -177,12 +177,11 @@ namespace Violet{
 		static MonoString* CreateString(const char* string);
 	private:
 		static void InitMono();
+		static void ShutdownMonoApp();
 		static void ShutdownMono();
 
 		static MonoObject* InstantiateClass(MonoClass* monoClass);
 		static void LoadAssemblyClasses();
-
-		static bool isMonoInited;
 
 		friend class ScriptClass;
 		friend class ScriptGlue;

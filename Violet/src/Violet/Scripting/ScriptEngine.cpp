@@ -179,6 +179,7 @@ namespace Violet {
 	};
 
 	static ScriptEngineData* s_MonoData = nullptr;	// 脚本引擎的全局数据
+	static bool s_IsMonoInited = false;
 
 	static void OnAppAssemblyFileSystemEvent(const std::string& path, const filewatch::Event change_type)
 	{
@@ -193,16 +194,18 @@ namespace Violet {
 				});
 		}
 	}
-	bool ScriptEngine::isMonoInited = false;
+
 	void ScriptEngine::Init()
 	{
 		s_MonoData = new ScriptEngineData();	// 创建脚本引擎数据结构
 		
-		if (!isMonoInited)
+		if (s_IsMonoInited)
 		{
-			InitMono();	// 初始化Mono运行时
-			isMonoInited = true;
+			ShutdownMonoApp();
 		}
+		
+		InitMono();	// 初始化Mono运行时
+		s_IsMonoInited = true;
 
 		ScriptGlue::RegisterFunctions();
 
@@ -234,10 +237,12 @@ namespace Violet {
 		delete s_MonoData;	// 释放脚本引擎数据结构
 	}
 
-	
 	// 初始化Mono运行时
 	void ScriptEngine::InitMono()
 	{
+		if (s_IsMonoInited)
+			return;
+
 		mono_set_assemblies_path("mono/lib");	// 设置程序集路径
 
 		if (s_MonoData->EnableDebugging)
@@ -263,17 +268,34 @@ namespace Violet {
 		mono_thread_set_main(mono_thread_current());
 	}
 
+	void ScriptEngine::ShutdownMonoApp()
+	{
+		// 关闭Mono应用域
+		if (s_MonoData->AppDomain != nullptr)
+		{
+			mono_domain_unload(s_MonoData->AppDomain);
+			delete s_MonoData->AppDomain;
+			s_MonoData->AppDomain = nullptr;
+		}
+	}
+
 	// 关闭Mono运行时
 	void ScriptEngine::ShutdownMono()
 	{
 		mono_domain_set(mono_get_root_domain(), false);
 
 		// 关闭Mono应用域和根域
-		mono_domain_unload(s_MonoData->AppDomain);
-		s_MonoData->AppDomain = nullptr;
+		if(s_MonoData->AppDomain != nullptr)
+		{
+			mono_domain_unload(s_MonoData->AppDomain);
+			s_MonoData->AppDomain = nullptr;
+		}
+		if (s_MonoData->RootDomain != nullptr)
+		{
+			mono_jit_cleanup(s_MonoData->RootDomain);
+			s_MonoData->RootDomain = nullptr;
+		}
 
-		mono_jit_cleanup(s_MonoData->RootDomain);
-		s_MonoData->RootDomain = nullptr;
 	}
 
 	bool ScriptEngine::LoadAssembly(const std::filesystem::path& filepath)

@@ -29,6 +29,15 @@ namespace Sandbox
 
         void OnUpdate(float ts)
         {
+            if(Input.IsMouseBUttonDown(MouseButtonCode.ButtonLeft))
+            {
+                Console.WriteLine("Mouse Pressed:{" + Input.GetMousePosition().X + ", " + Input.GetMousePosition().Y + "}");
+            }
+            else
+            {
+                Console.WriteLine("Mouse Not Pressed But:{" + Input.GetMousePosition().X + ", " + Input.GetMousePosition().Y + "}");
+            }
+
             Time += ts;
             // Console.WriteLine($"Player.OnUpdate: {ts}");
 

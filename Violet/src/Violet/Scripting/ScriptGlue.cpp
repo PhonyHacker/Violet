@@ -175,6 +175,16 @@ namespace Violet {
 		return Input::IsKeyPressed(keycode);
 	}
 
+	static bool Input_MouseButtonPressed(MouseButtonCode button)
+	{
+		return Input::IsMouseButtonPressed(button);
+	}
+
+	static void Input_GetMousePosition(glm::vec2* outPosition)
+	{
+		*outPosition = Input::GetMousePosition();
+	}
+
 	static bool CameraComponent_GetIsPrimary(UUID entityID)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -370,6 +380,8 @@ namespace Violet {
 
 		// Input
 		VL_ADD_INTERNAL_CALL(Input_IsKeyDown);
+		VL_ADD_INTERNAL_CALL(Input_MouseButtonPressed);
+		VL_ADD_INTERNAL_CALL(Input_GetMousePosition);
 	}
 
 }
