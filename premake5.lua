@@ -18,6 +18,7 @@ group "Dependencies"
 	include "Violet/vendor/Box2D"
 	include "Violet/vendor/GLFW"
 	include "Violet/vendor/Glad"
+	include "Violet/vendor/msdf-atlas-gen"
 	include "Violet/vendor/imgui"
 	include "Violet/vendor/yaml-cpp"
 group ""
@@ -65,6 +66,8 @@ group "Core"
 			"%{IncludeDir.glm}",
 			"%{IncludeDir.stb_image}",
 			"%{IncludeDir.filewatch}",
+			"%{IncludeDir.msdfgen}",
+			"%{IncludeDir.msdf_atlas_gen}",
 			"%{IncludeDir.entt}",
 			"%{IncludeDir.mono}",
 			"%{IncludeDir.yaml_cpp}",
@@ -77,6 +80,7 @@ group "Core"
 			"GLFW",
 			"Glad",
 			"ImGui",
+			"msdf-atlas-gen",
 			"yaml-cpp",
 			"opengl32.lib",
 			"%{Library.mono}",

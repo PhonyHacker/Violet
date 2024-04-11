@@ -1,112 +1,113 @@
-[01:13:30] [info] VIOLET: Creating window VioletEditor (1600, 900)
-[01:13:32] [info] VIOLET: OpenGL Info: 
-[01:13:32] [info] VIOLET:  Vendor: NVIDIA Corporation 
-[01:13:32] [info] VIOLET:  Renderer : NVIDIA GeForce GTX 1650/PCIe/SSE2 
-[01:13:32] [info] VIOLET:  Version: 4.6.0 NVIDIA 512.59 
-[01:13:32] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Quad.glsl
-[01:13:32] [trace] VIOLET:     1 uniform buffers
-[01:13:32] [trace] VIOLET:     0 resources
-[01:13:32] [trace] VIOLET: Uniform buffers:
-[01:13:32] [trace] VIOLET:   _46_48
-[01:13:32] [trace] VIOLET:     Size = 64
-[01:13:32] [trace] VIOLET:     Binding = 0
-[01:13:32] [trace] VIOLET:     Members = 1
-[01:13:32] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Quad.glsl
-[01:13:32] [trace] VIOLET:     0 uniform buffers
-[01:13:32] [trace] VIOLET:     1 resources
-[01:13:32] [trace] VIOLET: Uniform buffers:
-[01:13:32] [warning] VIOLET: Shader creation took 16.0847 ms
-[01:13:32] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Circle.glsl
-[01:13:32] [trace] VIOLET:     1 uniform buffers
-[01:13:32] [trace] VIOLET:     0 resources
-[01:13:32] [trace] VIOLET: Uniform buffers:
-[01:13:32] [trace] VIOLET:   _47_49
-[01:13:32] [trace] VIOLET:     Size = 64
-[01:13:32] [trace] VIOLET:     Binding = 0
-[01:13:32] [trace] VIOLET:     Members = 1
-[01:13:32] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Circle.glsl
-[01:13:32] [trace] VIOLET:     0 uniform buffers
-[01:13:32] [trace] VIOLET:     0 resources
-[01:13:32] [trace] VIOLET: Uniform buffers:
-[01:13:32] [warning] VIOLET: Shader creation took 13.4742 ms
-[01:13:32] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Line.glsl
-[01:13:32] [trace] VIOLET:     1 uniform buffers
-[01:13:32] [trace] VIOLET:     0 resources
-[01:13:32] [trace] VIOLET: Uniform buffers:
-[01:13:32] [trace] VIOLET:   _30_32
-[01:13:32] [trace] VIOLET:     Size = 64
-[01:13:32] [trace] VIOLET:     Binding = 0
-[01:13:32] [trace] VIOLET:     Members = 1
-[01:13:32] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Line.glsl
-[01:13:32] [trace] VIOLET:     0 uniform buffers
-[01:13:32] [trace] VIOLET:     0 resources
-[01:13:32] [trace] VIOLET: Uniform buffers:
-[01:13:32] [warning] VIOLET: Shader creation took 12.8689 ms
-[01:13:36] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
-[01:13:36] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
-[01:13:36] [warning] VIOLET: Camera has 4 fields:
-[01:13:36] [trace] VIOLET:   Speed (Float)
-[01:13:36] [trace] VIOLET:   OtherEntity (Entity)
-[01:13:36] [trace] VIOLET:   DistanceFromPlayer (Float)
-[01:13:36] [warning] VIOLET: Player has 6 fields:
-[01:13:36] [trace] VIOLET:   Speed (Float)
-[01:13:36] [trace] VIOLET:   Time (Float)
-[01:13:36] [trace] VIOLET:   curSpeedX (Float)
-[01:13:36] [trace] VIOLET:   curSpeedY (Float)
-[01:13:36] [warning] VIOLET: Test has 0 fields:
-[01:13:36] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
-[01:13:36] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
-[01:13:36] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
-[01:13:36] [error] VIOLET: 无法找到组件类型 Violet.CameraComponent
-[01:13:36] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
-[01:13:36] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
-[01:13:36] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
-[01:13:36] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
-[01:13:36] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
-[01:13:36] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Quad.glsl
-[01:13:36] [trace] VIOLET:     1 uniform buffers
-[01:13:36] [trace] VIOLET:     0 resources
-[01:13:36] [trace] VIOLET: Uniform buffers:
-[01:13:36] [trace] VIOLET:   _46_48
-[01:13:36] [trace] VIOLET:     Size = 64
-[01:13:36] [trace] VIOLET:     Binding = 0
-[01:13:36] [trace] VIOLET:     Members = 1
-[01:13:36] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Quad.glsl
-[01:13:36] [trace] VIOLET:     0 uniform buffers
-[01:13:36] [trace] VIOLET:     1 resources
-[01:13:36] [trace] VIOLET: Uniform buffers:
-[01:13:36] [warning] VIOLET: Shader creation took 14.7122 ms
-[01:13:36] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Circle.glsl
-[01:13:36] [trace] VIOLET:     1 uniform buffers
-[01:13:36] [trace] VIOLET:     0 resources
-[01:13:36] [trace] VIOLET: Uniform buffers:
-[01:13:36] [trace] VIOLET:   _47_49
-[01:13:36] [trace] VIOLET:     Size = 64
-[01:13:36] [trace] VIOLET:     Binding = 0
-[01:13:36] [trace] VIOLET:     Members = 1
-[01:13:36] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Circle.glsl
-[01:13:36] [trace] VIOLET:     0 uniform buffers
-[01:13:36] [trace] VIOLET:     0 resources
-[01:13:36] [trace] VIOLET: Uniform buffers:
-[01:13:36] [warning] VIOLET: Shader creation took 13.2859 ms
-[01:13:36] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Line.glsl
-[01:13:36] [trace] VIOLET:     1 uniform buffers
-[01:13:36] [trace] VIOLET:     0 resources
-[01:13:36] [trace] VIOLET: Uniform buffers:
-[01:13:36] [trace] VIOLET:   _30_32
-[01:13:36] [trace] VIOLET:     Size = 64
-[01:13:36] [trace] VIOLET:     Binding = 0
-[01:13:36] [trace] VIOLET:     Members = 1
-[01:13:36] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Line.glsl
-[01:13:36] [trace] VIOLET:     0 uniform buffers
-[01:13:36] [trace] VIOLET:     0 resources
-[01:13:36] [trace] VIOLET: Uniform buffers:
-[01:13:36] [warning] VIOLET: Shader creation took 11.9763 ms
-[01:13:36] [trace] VIOLET: Deserializing scene 'Untitled'
-[01:13:36] [trace] VIOLET: Deserialized entity with ID = 15880974432830602851, name = Entity
-[01:13:36] [trace] VIOLET: Deserialized entity with ID = 5386604431559773965, name = Floor
-[01:13:36] [trace] VIOLET: Deserialized entity with ID = 17003390207382257219, name = Entity
-[01:13:36] [trace] VIOLET: Deserialized entity with ID = 9851252402859842416, name = Player
-[01:13:36] [trace] VIOLET: Deserialized entity with ID = 1612165136993075848, name = Camera
-[01:13:36] [trace] VIOLET: Deserialized entity with ID = 12772714911998123763, name = Floor
-[01:14:15] [info] VIOLET: Terminating GLFW
+[16:39:27] [info] VIOLET: Creating window VioletEditor (1600, 900)
+[16:39:29] [info] VIOLET: OpenGL Info: 
+[16:39:29] [info] VIOLET:  Vendor: NVIDIA Corporation 
+[16:39:29] [info] VIOLET:  Renderer : NVIDIA GeForce GTX 1650/PCIe/SSE2 
+[16:39:29] [info] VIOLET:  Version: 4.6.0 NVIDIA 512.59 
+[16:39:29] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Quad.glsl
+[16:39:29] [trace] VIOLET:     1 uniform buffers
+[16:39:29] [trace] VIOLET:     0 resources
+[16:39:29] [trace] VIOLET: Uniform buffers:
+[16:39:29] [trace] VIOLET:   _46_48
+[16:39:29] [trace] VIOLET:     Size = 64
+[16:39:29] [trace] VIOLET:     Binding = 0
+[16:39:29] [trace] VIOLET:     Members = 1
+[16:39:29] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Quad.glsl
+[16:39:29] [trace] VIOLET:     0 uniform buffers
+[16:39:29] [trace] VIOLET:     1 resources
+[16:39:29] [trace] VIOLET: Uniform buffers:
+[16:39:30] [warning] VIOLET: Shader creation took 15.3246 ms
+[16:39:30] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Circle.glsl
+[16:39:30] [trace] VIOLET:     1 uniform buffers
+[16:39:30] [trace] VIOLET:     0 resources
+[16:39:30] [trace] VIOLET: Uniform buffers:
+[16:39:30] [trace] VIOLET:   _47_49
+[16:39:30] [trace] VIOLET:     Size = 64
+[16:39:30] [trace] VIOLET:     Binding = 0
+[16:39:30] [trace] VIOLET:     Members = 1
+[16:39:30] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Circle.glsl
+[16:39:30] [trace] VIOLET:     0 uniform buffers
+[16:39:30] [trace] VIOLET:     0 resources
+[16:39:30] [trace] VIOLET: Uniform buffers:
+[16:39:30] [warning] VIOLET: Shader creation took 12.1675 ms
+[16:39:30] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Line.glsl
+[16:39:30] [trace] VIOLET:     1 uniform buffers
+[16:39:30] [trace] VIOLET:     0 resources
+[16:39:30] [trace] VIOLET: Uniform buffers:
+[16:39:30] [trace] VIOLET:   _30_32
+[16:39:30] [trace] VIOLET:     Size = 64
+[16:39:30] [trace] VIOLET:     Binding = 0
+[16:39:30] [trace] VIOLET:     Members = 1
+[16:39:30] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Line.glsl
+[16:39:30] [trace] VIOLET:     0 uniform buffers
+[16:39:30] [trace] VIOLET:     0 resources
+[16:39:30] [trace] VIOLET: Uniform buffers:
+[16:39:30] [warning] VIOLET: Shader creation took 11.8865 ms
+[16:39:30] [info] VIOLET: Loaded 191 glyphs from font (out of 224)
+[16:39:34] [info] VIOLET: Loaded PDB "Resources/Scripts/Violet-ScriptCore.pdb"
+[16:39:34] [info] VIOLET: Loaded PDB "F:\\00_gameDevelop\\bs\\44\\Violet\\Violet-Editor\\SandboxProject\\Assets\\Scripts/Binaries/Sandbox.pdb"
+[16:39:34] [warning] VIOLET: Camera has 4 fields:
+[16:39:34] [trace] VIOLET:   Speed (Float)
+[16:39:34] [trace] VIOLET:   OtherEntity (Entity)
+[16:39:34] [trace] VIOLET:   DistanceFromPlayer (Float)
+[16:39:34] [warning] VIOLET: Player has 6 fields:
+[16:39:34] [trace] VIOLET:   Speed (Float)
+[16:39:34] [trace] VIOLET:   Time (Float)
+[16:39:34] [trace] VIOLET:   curSpeedX (Float)
+[16:39:34] [trace] VIOLET:   curSpeedY (Float)
+[16:39:34] [warning] VIOLET: Test has 0 fields:
+[16:39:34] [trace] VIOLET: 注册组件类型 Violet.TransformComponent
+[16:39:34] [error] VIOLET: 无法找到组件类型 Violet.SpriteRendererComponent
+[16:39:34] [error] VIOLET: 无法找到组件类型 Violet.CircleRendererComponent
+[16:39:34] [error] VIOLET: 无法找到组件类型 Violet.CameraComponent
+[16:39:34] [error] VIOLET: 无法找到组件类型 Violet.ScriptComponent
+[16:39:34] [error] VIOLET: 无法找到组件类型 Violet.NativeScriptComponent
+[16:39:34] [trace] VIOLET: 注册组件类型 Violet.Rigidbody2DComponent
+[16:39:34] [error] VIOLET: 无法找到组件类型 Violet.BoxCollider2DComponent
+[16:39:34] [error] VIOLET: 无法找到组件类型 Violet.CircleCollider2DComponent
+[16:39:34] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Quad.glsl
+[16:39:34] [trace] VIOLET:     1 uniform buffers
+[16:39:34] [trace] VIOLET:     0 resources
+[16:39:34] [trace] VIOLET: Uniform buffers:
+[16:39:34] [trace] VIOLET:   _46_48
+[16:39:34] [trace] VIOLET:     Size = 64
+[16:39:34] [trace] VIOLET:     Binding = 0
+[16:39:34] [trace] VIOLET:     Members = 1
+[16:39:34] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Quad.glsl
+[16:39:34] [trace] VIOLET:     0 uniform buffers
+[16:39:34] [trace] VIOLET:     1 resources
+[16:39:34] [trace] VIOLET: Uniform buffers:
+[16:39:34] [warning] VIOLET: Shader creation took 14.271 ms
+[16:39:34] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Circle.glsl
+[16:39:34] [trace] VIOLET:     1 uniform buffers
+[16:39:34] [trace] VIOLET:     0 resources
+[16:39:34] [trace] VIOLET: Uniform buffers:
+[16:39:34] [trace] VIOLET:   _47_49
+[16:39:34] [trace] VIOLET:     Size = 64
+[16:39:34] [trace] VIOLET:     Binding = 0
+[16:39:34] [trace] VIOLET:     Members = 1
+[16:39:34] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Circle.glsl
+[16:39:34] [trace] VIOLET:     0 uniform buffers
+[16:39:34] [trace] VIOLET:     0 resources
+[16:39:34] [trace] VIOLET: Uniform buffers:
+[16:39:34] [warning] VIOLET: Shader creation took 12.952 ms
+[16:39:34] [trace] VIOLET: OpenGLShader::Reflect - GL_VERTEX_SHADER assets/shaders/Renderer2D_Line.glsl
+[16:39:34] [trace] VIOLET:     1 uniform buffers
+[16:39:34] [trace] VIOLET:     0 resources
+[16:39:34] [trace] VIOLET: Uniform buffers:
+[16:39:34] [trace] VIOLET:   _30_32
+[16:39:34] [trace] VIOLET:     Size = 64
+[16:39:34] [trace] VIOLET:     Binding = 0
+[16:39:34] [trace] VIOLET:     Members = 1
+[16:39:34] [trace] VIOLET: OpenGLShader::Reflect - GL_FRAGMENT_SHADER assets/shaders/Renderer2D_Line.glsl
+[16:39:34] [trace] VIOLET:     0 uniform buffers
+[16:39:34] [trace] VIOLET:     0 resources
+[16:39:34] [trace] VIOLET: Uniform buffers:
+[16:39:34] [warning] VIOLET: Shader creation took 12.6657 ms
+[16:39:34] [trace] VIOLET: Deserializing scene 'Untitled'
+[16:39:34] [trace] VIOLET: Deserialized entity with ID = 15880974432830602851, name = Entity
+[16:39:34] [trace] VIOLET: Deserialized entity with ID = 5386604431559773965, name = Floor
+[16:39:34] [trace] VIOLET: Deserialized entity with ID = 17003390207382257219, name = Entity
+[16:39:34] [trace] VIOLET: Deserialized entity with ID = 9851252402859842416, name = Player
+[16:39:34] [trace] VIOLET: Deserialized entity with ID = 1612165136993075848, name = Camera
+[16:39:34] [trace] VIOLET: Deserialized entity with ID = 12772714911998123763, name = Floor
+[16:40:16] [info] VIOLET: Terminating GLFW

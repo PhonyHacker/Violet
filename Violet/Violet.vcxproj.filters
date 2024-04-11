@@ -31,6 +31,12 @@
     <Filter Include="src\Violet\Math">
       <UniqueIdentifier>{28FA4717-9485-B5DB-9D96-38D009A111DC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Violet\Physics">
+      <UniqueIdentifier>{61CAB826-4DAE-797C-B60E-74CFA21164FE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Violet\Project">
+      <UniqueIdentifier>{356B523D-214F-1393-8AAF-0DE676B2FD14}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Violet\Renderer">
       <UniqueIdentifier>{75E8ACD4-E149-8AE2-6AB7-D094D617C1A1}</UniqueIdentifier>
     </Filter>
@@ -168,6 +174,15 @@
     <ClInclude Include="src\Violet\OrthographicCameraController.h">
       <Filter>src\Violet</Filter>
     </ClInclude>
+    <ClInclude Include="src\Violet\Physics\Physics2D.h">
+      <Filter>src\Violet\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Project\Project.h">
+      <Filter>src\Violet\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Project\ProjectSerializer.h">
+      <Filter>src\Violet\Project</Filter>
+    </ClInclude>
     <ClInclude Include="src\Violet\Renderer\Buffer.h">
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
@@ -175,6 +190,9 @@
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Renderer\EditorCamera.h">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Violet\Renderer\Font.h">
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Renderer\Framebuffer.h">
@@ -1335,8 +1353,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Violet\Project\Project.h" />
-    <ClInclude Include="src\Violet\Project\ProjectSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1399,10 +1415,19 @@
     <ClCompile Include="src\Violet\OrthographicCameraController.cpp">
       <Filter>src\Violet</Filter>
     </ClCompile>
+    <ClCompile Include="src\Violet\Project\Project.cpp">
+      <Filter>src\Violet\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Violet\Project\ProjectSerializer.cpp">
+      <Filter>src\Violet\Project</Filter>
+    </ClCompile>
     <ClCompile Include="src\Violet\Renderer\Buff.cpp">
       <Filter>src\Violet\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Violet\Renderer\EditorCamera.cpp">
+      <Filter>src\Violet\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Violet\Renderer\Font.cpp">
       <Filter>src\Violet\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Violet\Renderer\Framebuffer.cpp">
@@ -1465,8 +1490,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Violet\Project\Project.cpp" />
-    <ClCompile Include="src\Violet\Project\ProjectSerializer.cpp" />
-    <ClCompile Include="src\Violet\Physics\Physics2D.h" />
   </ItemGroup>
 </Project>

@@ -77,7 +77,7 @@
       <PrecompiledHeaderFile>vlpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;VL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Box2D\include;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;vendor\filewatch;vendor\entt\include;vendor\mono\include;vendor\yaml-cpp\include;vendor\ImGuizmo;vendor\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Box2D\include;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;vendor\filewatch;vendor\msdf-atlas-gen\msdfgen;vendor\msdf-atlas-gen\msdf-atlas-gen;vendor\entt\include;vendor\mono\include;vendor\yaml-cpp\include;vendor\ImGuizmo;vendor\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -98,7 +98,7 @@
       <PrecompiledHeaderFile>vlpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;VL_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Box2D\include;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;vendor\filewatch;vendor\entt\include;vendor\mono\include;vendor\yaml-cpp\include;vendor\ImGuizmo;vendor\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Box2D\include;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;vendor\filewatch;vendor\msdf-atlas-gen\msdfgen;vendor\msdf-atlas-gen\msdf-atlas-gen;vendor\entt\include;vendor\mono\include;vendor\yaml-cpp\include;vendor\ImGuizmo;vendor\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -123,7 +123,7 @@
       <PrecompiledHeaderFile>vlpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;VL_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Box2D\include;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;vendor\filewatch;vendor\entt\include;vendor\mono\include;vendor\yaml-cpp\include;vendor\ImGuizmo;vendor\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Box2D\include;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\glm;vendor\stb_image;vendor\filewatch;vendor\msdf-atlas-gen\msdfgen;vendor\msdf-atlas-gen\msdf-atlas-gen;vendor\entt\include;vendor\mono\include;vendor\yaml-cpp\include;vendor\ImGuizmo;vendor\VulkanSDK\1.3.216.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -175,11 +175,13 @@
     <ClInclude Include="src\Violet\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Violet\Math\Math.h" />
     <ClInclude Include="src\Violet\OrthographicCameraController.h" />
+    <ClInclude Include="src\Violet\Physics\Physics2D.h" />
     <ClInclude Include="src\Violet\Project\Project.h" />
     <ClInclude Include="src\Violet\Project\ProjectSerializer.h" />
     <ClInclude Include="src\Violet\Renderer\Buffer.h" />
     <ClInclude Include="src\Violet\Renderer\Camera.h" />
     <ClInclude Include="src\Violet\Renderer\EditorCamera.h" />
+    <ClInclude Include="src\Violet\Renderer\Font.h" />
     <ClInclude Include="src\Violet\Renderer\Framebuffer.h" />
     <ClInclude Include="src\Violet\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Violet\Renderer\OrthographicCamera.h" />
@@ -588,11 +590,11 @@
     <ClCompile Include="src\Violet\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Violet\Math\Math.cpp" />
     <ClCompile Include="src\Violet\OrthographicCameraController.cpp" />
-    <ClCompile Include="src\Violet\Physics\Physics2D.h" />
     <ClCompile Include="src\Violet\Project\Project.cpp" />
     <ClCompile Include="src\Violet\Project\ProjectSerializer.cpp" />
     <ClCompile Include="src\Violet\Renderer\Buff.cpp" />
     <ClCompile Include="src\Violet\Renderer\EditorCamera.cpp" />
+    <ClCompile Include="src\Violet\Renderer\Font.cpp" />
     <ClCompile Include="src\Violet\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\Violet\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Violet\Renderer\RenderCommand.cpp" />
@@ -630,6 +632,9 @@
     </ProjectReference>
     <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\msdf-atlas-gen\msdf-atlas-gen.vcxproj">
+      <Project>{38BD587B-248B-4C81-0D1F-BDA7F98B28E6}</Project>
     </ProjectReference>
     <ProjectReference Include="vendor\yaml-cpp\yaml-cpp.vcxproj">
       <Project>{88F1A057-74BE-FB62-9DD7-E90A890331F1}</Project>

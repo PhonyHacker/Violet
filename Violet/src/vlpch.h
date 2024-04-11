@@ -13,6 +13,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "Violet/Core/Base.h"
+
 #include "Violet/Core/Log.h"
 
 #include "Violet/Debug/Instrumentor.h"
