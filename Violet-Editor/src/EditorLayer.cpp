@@ -19,12 +19,13 @@
 #include "ImGuizmo.h"
 
 namespace Violet {
-	static Font* s_Font;
+	static Ref<Font> s_Font;
 
 	EditorLayer::EditorLayer()
 		:Layer("EditorLayer"), m_CameraController(1200.0f / 800.0f, true), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
 	{
-		s_Font = new Font("assets/fonts/opensans/OpenSans-Regular.ttf");
+		// s_Font = new Font("assets/fonts/opensans/OpenSans-Regular.ttf");
+		s_Font = Font::GetDefault();
 	}
 
 	void EditorLayer::OnAttach()
