@@ -15,6 +15,7 @@
 namespace Violet {
 	namespace Utils {
 
+		// 将字符串类型的着色器类型转换为OpenGL的GLenum类型
 		static GLenum ShaderTypeFromString(const std::string& type)
 		{
 			if (type == "vertex")
@@ -26,6 +27,7 @@ namespace Violet {
 			return 0;
 		}
 
+		// 将OpenGL着色器类型转换为shaderc的着色器类型
 		static shaderc_shader_kind GLShaderStageToShaderC(GLenum stage)
 		{
 			switch (stage)
@@ -37,6 +39,7 @@ namespace Violet {
 			return (shaderc_shader_kind)0;
 		}
 
+		// 将OpenGL着色器类型转换为字符串形式
 		static const char* GLShaderStageToString(GLenum stage)
 		{
 			switch (stage)
@@ -48,12 +51,14 @@ namespace Violet {
 			return nullptr;
 		}
 
+		// 获取着色器缓存目录
 		static const char* GetCacheDirectory()
 		{
 			// TODO: make sure the assets directory is valid
 			return "assets/cache/shader/opengl";
 		}
 
+		// 创建着色器缓存目录（如果不存在）
 		static void CreateCacheDirectoryIfNeeded()
 		{
 			std::string cacheDirectory = GetCacheDirectory();
@@ -61,6 +66,7 @@ namespace Violet {
 				std::filesystem::create_directories(cacheDirectory);
 		}
 
+		// 根据OpenGL着色器类型获取缓存文件的扩展名
 		static const char* GLShaderStageCachedOpenGLFileExtension(uint32_t stage)
 		{
 			switch (stage)
@@ -72,6 +78,7 @@ namespace Violet {
 			return "";
 		}
 
+		// 根据OpenGL着色器类型获取Vulkan缓存文件的扩展名
 		static const char* GLShaderStageCachedVulkanFileExtension(uint32_t stage)
 		{
 			switch (stage)
@@ -82,9 +89,9 @@ namespace Violet {
 			VL_CORE_ASSERT(false);
 			return "";
 		}
-
-
 	}
+
+	// 构造函数：从文件加载着色器源码，进行预处理并编译
 	OpenGLShader::OpenGLShader(const std::string& filepath) 
 		: m_FilePath(filepath)
 	{
@@ -111,6 +118,7 @@ namespace Violet {
 		m_Name = filepath.substr(nameBegin, count);
 	}
 
+	// 构造函数：从源码字符串创建着色器
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) 
 		:m_Name(name)
 	{
@@ -125,6 +133,7 @@ namespace Violet {
 		CreateProgram();
 	}
 
+	// 析构函数：释放着色器程序资源
 	OpenGLShader::~OpenGLShader()
 	{
 		VL_PROFILE_FUNCTION();
@@ -132,6 +141,7 @@ namespace Violet {
 		glDeleteProgram(m_RendererID);
 	}
 
+	// 从文件中读取着色器源码
 	std::string OpenGLShader::ReadFile(const std::string& filepath) 
 	{
 		VL_PROFILE_FUNCTION();
@@ -161,6 +171,8 @@ namespace Violet {
 
 		return result;
 	}
+
+	// 对源码进行预处理，解析不同类型的着色器
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
 	{
 		VL_PROFILE_FUNCTION();
@@ -188,6 +200,8 @@ namespace Violet {
 
 		return shaderSources;
 	}
+
+	// 编译或获取Vulkan二进制文件
 	void OpenGLShader::CompileOrGetVulkanBinaries(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
 		GLuint program = glCreateProgram();
@@ -245,6 +259,7 @@ namespace Violet {
 			Reflect(stage, data);
 	}
 
+	// 编译或获取OpenGL二进制文件
 	void OpenGLShader::CompileOrGetOpenGLBinaries()
 	{
 		auto& shaderData = m_OpenGLSPIRV;
@@ -303,6 +318,7 @@ namespace Violet {
 		}
 	}
 
+	// 创建着色器程序
 	void OpenGLShader::CreateProgram()
 	{
 		GLuint program = glCreateProgram();
@@ -344,23 +360,33 @@ namespace Violet {
 		m_RendererID = program;
 	}
 
+	// 从SPIR-V反射着色器资源信息，包括 uniform 缓冲和采样器等
 	void OpenGLShader::Reflect(GLenum stage, const std::vector<uint32_t>& shaderData)
 	{
+		// 创建SPIR-V编译器并加载着色器数据
 		spirv_cross::Compiler compiler(shaderData);
+		// 获取着色器资源
 		spirv_cross::ShaderResources resources = compiler.get_shader_resources();
 
+		// 输出反射信息
 		VL_CORE_TRACE("OpenGLShader::Reflect - {0} {1}", Utils::GLShaderStageToString(stage), m_FilePath);
 		VL_CORE_TRACE("    {0} uniform buffers", resources.uniform_buffers.size());
 		VL_CORE_TRACE("    {0} resources", resources.sampled_images.size());
 
+		// 输出 uniform 缓冲详细信息
 		VL_CORE_TRACE("Uniform buffers:");
 		for (const auto& resource : resources.uniform_buffers)
 		{
+			// 获取缓冲类型信息
 			const auto& bufferType = compiler.get_type(resource.base_type_id);
+			// 计算缓冲大小
 			uint32_t bufferSize = compiler.get_declared_struct_size(bufferType);
+			// 获取绑定点
 			uint32_t binding = compiler.get_decoration(resource.id, spv::DecorationBinding);
+			// 获取成员数量
 			int memberCount = bufferType.member_types.size();
 
+			// 输出缓冲名称、大小、绑定点和成员数量
 			VL_CORE_TRACE("  {0}", resource.name);
 			VL_CORE_TRACE("    Size = {0}", bufferSize);
 			VL_CORE_TRACE("    Binding = {0}", binding);
@@ -368,17 +394,21 @@ namespace Violet {
 		}
 	}
 
-	void OpenGLShader::Bind() const 
+	// 绑定着色器程序
+	void OpenGLShader::Bind() const
 	{
-		VL_PROFILE_FUNCTION();
+		VL_PROFILE_FUNCTION(); // 性能分析
 
+		// 使用着色器程序
 		glUseProgram(m_RendererID);
-
 	}
-	void OpenGLShader::Unbind() const 
-	{
-		VL_PROFILE_FUNCTION();
 
+	// 解绑着色器程序
+	void OpenGLShader::Unbind() const
+	{
+		VL_PROFILE_FUNCTION(); // 性能分析
+
+		// 使用默认着色器程序（0代表没有程序）
 		glUseProgram(0);
 	}
 

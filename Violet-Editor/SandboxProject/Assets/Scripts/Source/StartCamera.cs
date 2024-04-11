@@ -14,6 +14,7 @@ namespace Sandbox
         private CameraComponent cameraComponent;
         private CameraComponent ortherComponet;
         private Entity text;
+        private TextComponent textComponent;
         private float speed;
 
         void OnCreate()
@@ -23,6 +24,7 @@ namespace Sandbox
             ortherComponet = FindEntityByName("CameraA").GetComponent<CameraComponent>();
             
             text = FindEntityByName("Text");
+            textComponent = text.GetComponent<TextComponent>();
             speed = 30.0f / 3.0f;
 
         }
@@ -31,6 +33,12 @@ namespace Sandbox
 
             if(timer < 2.0f)
             {
+                if(timer > 1.0f)
+                {
+                    textComponent.Color = new Vector4(0.8f, 0.0f, 0.0f, 1.0f);
+                    textComponent.Text = "Enjoy Yourself !";
+                }
+
                 Vector3  v3 = text.Translation;
                 v3.Z -= speed * ts;
                 text.Translation = v3;
@@ -38,6 +46,7 @@ namespace Sandbox
                 timer += ts;
                 return;
             }
+            textComponent.Color = new Vector4(0.0f, 0.0f, 0.0f, 0.0f);
             text.Translation = new Vector3(0,0,-100);
             cameraComponent.Primary = false;
             ortherComponet.Primary = true;
