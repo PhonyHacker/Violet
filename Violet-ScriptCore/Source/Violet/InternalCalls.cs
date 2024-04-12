@@ -9,6 +9,8 @@ namespace Violet
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
 		internal extern static bool Entity_HasComponent(ulong entityID, Type componentType);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool Entity_AddComponent(ulong entityID, Type componentType);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static ulong Entity_FindEntityByName(string name);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static object GetScriptInstance(ulong entityID);
@@ -24,6 +26,16 @@ namespace Violet
 
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void TransformComponent_SetTranslation(ulong entityID, ref Vector3 translation);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void TransformComponent_GetRotation(ulong entityID, out Vector3 rotation);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void TransformComponent_SetRotation(ulong entityID, ref Vector3 rotation);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void TransformComponent_GetScale(ulong entityID, out Vector3 scale);
+
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void TransformComponent_SetScale(ulong entityID, ref Vector3 scale);
         #endregion
 
         #region Rigidbody2DComponent
@@ -78,6 +90,19 @@ namespace Violet
         internal extern static void Input_GetMouseImGuiPosition(out Vector2 position);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static ulong Input_GetMouseHoever();
+        #endregion
+
+        #region SpriteRendererComponent
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteRendererComponent_GetColor(ulong entityID, out Vector4 color);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteRendererComponent_SetColor(ulong entityID, ref Vector4 color);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteRendererComponent_SetTexture2D(ulong entityID, string path);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static float SpriteRendererComponent_GetTilingFactor(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void SpriteRendererComponent_SetTilingFactor(ulong entityID, float TillingFactor);
         #endregion
     }
 }

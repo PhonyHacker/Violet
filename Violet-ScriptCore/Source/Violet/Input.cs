@@ -7,7 +7,7 @@
 			return InternalCalls.Input_IsKeyDown(keycode);
 		}
 
-		public static bool IsMouseBUttonDown(MouseButtonCode button)
+		public static bool IsMouseButtonDown(MouseButtonCode button)
 		{
 			return InternalCalls.Input_MouseButtonPressed(button);
 		}

@@ -29,7 +29,7 @@ namespace Sandbox
 
         void OnUpdate(float ts)
         {
-            if(Input.IsMouseBUttonDown(MouseButtonCode.ButtonLeft))
+            if(Input.IsMouseButtonDown(MouseButtonCode.ButtonLeft))
             {
                 Console.WriteLine("Mouse Pressed:{" + Input.GetMousePosition().X + ", " + Input.GetMousePosition().Y + "}");
                 Console.WriteLine("Mouse Pressed ImGui:{" + Input.GetMouseImGuiPosition().X + ", " + Input.GetMouseImGuiPosition().Y + "}");

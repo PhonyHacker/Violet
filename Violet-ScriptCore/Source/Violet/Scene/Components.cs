@@ -25,7 +25,32 @@ namespace Violet
 				InternalCalls.TransformComponent_SetTranslation(Entity.ID, ref value);
 			}
 		}
-	}
+        public Vector3 Scale
+        {
+            get
+            {
+                InternalCalls.TransformComponent_GetScale(Entity.ID, out Vector3 scale);
+                return scale;
+            }
+            set
+            {
+                InternalCalls.TransformComponent_SetScale(Entity.ID, ref value);
+            }
+        }
+
+        public Vector3 Rotation
+        {
+            get
+            {
+                InternalCalls.TransformComponent_GetRotation(Entity.ID, out Vector3 rotation);
+                return rotation;
+            }
+            set
+            {
+                InternalCalls.TransformComponent_SetRotation(Entity.ID, ref value);
+            }
+        }
+    }
 
 	public class Rigidbody2DComponent : Component
 	{
@@ -101,5 +126,45 @@ namespace Violet
             set => InternalCalls.TextComponent_SetLineSpacing(Entity.ID, value);
         }
 
+    }
+
+    public class SpriteRendererComponent : Component
+    {
+        public Vector4 Color
+        {
+            get
+            {
+                InternalCalls.SpriteRendererComponent_GetColor(Entity.ID, out Vector4 color);
+                return color;
+            }
+            set
+            {
+                InternalCalls.SpriteRendererComponent_SetColor(Entity.ID, ref value);
+            }
+        }
+
+        public string Texture2D
+        {
+            get
+            {
+                return null;
+            }
+            set
+            {
+                InternalCalls.SpriteRendererComponent_SetTexture2D(Entity.ID, value);   
+            }
+        }
+
+        public float TillingFactor
+        {
+            get
+            {
+                return InternalCalls.SpriteRendererComponent_GetTilingFactor(Entity.ID);
+            }
+            set
+            {
+                InternalCalls.SpriteRendererComponent_SetTilingFactor(Entity.ID, value);    
+            }
+        }
     }
 }

@@ -323,8 +323,7 @@ namespace Violet {
 					{
 						// 比较路径的后缀是否为 ".violet"
 						if(wpath.compare(wpath.size() - extension.size(), extension.size(), extension) == 0)
-							OpenScene(path);
-							
+							OpenScene(path);	
 					}
 					
 				}

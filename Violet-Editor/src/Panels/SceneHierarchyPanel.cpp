@@ -512,7 +512,8 @@ namespace Violet {
 
 	template<typename T>
 	void SceneHierarchyPanel::DisplayAddComponentEntry(const std::string& entryName) {
-		if (!m_SelectionContext.HasComponent<T>())
+		// TODO: Support to Accept More Scripts in One Entity 
+		if (!m_SelectionContext.HasComponent<T>()/* || std::is_same_v<T, ScriptComponent>*/)
 		{
 			if (ImGui::MenuItem(entryName.c_str()))
 			{

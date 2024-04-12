@@ -10,6 +10,7 @@
 
 #include "Violet/Scene/Scene.h"
 #include "Violet/Scene/Entity.h"
+#include "Violet/Scene/Components.h"
 
 #include "mono/metadata/object.h"
 #include "mono/metadata/reflection.h"
@@ -28,6 +29,8 @@ namespace Violet {
 
 	}
 
+	// static std::unordered_map<MonoType*, Component> s_EntityHasComponentFuncs;
+	static std::unordered_map<MonoType*, std::function<void(Entity)>> s_EntityAddComponentFuncs;
 	static std::unordered_map<MonoType*, std::function<bool(Entity)>> s_EntityHasComponentFuncs;
 
 #define VL_ADD_INTERNAL_CALL(Name) mono_add_internal_call("Violet.InternalCalls::" #Name, Name)
@@ -79,6 +82,22 @@ namespace Violet {
 		MonoType* managedType = mono_reflection_type_get_type(componentType);
 		VL_CORE_ASSERT(s_EntityHasComponentFuncs.find(managedType) != s_EntityHasComponentFuncs.end());
 		return s_EntityHasComponentFuncs.at(managedType)(entity);
+	}
+
+	static bool Entity_AddComponent(UUID entityID, MonoReflectionType* componentType)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+
+		MonoType* managedType = mono_reflection_type_get_type(componentType);
+		VL_CORE_ASSERT(s_EntityHasComponentFuncs.find(managedType) != s_EntityHasComponentFuncs.end());
+		if (s_EntityHasComponentFuncs.at(managedType)(entity))
+			return false;
+
+		s_EntityAddComponentFuncs.at(managedType)(entity);
+		return true;
 	}
 
 	static uint64_t Entity_CreateEntity(MonoString* name)
@@ -145,6 +164,46 @@ namespace Violet {
 		VL_CORE_ASSERT(entity);
 
 		entity.GetComponent<TransformComponent>().Translation = *translation;
+	}
+
+	static void TransformComponent_GetRotation(UUID entityID, glm::vec3* outRotation)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+
+		*outRotation = entity.GetComponent<TransformComponent>().Rotation;
+	}
+
+	static void TransformComponent_SetRotation(UUID entityID, glm::vec3* rotation)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+
+		entity.GetComponent<TransformComponent>().Rotation = *rotation;
+	}
+
+	static void TransformComponent_GetScale(UUID entityID, glm::vec3* outScale)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+
+		*outScale = entity.GetComponent<TransformComponent>().Scale;
+	}
+
+	static void TransformComponent_SetScale(UUID entityID, glm::vec3* scale)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+
+		entity.GetComponent<TransformComponent>().Scale = *scale;
 	}
 #pragma endregion
 
@@ -363,7 +422,68 @@ namespace Violet {
 	}
 #pragma endregion
 
+#pragma region SpriteRendererComponent
+	static void SpriteRendererComponent_GetColor(UUID entityID, glm::vec4* color)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+		VL_CORE_ASSERT(entity.HasComponent<SpriteRendererComponent>());
 
+		auto& sc = entity.GetComponent<SpriteRendererComponent>();
+		*color = sc.Color;
+	}
+
+	static void SpriteRendererComponent_SetColor(UUID entityID, glm::vec4* color)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+		VL_CORE_ASSERT(entity.HasComponent<SpriteRendererComponent>());
+
+		auto& sc = entity.GetComponent<SpriteRendererComponent>();
+		sc.Color = *color;
+	}
+
+	static void SpriteRendererComponent_SetTexture2D(UUID entityID, MonoString* path)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+		VL_CORE_ASSERT(entity.HasComponent<SpriteRendererComponent>());
+
+		auto& sc = entity.GetComponent<SpriteRendererComponent>();
+		sc.Texture = Texture2D::Create(Utils::MonoStringToString(path));
+
+	}
+
+	static float SpriteRendererComponent_GetTilingFactor(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+		VL_CORE_ASSERT(entity.HasComponent<SpriteRendererComponent>());
+
+		auto& sc = entity.GetComponent<SpriteRendererComponent>();
+		return sc.TilingFactor;
+	}
+
+	static void SpriteRendererComponent_SetTilingFactor(UUID entityID, float TilingFactor)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+		VL_CORE_ASSERT(entity.HasComponent<SpriteRendererComponent>());
+
+		auto& sc = entity.GetComponent<SpriteRendererComponent>();
+		sc.TilingFactor = TilingFactor;
+	}
+#pragma endregion
 	template<typename... Component>
 	static void RegisterComponent()
 	{
@@ -388,8 +508,9 @@ namespace Violet {
 				{
 					VL_CORE_TRACE("注册组件类型 {}", managedTypename);
 				}
-				// 将每个组件类型与一个Lambda函数关联起来，以检查实体是否具有该组件
+				// 将每个组件类型与一个Lambda函数关联
 				s_EntityHasComponentFuncs[managedType] = [](Entity entity) { return entity.HasComponent<Component>(); };
+				s_EntityAddComponentFuncs[managedType] = [](Entity entity) { entity.AddComponent<Component>(); };
 			}(), ...);
 	}
 
@@ -416,6 +537,7 @@ namespace Violet {
 
 		// Entity
 		VL_ADD_INTERNAL_CALL(Entity_HasComponent);
+		VL_ADD_INTERNAL_CALL(Entity_AddComponent);
 		VL_ADD_INTERNAL_CALL(Entity_FindEntityByName);
 		VL_ADD_INTERNAL_CALL(Entity_CreateEntity);
 		VL_ADD_INTERNAL_CALL(Entity_DeleteEntity);
@@ -423,6 +545,10 @@ namespace Violet {
 		// Transform
 		VL_ADD_INTERNAL_CALL(TransformComponent_GetTranslation);
 		VL_ADD_INTERNAL_CALL(TransformComponent_SetTranslation);
+		VL_ADD_INTERNAL_CALL(TransformComponent_GetRotation);
+		VL_ADD_INTERNAL_CALL(TransformComponent_SetRotation);
+		VL_ADD_INTERNAL_CALL(TransformComponent_GetScale);
+		VL_ADD_INTERNAL_CALL(TransformComponent_SetScale);
 
 		// Rigidbody
 		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulse);
@@ -451,6 +577,15 @@ namespace Violet {
 		VL_ADD_INTERNAL_CALL(Input_GetMousePosition);
 		VL_ADD_INTERNAL_CALL(Input_GetMouseImGuiPosition);
 		VL_ADD_INTERNAL_CALL(Input_GetMouseHoever);
+		
+		// SpriteRenderer
+		VL_ADD_INTERNAL_CALL(SpriteRendererComponent_GetColor);
+		VL_ADD_INTERNAL_CALL(SpriteRendererComponent_SetColor);
+		VL_ADD_INTERNAL_CALL(SpriteRendererComponent_SetTexture2D);
+		VL_ADD_INTERNAL_CALL(SpriteRendererComponent_GetTilingFactor);
+		VL_ADD_INTERNAL_CALL(SpriteRendererComponent_SetTilingFactor);
+
+
 	}
 
 }
