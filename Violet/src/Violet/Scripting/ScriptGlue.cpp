@@ -34,6 +34,8 @@ namespace Violet {
 
 	// 定义静态C++函数，用于在C++中实现具体逻辑
 
+#pragma region Debug Log
+	
 	// 将MonoString转换为UTF-8字符串并打印输出
 	static void NativeLog(MonoString* string, int parameter)
 	{
@@ -56,11 +58,16 @@ namespace Violet {
 		std::cout << parameter->x << "," << parameter->y << "," << parameter->z << std::endl;
 		return glm::dot(*parameter, *parameter);
 	}
+#pragma endregion
 
+#pragma region Script
 	static MonoObject* GetScriptInstance(UUID entityID)
 	{
 		return ScriptEngine::GetManagedInstance(entityID);
 	}
+#pragma endregion 
+
+#pragma region Entity
 
 	static bool Entity_HasComponent(UUID entityID, MonoReflectionType* componentType)
 	{
@@ -72,6 +79,35 @@ namespace Violet {
 		MonoType* managedType = mono_reflection_type_get_type(componentType);
 		VL_CORE_ASSERT(s_EntityHasComponentFuncs.find(managedType) != s_EntityHasComponentFuncs.end());
 		return s_EntityHasComponentFuncs.at(managedType)(entity);
+	}
+
+	static uint64_t Entity_CreateEntity(MonoString* name)
+	{
+		char* nameCStr = mono_string_to_utf8(name);
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->CreateEntity(nameCStr);
+		mono_free(nameCStr);
+
+		if (!entity)
+			return 0;
+
+		return entity.GetUUID();
+	}
+
+	static bool Entity_DeleteEntity(UUID entityID)
+	{
+		VL_CORE_TRACE(entityID);
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+
+		if (!entity)
+			return false;
+
+		scene->DestroyEntity(entity);
+		return true;
 	}
 
 	static uint64_t Entity_FindEntityByName(MonoString* name)
@@ -88,7 +124,9 @@ namespace Violet {
 
 		return entity.GetUUID();
 	}
+#pragma endregion
 
+#pragma region Transform
 	static void TransformComponent_GetTranslation(UUID entityID, glm::vec3* outTranslation)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -108,7 +146,9 @@ namespace Violet {
 
 		entity.GetComponent<TransformComponent>().Translation = *translation;
 	}
+#pragma endregion
 
+#pragma region Rigibody
 	static void Rigidbody2DComponent_ApplyLinearImpulse(UUID entityID, glm::vec2* impulse, glm::vec2* point, bool wake)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -169,7 +209,9 @@ namespace Violet {
 		b2Body* body = (b2Body*)rb2d.RuntimeBody;
 		body->SetType(Utils::Rigidbody2DTypeToBox2DBody(bodyType));
 	}
+#pragma endregion
 
+#pragma region Input
 	static bool Input_IsKeyDown(KeyCode keycode)
 	{
 		return Input::IsKeyPressed(keycode);
@@ -184,7 +226,9 @@ namespace Violet {
 	{
 		*outPosition = Input::GetMousePosition();
 	}
+#pragma endregion
 
+#pragma region Camera
 	static bool CameraComponent_GetIsPrimary(UUID entityID)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -204,7 +248,9 @@ namespace Violet {
 
 		entity.GetComponent<CameraComponent>().Primary = flag;
 	}
+#pragma endregion
 
+#pragma region Text
 	static MonoString* TextComponent_GetText(UUID entityID)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -300,6 +346,8 @@ namespace Violet {
 		auto& tc = entity.GetComponent<TextComponent>();
 		tc.LineSpacing = lineSpacing;
 	}
+#pragma endregion
+
 
 	template<typename... Component>
 	static void RegisterComponent()
@@ -354,6 +402,10 @@ namespace Violet {
 		// Entity
 		VL_ADD_INTERNAL_CALL(Entity_HasComponent);
 		VL_ADD_INTERNAL_CALL(Entity_FindEntityByName);
+		VL_ADD_INTERNAL_CALL(Entity_CreateEntity);
+		VL_ADD_INTERNAL_CALL(Entity_DeleteEntity);
+
+		// Transform
 		VL_ADD_INTERNAL_CALL(TransformComponent_GetTranslation);
 		VL_ADD_INTERNAL_CALL(TransformComponent_SetTranslation);
 

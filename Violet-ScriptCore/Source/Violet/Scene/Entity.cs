@@ -51,6 +51,28 @@ namespace Violet
             return new Entity(entityID);
         }
 
+		public Entity CreateEntity(string name)
+		{
+            ulong entityID = InternalCalls.Entity_CreateEntity(name);
+            if (entityID == 0)
+                return null;
+
+            return new Entity(entityID);
+        }
+
+        public bool DeleteEntity(string name)
+        {
+            ulong entityID = InternalCalls.Entity_FindEntityByName(name);
+			if (entityID == 0)
+			{
+				Console.WriteLine("entityID = 0");
+				return false;
+			}
+
+			InternalCalls.Entity_DeleteEntity(entityID);
+            return true;
+        }
+
         public T As<T>() where T : Entity, new()
         {
             object instance = InternalCalls.GetScriptInstance(ID);

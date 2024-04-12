@@ -46,8 +46,15 @@ namespace Sandbox
                 timer += ts;
                 return;
             }
-            textComponent.Color = new Vector4(0.0f, 0.0f, 0.0f, 0.0f);
-            text.Translation = new Vector3(0,0,-100);
+
+            if(text!=null)
+            {
+                bool res = DeleteEntity("Text");
+                // Console.WriteLine(res);
+                
+                text = null;
+            }
+
             cameraComponent.Primary = false;
             ortherComponet.Primary = true;
             

@@ -12,6 +12,10 @@ namespace Violet
         internal extern static ulong Entity_FindEntityByName(string name);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static object GetScriptInstance(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static ulong Entity_CreateEntity(string name);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static bool Entity_DeleteEntity(ulong entityID);
         #endregion
 
         #region TransformComponent
