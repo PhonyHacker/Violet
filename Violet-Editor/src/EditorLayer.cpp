@@ -32,8 +32,6 @@ namespace Violet {
 	{
 		VL_PROFILE_FUNCTION();
 
-		m_CheckerboardTexture = Violet::Texture2D::Create("assets/textures/test.png");
-
 		m_IconPlay = Texture2D::Create("Resources/Icons/PlayButton.png");
 		m_IconPause = Texture2D::Create("Resources/Icons/PauseButton.png");
 		m_IconSimulate = Texture2D::Create("Resources/Icons/SimulateButton.png");
@@ -148,12 +146,13 @@ namespace Violet {
 			int mouseX = (int)mx;
 			int mouseY = (int)my;
 			// VL_TRACE("MOUSE: {0}, {1}", mouseX, mouseY);
-
+			Application::Get().CurrentMouse = glm::vec2(mx, my);
 
 			if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
 			{
 				int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
 				m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
+				Application::Get().HoeveredEntity = m_HoveredEntity;
 			}
 
 			OnOverlayRender();
@@ -564,7 +563,10 @@ namespace Violet {
 		if (e.GetMouseButton() == Mouse::ButtonLeft)
 		{
 			if (m_ViewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(Key::LeftAlt))
+			{
 				m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+				Application::Get().HoeveredEntity = m_HoveredEntity;
+			}
 		}
 		return false;
 	}

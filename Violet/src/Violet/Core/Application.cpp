@@ -25,6 +25,8 @@ namespace Violet {
 
 		VL_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
+		// s_CurrentMouse = glm::vec2();
+		// s_HoeveredEntity = Entity();
 
 		// Set working directory here
 		if (!m_Specification.WorkingDirectory.empty())

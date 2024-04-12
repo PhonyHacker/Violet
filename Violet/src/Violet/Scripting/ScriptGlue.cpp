@@ -226,6 +226,21 @@ namespace Violet {
 	{
 		*outPosition = Input::GetMousePosition();
 	}
+
+	static void Input_GetMouseImGuiPosition(glm::vec2* outPosition)
+	{
+		*outPosition = Input::GetMouseImGuiPosition();
+	}
+
+	static uint64_t Input_GetMouseHoever()
+	{
+		Entity entity = Input::GetMouseHoevered();
+
+		if (!entity)
+			return 0;
+
+		return entity.GetUUID();
+	}
 #pragma endregion
 
 #pragma region Camera
@@ -434,6 +449,8 @@ namespace Violet {
 		VL_ADD_INTERNAL_CALL(Input_IsKeyDown);
 		VL_ADD_INTERNAL_CALL(Input_MouseButtonPressed);
 		VL_ADD_INTERNAL_CALL(Input_GetMousePosition);
+		VL_ADD_INTERNAL_CALL(Input_GetMouseImGuiPosition);
+		VL_ADD_INTERNAL_CALL(Input_GetMouseHoever);
 	}
 
 }

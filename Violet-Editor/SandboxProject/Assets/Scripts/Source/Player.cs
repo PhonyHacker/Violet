@@ -31,7 +31,14 @@ namespace Sandbox
         {
             if(Input.IsMouseBUttonDown(MouseButtonCode.ButtonLeft))
             {
-                // Console.WriteLine("Mouse Pressed:{" + Input.GetMousePosition().X + ", " + Input.GetMousePosition().Y + "}");
+                Console.WriteLine("Mouse Pressed:{" + Input.GetMousePosition().X + ", " + Input.GetMousePosition().Y + "}");
+                Console.WriteLine("Mouse Pressed ImGui:{" + Input.GetMouseImGuiPosition().X + ", " + Input.GetMouseImGuiPosition().Y + "}");
+                Entity entity = Input.GetMouseHoever();
+                if (entity != null && entity.HasComponent<Rigidbody2DComponent>())
+                {
+                    Console.WriteLine(entity);
+                    entity.GetComponent<Rigidbody2DComponent>().ApplyLinearImpulse(new Vector2(0.0f, 5.0f), true);
+                }
             }
             else
             {

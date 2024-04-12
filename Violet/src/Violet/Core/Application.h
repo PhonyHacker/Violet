@@ -1,10 +1,12 @@
 #pragma once
 
+#include "Violet/Core/Application.h"
 #include "Violet/Core/Base.h"
 #include "Violet/Events/Event.h"
 #include "Window.h"
 #include "Violet/Core/Layer.h"
 #include "Violet/Core/LayerStack.h"
+#include "Violet/Scene/Entity.h"
 #include "Violet/Events/ApplicationEvent.h"
 
 #include "Violet/ImGui/ImGuiLayer.h"
@@ -62,6 +64,9 @@ namespace Violet {
 		bool OnWindowResize(WindowResizeEvent& e);
 
 		void ExecuteMainThreadQueue();
+	public:
+		Entity HoeveredEntity;
+		glm::vec2 CurrentMouse;
 	private:
 		ApplicationSpecification m_Specification;
 		Scope<Window> m_Window;

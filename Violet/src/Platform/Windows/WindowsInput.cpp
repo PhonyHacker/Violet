@@ -4,6 +4,7 @@
 #include "Violet/Core/Application.h"
 
 #include <GLFW/glfw3.h>
+#include <imgui.h>
 
 namespace Violet {
 
@@ -41,5 +42,26 @@ namespace Violet {
 	{
 		return GetMousePosition().y;
 	}
+
+	glm::vec2 Input::GetMouseImGuiPosition()
+	{
+		return Application::Get().CurrentMouse;
+	}
+
+	float Input::GetImGuiMouseX()
+	{
+		return GetMouseImGuiPosition().x;
+	}
+
+	float Input::GetImGuiMouseY()
+	{
+		return GetMouseImGuiPosition().y;
+	}
+
+	Entity Input::GetMouseHoevered()
+	{
+		return Application::Get().HoeveredEntity;
+	}
+
 	
 }

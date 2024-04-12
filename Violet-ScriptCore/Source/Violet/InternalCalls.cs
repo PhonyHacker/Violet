@@ -74,6 +74,10 @@ namespace Violet
         internal extern static bool Input_MouseButtonPressed(MouseButtonCode button);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Input_GetMousePosition(out Vector2 position);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static void Input_GetMouseImGuiPosition(out Vector2 position);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static ulong Input_GetMouseHoever();
         #endregion
     }
 }
