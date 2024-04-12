@@ -314,7 +314,19 @@ namespace Violet {
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
 				{
 					const wchar_t* path = (const wchar_t*)payload->Data;
-					OpenScene(path);
+
+					std::wstring wpath(path);
+					std::wstring extension = L".violet";
+
+					// 检查路径长度是否足够长
+					if (wpath.size() >= extension.size()) 
+					{
+						// 比较路径的后缀是否为 ".violet"
+						if(wpath.compare(wpath.size() - extension.size(), extension.size(), extension) == 0)
+							OpenScene(path);
+							
+					}
+					
 				}
 				ImGui::EndDragDropTarget();
 			}
