@@ -429,22 +429,78 @@ namespace Violet {
 		{
 			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
 
-			ImGui::Button("Texture", ImVec2(100.0f, 0.0f));
-			if (ImGui::BeginDragDropTarget())
+			const char* textureTypeString[] = { "Texture2D", "SubTexture2D" };
+			const char* currentTextureTypeString = textureTypeString[(int)component.textureType];
+
+			if(ImGui::BeginCombo("TextureType", currentTextureTypeString))
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+				for (int i = 0; i < 2; i++)
 				{
-					const wchar_t* path = (const wchar_t*)payload->Data;
-					std::filesystem::path texturePath(path);
-					//component.Texture = Texture2D::Create(texturePath.string());
-					Ref<Texture2D> texture = Texture2D::Create(texturePath.string());
-					if (texture->IsLoaded())
-						component.Texture = texture;
-					else
-						VL_WARN("Could not load texture {0}", texturePath.filename().string());
+					bool isSelected = currentTextureTypeString == textureTypeString[i];
+					if (ImGui::Selectable(textureTypeString[i], isSelected))
+					{
+						currentTextureTypeString = textureTypeString[i];
+						component.textureType = (SpriteRendererComponent::TextureType)i;
+					}
+
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
 				}
-				ImGui::EndDragDropTarget();
+
+				ImGui::EndCombo();
 			}
+
+			if (component.textureType == SpriteRendererComponent::TextureType::SubTexture2D)
+			{
+				ImGui::InputFloat2("Coords", glm::value_ptr(component.Coords));
+				ImGui::InputFloat2("CellSize", glm::value_ptr(component.CellSize));
+				ImGui::InputFloat2("SpirteSize", glm::value_ptr(component.SpriteSize));
+
+				ImGui::Button("SubTexture", ImVec2(100.0f, 0.0f));
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+					{
+						const wchar_t* path = (const wchar_t*)payload->Data;
+						std::filesystem::path texturePath(path);
+						
+						Ref<Texture2D> texture = Texture2D::Create(texturePath.string());
+
+						Ref<SubTexture2D> subTexture = SubTexture2D::CreateFromCoords(texture,
+							component.Coords, component.CellSize, component.SpriteSize);
+						if (subTexture->GetTexture()->IsLoaded())
+						{
+							component.SubTexture = subTexture;
+							VL_WARN("Could load subtexture {0} {1}", texturePath.filename().string(), (int)component.textureType);
+
+
+						}
+						else
+							VL_WARN("Could not load texture {0}", texturePath.filename().string());
+					}
+					ImGui::EndDragDropTarget();
+				}
+			}
+			else if (component.textureType == SpriteRendererComponent::TextureType::Texture2D)
+			{
+				ImGui::Button("Texture", ImVec2(100.0f, 0.0f));
+				if (ImGui::BeginDragDropTarget())
+				{
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+					{
+						const wchar_t* path = (const wchar_t*)payload->Data;
+						std::filesystem::path texturePath(path);
+						//component.Texture = Texture2D::Create(texturePath.string());
+						Ref<Texture2D> texture = Texture2D::Create(texturePath.string());
+						if (texture->IsLoaded())
+							component.Texture = texture;
+						else
+							VL_WARN("Could not load texture {0}", texturePath.filename().string());
+					}
+					ImGui::EndDragDropTarget();
+				}
+			}
+			
 
 			ImGui::DragFloat("Tiling Factor", &component.TilingFactor, 0.1f, 0.0f, 100.0f);
 		});

@@ -2,6 +2,7 @@
 
 #include "SceneCamera.h"
 #include "Violet/Renderer/Texture.h"
+#include "Violet/Renderer/SubTexture2D.h"
 #include "Violet/Renderer/Font.h"
 #include "Violet/Core/Log.h"
 #include "Violet/Core/UUID.h"
@@ -56,8 +57,17 @@ namespace Violet {
 
 	struct SpriteRendererComponent
 	{
+		enum class TextureType { Texture2D = 0, SubTexture2D = 1 };
+		TextureType textureType = TextureType::Texture2D;
+
 		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
 		Ref<Texture2D> Texture;
+		Ref<SubTexture2D> SubTexture;
+		
+		glm::vec2 Coords;
+		glm::vec2 CellSize;
+		glm::vec2 SpriteSize;
+
 		float TilingFactor = 1.0f;
 
 		SpriteRendererComponent() = default;

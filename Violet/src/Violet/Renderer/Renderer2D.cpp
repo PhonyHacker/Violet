@@ -9,6 +9,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "SubTexture2D.h"
 
 namespace Violet {
 
@@ -453,6 +454,72 @@ namespace Violet {
 		s_Data.Stats.QuadCount++;
 	}
 
+	bool Renderer2D::DrawQuadSubTex(const glm::mat4& transform, const Ref<SubTexture2D>& altas, float tilingFactor, const glm::vec4& tintColor, int entityID)
+	{
+		VL_PROFILE_FUNCTION();
+		if (!altas)
+		{
+			VL_CORE_ERROR("SubEmpty");
+			return false;
+
+		}
+
+		constexpr size_t quadVertexCount = 4;
+		// 假设 GetTexCoords() 返回的是一个指向 glm::vec2 数组的指针
+		const glm::vec2* texCoordsPtr = altas->GetTexCoords();
+
+		// 创建一个数组用于存储纹理坐标
+		constexpr size_t numCoords = 4; 
+		glm::vec2 textureCoords[numCoords];
+
+		// 将指针指向的数组内容复制到新数组中
+		for (size_t i = 0; i < numCoords; ++i) {
+			textureCoords[i] = texCoordsPtr[i];
+		}
+
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
+			NextBatch();
+
+		float textureIndex = 0.0f;
+		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
+		{
+			if (*s_Data.TextureSlots[i] == *altas->GetTexture())
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
+				NextBatch();
+
+			textureIndex = (float)s_Data.TextureSlotIndex;
+			auto tex = altas->GetTexture();;
+			s_Data.TextureSlots[s_Data.TextureSlotIndex] = tex;
+			s_Data.TextureSlotIndex++;
+		}
+
+		for (size_t i = 0; i < quadVertexCount; i++)
+		{
+			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
+			s_Data.QuadVertexBufferPtr->Color = tintColor;
+			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
+			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data.QuadVertexBufferPtr->EntityID = entityID;
+
+			s_Data.QuadVertexBufferPtr++;
+		}
+
+		s_Data.QuadIndexCount += 6;
+
+		s_Data.Stats.QuadCount++;
+
+		return true;
+	}
+
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 	{
 		DrawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, color);
@@ -551,8 +618,20 @@ namespace Violet {
 	
 	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
 	{
-		if (src.Texture)
-			DrawQuad(transform, src.Texture, src.TilingFactor, src.Color, entityID);
+		if (src.Texture || src.SubTexture)
+		{
+			if (src.textureType == SpriteRendererComponent::TextureType::Texture2D)
+			{
+				DrawQuad(transform, src.Texture, src.TilingFactor, src.Color, entityID);
+			}
+			else if (src.textureType == SpriteRendererComponent::TextureType::SubTexture2D)
+			{
+				if (!DrawQuadSubTex(transform, src.SubTexture, src.TilingFactor, src.Color, entityID))
+				{
+					DrawQuad(transform, src.Texture, src.TilingFactor, src.Color, entityID);
+				}
+			}
+		}
 		else
 			DrawQuad(transform, src.Color, entityID);
 	}
