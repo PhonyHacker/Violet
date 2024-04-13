@@ -1,0 +1,5 @@
+Project:
+  Name: AngleBird
+  StartScene: "Scenes/Game1.violet"
+  AssetDirectory: "Assets"
+  ScriptModulePath: "Scripts/Binaries/AngleBird.dll"

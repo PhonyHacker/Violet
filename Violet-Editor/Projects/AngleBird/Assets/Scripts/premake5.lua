@@ -1,8 +1,8 @@
-local VioletRootDir = '../../../..'
+local VioletRootDir = '../../../../..'
 
-workspace "Sandbox"
+workspace "AngleBird"
 	architecture "x86_64"
-	startproject "Sandbox"
+	startproject "AngleBird"
 
 	configurations
 	{
@@ -18,7 +18,7 @@ workspace "Sandbox"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-project "Sandbox"
+project "AngleBird"
 	kind "SharedLib"
 	language "C#"
 	dotnetframework "4.7.2"

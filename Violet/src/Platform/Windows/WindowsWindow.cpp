@@ -7,6 +7,8 @@
 
 #include "Platform/OpenGL/OpenGLContext.h"
 
+#include <stb_image.h>
+
 
 namespace Violet {
 	static uint8_t s_GLFWWindowCount = 0;
@@ -65,6 +67,21 @@ namespace Violet {
 			VL_PROFILE_SCOPE("glfwCreateWindow");
 
 			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+
+			#pragma region 设置GLFW窗口图标
+			int width, height, channels;
+			unsigned char* icon_pixels = stbi_load("Resources/Icons/icon.png", &width, &height, &channels, STBI_rgb_alpha);
+			// 使用像素数据创建 GLFW 窗口图标
+			GLFWimage icon;
+			icon.pixels = icon_pixels;
+			icon.width = width;
+			icon.height = height;
+			glfwSetWindowIcon(m_Window, 1, &icon);
+			stbi_image_free(icon_pixels);
+
+			//SetClassLong(hwnd, GCL_HBRBACKGROUND, (LONG)CreateSolidBrush(RGB(255, 0, 0)));
+			#pragma endregion
+
 			s_GLFWWindowCount++;
 		}
 		

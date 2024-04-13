@@ -138,7 +138,7 @@ group "Core"
 				"%{Library.SPIRV_Cross_Release}",
 				"%{Library.SPIRV_Cross_GLSL_Release}"
 			}
-------------------------------
+
 	project "Violet-ScriptCore"
 		location "Violet-ScriptCore"
 		kind "SharedLib"
