@@ -100,6 +100,11 @@ namespace Violet {
 
 			stbi_image_free(data);
 		}
+		else
+		{
+			std::string info = "üo–ß¬∑èΩ£∫" + path;
+			VL_CORE_INFO(info);
+		}
 	}
 
 	OpenGLTexture2D::~OpenGLTexture2D()

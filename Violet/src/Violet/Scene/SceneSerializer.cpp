@@ -409,8 +409,9 @@ namespace Violet {
 			return false;
 
 		std::string sceneName = data["Scene"].as<std::string>();
+#ifdef VL_DEBUG
 		VL_CORE_TRACE("Deserializing scene '{0}'", sceneName);
-
+#endif
 		auto entities = data["Entities"];
 		if (entities)
 		{

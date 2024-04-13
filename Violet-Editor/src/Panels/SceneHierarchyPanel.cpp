@@ -490,6 +490,7 @@ namespace Violet {
 					{
 						const wchar_t* path = (const wchar_t*)payload->Data;
 						std::filesystem::path texturePath(path);
+						//VL_TRACE(texturePath.string());
 						//component.Texture = Texture2D::Create(texturePath.string());
 						Ref<Texture2D> texture = Texture2D::Create(texturePath.string());
 						if (texture->IsLoaded())

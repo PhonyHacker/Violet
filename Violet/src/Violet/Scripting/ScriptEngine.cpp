@@ -200,12 +200,12 @@ namespace Violet {
 	void ScriptEngine::Init()
 	{
 		s_MonoData = new ScriptEngineData();	// 创建脚本引擎数据结构
-		
+
 		if (s_IsMonoInited)
 		{
 			ShutdownMonoApp();
 		}
-		
+
 		InitMono();	// 初始化Mono运行时
 		s_IsMonoInited = true;
 
@@ -486,7 +486,9 @@ namespace Violet {
 
 			// 遍历类的字段信息
 			int fieldCount = mono_class_num_fields(monoClass);
+#ifdef VL_DEBUG
 			VL_CORE_WARN("{} has {} fields:", className, fieldCount);
+#endif
 			void* iterator = nullptr;
 			while (MonoClassField* field = mono_class_get_fields(monoClass, &iterator))
 			{
@@ -497,8 +499,9 @@ namespace Violet {
 					// 获取字段类型并存储在 ScriptClass 对象中
 					MonoType* type = mono_field_get_type(field);
 					ScriptFieldType fieldType = Utils::MonoTypeToScriptFieldType(type);
+#ifdef VL_DEBUG
 					VL_CORE_TRACE("  {} ({})", fieldName, Utils::ScriptFieldTypeToString(fieldType));
-
+#endif // VL_DEBUG
 					scriptClass->m_Fields[fieldName] = { fieldType, fieldName, field };
 				}
 			}

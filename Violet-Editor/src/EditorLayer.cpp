@@ -665,7 +665,7 @@ namespace Violet {
 			m_ContentBrowserPanel = CreateScope<ContentBrowserPanel>();
 
 			ScriptEngine::s_ProjectName = path.stem().string();
-			// VL_CORE_INFO(ScriptEngine::s_ProjectName);
+			VL_CORE_INFO(ScriptEngine::s_ProjectName);
 		}
 	}
 
@@ -687,9 +687,10 @@ namespace Violet {
 	void EditorLayer::NewScene()
 	{
 		// Renderer2D::Init();
-		m_ActiveScene = CreateRef<Scene>();
+		m_EditorScene = CreateRef<Scene>();
+		m_ActiveScene = m_EditorScene;
 		// m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		m_SceneHierarchyPanel.SetContext(m_EditorScene);
 
 		m_EditorScenePath = std::filesystem::path();
 	}

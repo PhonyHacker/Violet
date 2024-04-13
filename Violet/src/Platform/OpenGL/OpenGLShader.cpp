@@ -368,6 +368,7 @@ namespace Violet {
 		// 获取着色器资源
 		spirv_cross::ShaderResources resources = compiler.get_shader_resources();
 
+#ifdef VL_DEBUG
 		// 输出反射信息
 		VL_CORE_TRACE("OpenGLShader::Reflect - {0} {1}", Utils::GLShaderStageToString(stage), m_FilePath);
 		VL_CORE_TRACE("    {0} uniform buffers", resources.uniform_buffers.size());
@@ -392,6 +393,7 @@ namespace Violet {
 			VL_CORE_TRACE("    Binding = {0}", binding);
 			VL_CORE_TRACE("    Members = {0}", memberCount);
 		}
+#endif
 	}
 
 	// 绑定着色器程序

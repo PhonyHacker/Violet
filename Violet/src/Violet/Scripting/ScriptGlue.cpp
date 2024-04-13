@@ -456,7 +456,10 @@ namespace Violet {
 		VL_CORE_ASSERT(entity.HasComponent<SpriteRendererComponent>());
 
 		auto& sc = entity.GetComponent<SpriteRendererComponent>();
-		sc.Texture = Texture2D::Create(Utils::MonoStringToString(path));
+		
+		std::filesystem::path resource = std::filesystem::current_path() / Utils::MonoStringToString(path);
+		//VL_TRACE(resource.string());
+		sc.Texture = Texture2D::Create(resource.string());
 
 	}
 
@@ -484,6 +487,8 @@ namespace Violet {
 		sc.TilingFactor = TilingFactor;
 	}
 #pragma endregion
+
+
 	template<typename... Component>
 	static void RegisterComponent()
 	{
@@ -501,12 +506,18 @@ namespace Violet {
 				MonoType* managedType = mono_reflection_type_from_name(managedTypename.data(), ScriptEngine::GetCoreAssemblyImage());
 				if (!managedType)
 				{
+#ifdef  VL_DEBUG
 					VL_CORE_ERROR("无法找到组件类型 {}", managedTypename);
+
+#endif
 					return;
 				}
 				else
 				{
+#ifdef VL_DEBUG
 					VL_CORE_TRACE("注册组件类型 {}", managedTypename);
+
+#endif
 				}
 				// 将每个组件类型与一个Lambda函数关联
 				s_EntityHasComponentFuncs[managedType] = [](Entity entity) { return entity.HasComponent<Component>(); };
