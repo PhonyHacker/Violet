@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.CompilerServices;
 
 namespace Violet
 {
@@ -14,7 +13,15 @@ namespace Violet
 
 		public readonly ulong ID;
 
-		public Vector3 Translation
+        public string Name
+        {
+            get
+            {
+                return InternalCalls.Entity_GetTag(ID);
+            }
+            set { }
+        }
+        public Vector3 Translation
 		{
 			get
 			{
@@ -39,7 +46,6 @@ namespace Violet
                 InternalCalls.TransformComponent_SetRotation(ID, ref value);
             }
         }
-
 
         public Vector3 Scale
         {
@@ -95,6 +101,11 @@ namespace Violet
                 return null;
 
             return new Entity(entityID);
+        }
+
+        public bool DeleteEntity(ulong ID)
+        {
+            return InternalCalls.Entity_DeleteEntity(ID);
         }
 
         public bool DeleteEntity(string name)

@@ -7,6 +7,8 @@ namespace Violet
 	{
         #region Entity
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
+        internal extern static string Entity_GetTag(ulong entityID);
+        [MethodImplAttribute(MethodImplOptions.InternalCall)]
 		internal extern static bool Entity_HasComponent(ulong entityID, Type componentType);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool Entity_AddComponent(ulong entityID, Type componentType);

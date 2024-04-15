@@ -151,6 +151,7 @@ namespace Violet
             }
             set
             {
+                Console.WriteLine(value);
                 InternalCalls.SpriteRendererComponent_SetTexture2D(Entity.ID, value);   
             }
         }

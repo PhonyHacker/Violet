@@ -126,8 +126,7 @@ namespace Violet {
 	};
 }
 
-// #define VL_PROFILE 1
-#define VL_PROFILE 0
+#define VL_PROFILE 1
 #if VL_PROFILE
 	#define VL_PROFILE_BEGIN_SESSION(name, filepath) ::Violet::Instrumentor::Get().BeginSession(name, filepath)
 	#define VL_PROFILE_END_SESSION() ::Violet::Instrumentor::Get().EndSession()

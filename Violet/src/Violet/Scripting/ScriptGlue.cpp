@@ -72,6 +72,16 @@ namespace Violet {
 
 #pragma region Entity
 
+	static MonoString* Entity_GetTag(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+		
+		return ScriptEngine::CreateString(entity.GetName().c_str());
+	}
+
 	static bool Entity_HasComponent(UUID entityID, MonoReflectionType* componentType)
 	{
 		Scene* scene = ScriptEngine::GetSceneContext();
@@ -547,6 +557,7 @@ namespace Violet {
 		VL_ADD_INTERNAL_CALL(GetScriptInstance);
 
 		// Entity
+		VL_ADD_INTERNAL_CALL(Entity_GetTag);
 		VL_ADD_INTERNAL_CALL(Entity_HasComponent);
 		VL_ADD_INTERNAL_CALL(Entity_AddComponent);
 		VL_ADD_INTERNAL_CALL(Entity_FindEntityByName);
