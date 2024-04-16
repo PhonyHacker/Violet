@@ -49,6 +49,8 @@ namespace Violet {
 		void SetPaused(bool paused) { m_IsPaused = paused; }
 
 		void Step(int frames = 1);
+		inline uint32_t GetViewportWidth() { return m_ViewportWidth; }
+		inline uint32_t GetViewportHeight() { return m_ViewportHeight; }
 
 		template<typename... Components>
 		auto GetAllEntitiesWith()
@@ -70,8 +72,8 @@ namespace Violet {
 		void PhysicsSystemInit();
 		void PhysicsSystemFinalize();
 
-		template<typename T>
-		void OnComponentAdded(Entity entity, T& component);
+		//template<typename T>
+		//void OnComponentAdded(Entity entity, T& component);
 	private:
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;

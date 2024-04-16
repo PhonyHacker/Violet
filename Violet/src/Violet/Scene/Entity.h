@@ -20,14 +20,27 @@ namespace Violet {
 		{
 			VL_CORE_ASSERT(!HasComponent<T>(), "Entity already has component!");
 			T& component = m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
-			m_Scene->OnComponentAdded<T>(*this, component);
+			//m_Scene->OnComponentAdded<T>(*this, component);
+
+			if constexpr (std::is_same<T, CameraComponent>::value)
+			{
+				if(m_Scene->GetViewportWidth()>0 && m_Scene->GetViewportHeight()>0)
+					component.Camera.SetViewportSize(m_Scene->GetViewportWidth(), m_Scene->GetViewportHeight());
+			}
+
 			return component;
 		}
 		template<typename T, typename... Args>
 		T& AddOrReplaceComponent(Args&&... args)
 		{
 			T& component = m_Scene->m_Registry.emplace_or_replace<T>(m_EntityHandle, std::forward<Args>(args)...);
-			m_Scene->OnComponentAdded<T>(*this, component);
+			// m_Scene->OnComponentAdded<T>(*this, component);
+			if (m_Scene->GetViewportWidth() > 0 && m_Scene->GetViewportHeight() > 0)
+
+			if constexpr (std::is_same<T, CameraComponent>::value)
+			{
+				component.Camera.SetViewportSize(m_Scene->GetViewportWidth(), m_Scene->GetViewportHeight());
+			}
 			return component;
 		}
 		template<typename T>
