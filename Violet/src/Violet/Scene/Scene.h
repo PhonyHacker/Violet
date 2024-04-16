@@ -37,7 +37,7 @@ namespace Violet {
 
 		Entity DuplicateEntity(Entity entity);
 
-		Entity FindEntity(Entity entity);
+		//Entity FindEntity(Entity entity);
 		Entity FindEntityByName(std::string_view name);
 		Entity GetEntityByUUID(UUID uuid);
 
@@ -57,14 +57,21 @@ namespace Violet {
 		}
 
 	private:
-		// void OnComponentAdded(Entity entity, CameraComponent& component);
+		// Scipt
+		void ScriptSystemUpdate(Timestep step);
+		void ScriptSystemInit();
+
+		
+		// Render
+		void RenderSystemUpdate(Timestep step, EditorCamera* camera = nullptr, bool isRuning = true);
+		
+		// Physics
+		void PhysicsSystemUpdate(Timestep step);
+		void PhysicsSystemInit();
+		void PhysicsSystemFinalize();
+
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);
-
-		void OnPhysics2DStart();
-		void OnPhysics2DStop();
-
-		void RenderScene(EditorCamera& camera);
 	private:
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;

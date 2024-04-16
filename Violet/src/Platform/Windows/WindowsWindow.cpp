@@ -78,8 +78,6 @@ namespace Violet {
 			icon.height = height;
 			glfwSetWindowIcon(m_Window, 1, &icon);
 			stbi_image_free(icon_pixels);
-
-			//SetClassLong(hwnd, GCL_HBRBACKGROUND, (LONG)CreateSolidBrush(RGB(255, 0, 0)));
 			#pragma endregion
 
 			s_GLFWWindowCount++;
@@ -87,13 +85,12 @@ namespace Violet {
 		
 		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();
-		// ^
 
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
-		// Set FLFW callbacks
+		// …Ë÷√GLFWªÿµ˜
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 		{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);

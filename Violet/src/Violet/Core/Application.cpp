@@ -6,7 +6,7 @@
 
 #include "Violet/Core/Log.h"
 #include "Violet/Core/Input.h"
-#include "Violet/Scripting/ScriptEngine.h"
+//#include "Violet/Scripting/ScriptEngine.h"
 
 #include <GLFW/glfw3.h>
 #include <filesystem>
@@ -25,10 +25,8 @@ namespace Violet {
 
 		VL_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
-		// s_CurrentMouse = glm::vec2();
-		// s_HoeveredEntity = Entity();
 
-		// Set working directory here
+		// 设置工作文件夹
 		if (!m_Specification.WorkingDirectory.empty())
 			std::filesystem::current_path(m_Specification.WorkingDirectory);
 
@@ -36,7 +34,6 @@ namespace Violet {
 		m_Window->SetEventCallback(VL_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();
-		// ScriptEngine::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -44,7 +41,7 @@ namespace Violet {
 
 	Application::~Application() {
 		VL_PROFILE_FUNCTION();
-		ScriptEngine::Shutdown();
+		//ScriptEngine::Shutdown();
 		Renderer::Shutdown();
 	}
 
@@ -94,15 +91,15 @@ namespace Violet {
 
 			ExecuteMainThreadQueue();
 
+			// Function
 			if (!m_Minimized) {
 				VL_PROFILE_SCOPE("LayerStackOnUpdate");
 
-				for (Layer* layer : m_LayerStack) {
+				for (Layer* layer : m_LayerStack)
 					layer->OnUpdate(timestep);
-				}
 			}
 
-			// imgui
+			// UI
 			{
 				VL_PROFILE_SCOPE("LayerStackOnImGui");
 

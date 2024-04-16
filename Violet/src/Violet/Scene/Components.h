@@ -104,23 +104,26 @@ namespace Violet {
 		ScriptComponent(const ScriptComponent&) = default;
 	};
 
-	// Forward declaration
-	class ScriptableEntity;
+	//// Forward declaration
+	//class ScriptableEntity;
 
-	struct NativeScriptComponent
-	{
-		ScriptableEntity* Instance = nullptr;
+	//struct NativeScriptComponent
+	//{
+	//	ScriptableEntity* Instance = nullptr;
 
-		ScriptableEntity* (*InstantiateScript)();
-		void (*DestroyScript)(NativeScriptComponent*);
+	//	ScriptableEntity* (*InstantiateScript)();
+	//	void (*DestroyScript)(NativeScriptComponent*);
 
-		template<typename T>
-		void Bind()
-		{
-			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
-			DestroyScript = [](NativeScriptComponent* nsc) {delete nsc->Instance; nsc->Instance = nullptr; };
-		}
-	};
+	//	template<typename T>
+	//	void Bind()
+	//	{
+	//		InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+	//		DestroyScript = [](NativeScriptComponent* nsc) {
+	//			delete nsc->Instance; 
+	//			nsc->Instance = nullptr;
+	//			};
+	//	}
+	//};
 
 	// Physics
 
@@ -192,6 +195,6 @@ namespace Violet {
 	using AllComponents =
 		ComponentGroup<TransformComponent, SpriteRendererComponent,
 		CircleRendererComponent, CameraComponent, ScriptComponent,
-		NativeScriptComponent, Rigidbody2DComponent, BoxCollider2DComponent,
+		Rigidbody2DComponent, BoxCollider2DComponent,
 		CircleCollider2DComponent, TextComponent>;
 }
