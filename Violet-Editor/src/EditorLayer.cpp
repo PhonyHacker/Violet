@@ -32,11 +32,11 @@ namespace Violet {
 	{
 		VL_PROFILE_FUNCTION();
 
-		m_IconPlay = Texture2D::Create("Resources/Icons/PlayButton.png");
-		m_IconPause = Texture2D::Create("Resources/Icons/PauseButton.png");
-		m_IconSimulate = Texture2D::Create("Resources/Icons/SimulateButton.png");
-		m_IconStep = Texture2D::Create("Resources/Icons/StepButton.png");
-		m_IconStop = Texture2D::Create("Resources/Icons/StopButton.png");
+		m_IconPlay = Texture2D::Create("../Assets/icons/PlayButton.png");
+		m_IconPause = Texture2D::Create("../Assets/icons/PauseButton.png");
+		m_IconSimulate = Texture2D::Create("../Assets/icons/SimulateButton.png");
+		m_IconStep = Texture2D::Create("../Assets/icons/StepButton.png");
+		m_IconStop = Texture2D::Create("../Assets/icons/StopButton.png");
 
 		Violet::FramebufferSpecification fbSpec;
 		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };

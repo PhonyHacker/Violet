@@ -9,8 +9,8 @@ namespace Violet{
 	ContentBrowserPanel::ContentBrowserPanel()
 		:m_BaseDirectory(Project::GetAssetDirectory()), m_CurrentDirectory(m_BaseDirectory)
 	{
-		m_DirectoryIcon = Texture2D::Create("Resources/Icons/ContentBrowser/DirectoryIcon.png");
-		m_FileIcon = Texture2D::Create("Resources/Icons/ContentBrowser/FileIcon.png");
+		m_DirectoryIcon = Texture2D::Create("../Assets/icons/ContentBrowser/DirectoryIcon.png");
+		m_FileIcon = Texture2D::Create("../Assets/icons/ContentBrowser/FileIcon.png");
 	}
 
 	void ContentBrowserPanel::OnImGuiRender()

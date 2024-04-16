@@ -55,7 +55,7 @@ namespace Violet {
 		static const char* GetCacheDirectory()
 		{
 			// TODO: make sure the assets directory is valid
-			return "assets/cache/shader/opengl";
+			return "../Assets/cache/shader/opengl";
 		}
 
 		// 创建着色器缓存目录（如果不存在）
