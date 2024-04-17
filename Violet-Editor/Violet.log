@@ -1,17 +1,15 @@
-[07:41:40] [info] VIOLET: Creating window VioletEditor (1600, 900)
-[07:41:41] [info] VIOLET: OpenGL Info: 
-[07:41:41] [info] VIOLET:  Vendor: NVIDIA Corporation 
-[07:41:41] [info] VIOLET:  Renderer : NVIDIA GeForce GTX 1650/PCIe/SSE2 
-[07:41:41] [info] VIOLET:  Version: 4.6.0 NVIDIA 512.59 
-[07:41:41] [warning] VIOLET: Shader creation took 2.6432 ms
-[07:41:41] [warning] VIOLET: Shader creation took 0.9034 ms
-[07:41:41] [warning] VIOLET: Shader creation took 0.7791 ms
-[07:41:41] [warning] VIOLET: Shader creation took 0.8716 ms
-[07:41:41] [info] VIOLET: Loaded 191 glyphs from font (out of 224)
-[07:41:46] [warning] VIOLET: Shader creation took 1.5225 ms
-[07:41:46] [warning] VIOLET: Shader creation took 0.987 ms
-[07:41:46] [warning] VIOLET: Shader creation took 0.8984 ms
-[07:41:46] [warning] VIOLET: Shader creation took 1.0777 ms
-[07:41:46] [trace] VIOLET: Deserialized entity with ID = 10354693091199095305, name = Camera
-[07:41:46] [trace] VIOLET: Deserialized entity with ID = 549292620613958545, name = Empty Entity
-[07:41:46] [info] VIOLET: GameRPG
+[15:38:24] [info] VIOLET: Creating window VioletEditor (1600, 900)
+[15:38:25] [info] VIOLET: OpenGL Info: 
+[15:38:25] [info] VIOLET:  Vendor: NVIDIA Corporation 
+[15:38:25] [info] VIOLET:  Renderer : NVIDIA GeForce GTX 1650/PCIe/SSE2 
+[15:38:25] [info] VIOLET:  Version: 4.6.0 NVIDIA 512.59 
+[15:38:25] [info] VIOLET: Loaded 191 glyphs from font (out of 224)
+[15:38:28] [error] VIOLET: Unknown type: Violet.SpriteRendererComponent
+[15:38:28] [trace] VIOLET: Deserialized entity with ID = 15880974432830602851, name = Entity
+[15:38:28] [trace] VIOLET: Deserialized entity with ID = 5386604431559773965, name = Floor
+[15:38:28] [trace] VIOLET: Deserialized entity with ID = 17003390207382257219, name = Entity
+[15:38:28] [trace] VIOLET: Deserialized entity with ID = 9851252402859842416, name = Player
+[15:38:28] [trace] VIOLET: Deserialized entity with ID = 1612165136993075848, name = CameraA
+[15:38:28] [trace] VIOLET: Deserialized entity with ID = 12772714911998123763, name = Floor
+[15:38:28] [info] VIOLET: Sandbox
+[15:38:32] [info] VIOLET: Terminating GLFW

@@ -12,8 +12,6 @@ workspace "Violet"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-VULKAN_SDK = os.getenv("VULKAN_SDK")
-
 group "Dependencies"
 	include "Violet/vendor/Box2D"
 	include "Violet/vendor/GLFW"
@@ -71,8 +69,7 @@ group "Core"
 			"%{IncludeDir.entt}",
 			"%{IncludeDir.mono}",
 			"%{IncludeDir.yaml_cpp}",
-			"%{IncludeDir.ImGuizmo}",
-			"%{IncludeDir.VulkanSDK}"
+			"%{IncludeDir.ImGuizmo}"
 		}
 		links
 		{
@@ -108,36 +105,17 @@ group "Core"
 			runtime "Debug"
 			symbols "On"
 
-			links
-			{
-				"%{Library.ShaderC_Debug}",
-				"%{Library.SPIRV_Cross_Debug}",
-				"%{Library.SPIRV_Cross_GLSL_Debug}"
-			}
-
 		filter "configurations:Release"
 			defines "VL_RELEASE"
 			runtime "Release"
 			optimize "On"
 
-			links
-			{
-				"%{Library.ShaderC_Release}",
-				"%{Library.SPIRV_Cross_Release}",
-				"%{Library.SPIRV_Cross_GLSL_Release}"
-			}
 
 		filter "configurations:Dist"
 			defines "VL_DIST"
 			runtime "Release"
 			optimize "On"
 
-			links
-			{
-				"%{Library.ShaderC_Release}",
-				"%{Library.SPIRV_Cross_Release}",
-				"%{Library.SPIRV_Cross_GLSL_Release}"
-			}
 
 	project "Violet-ScriptCore"
 		location "Violet-ScriptCore"

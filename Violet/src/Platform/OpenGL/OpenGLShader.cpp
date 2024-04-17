@@ -3,9 +3,9 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <shaderc/shaderc.hpp>
-#include <spirv_cross/spirv_cross.hpp>
-#include <spirv_cross/spirv_glsl.hpp>
+//#include <shaderc/shaderc.hpp>
+//#include <spirv_cross/spirv_cross.hpp>
+//#include <spirv_cross/spirv_glsl.hpp>
 
 #include <Violet/Core/Timer.h>
 
@@ -27,18 +27,6 @@ namespace Violet {
 			return 0;
 		}
 
-		// 将OpenGL着色器类型转换为shaderc的着色器类型
-		static shaderc_shader_kind GLShaderStageToShaderC(GLenum stage)
-		{
-			switch (stage)
-			{
-			case GL_VERTEX_SHADER:   return shaderc_glsl_vertex_shader;
-			case GL_FRAGMENT_SHADER: return shaderc_glsl_fragment_shader;
-			}
-			VL_CORE_ASSERT(false);
-			return (shaderc_shader_kind)0;
-		}
-
 		// 将OpenGL着色器类型转换为字符串形式
 		static const char* GLShaderStageToString(GLenum stage)
 		{
@@ -51,44 +39,6 @@ namespace Violet {
 			return nullptr;
 		}
 
-		// 获取着色器缓存目录
-		static const char* GetCacheDirectory()
-		{
-			// TODO: make sure the assets directory is valid
-			return "../Assets/cache/shader/opengl";
-		}
-
-		// 创建着色器缓存目录（如果不存在）
-		static void CreateCacheDirectoryIfNeeded()
-		{
-			std::string cacheDirectory = GetCacheDirectory();
-			if (!std::filesystem::exists(cacheDirectory))
-				std::filesystem::create_directories(cacheDirectory);
-		}
-
-		// 根据OpenGL着色器类型获取缓存文件的扩展名
-		static const char* GLShaderStageCachedOpenGLFileExtension(uint32_t stage)
-		{
-			switch (stage)
-			{
-			case GL_VERTEX_SHADER:    return ".cached_opengl.vert";
-			case GL_FRAGMENT_SHADER:  return ".cached_opengl.frag";
-			}
-			VL_CORE_ASSERT(false);
-			return "";
-		}
-
-		// 根据OpenGL着色器类型获取Vulkan缓存文件的扩展名
-		static const char* GLShaderStageCachedVulkanFileExtension(uint32_t stage)
-		{
-			switch (stage)
-			{
-			case GL_VERTEX_SHADER:    return ".cached_vulkan.vert";
-			case GL_FRAGMENT_SHADER:  return ".cached_vulkan.frag";
-			}
-			VL_CORE_ASSERT(false);
-			return "";
-		}
 	}
 
 	// 构造函数：从文件加载着色器源码，进行预处理并编译
@@ -97,18 +47,20 @@ namespace Violet {
 	{
 		VL_PROFILE_FUNCTION();
 
-		Utils::CreateCacheDirectoryIfNeeded();
+		//Utils::CreateCacheDirectoryIfNeeded();
 
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		
-		{
-			Timer timer;
-			CompileOrGetVulkanBinaries(shaderSources);
-			CompileOrGetOpenGLBinaries();
-			CreateProgram();
-			VL_CORE_WARN("Shader creation took {0} ms", timer.ElapsedMillis());
-		}
+		Compile(shaderSources);
+
+		//{
+		//	Timer timer;
+		//	CompileOrGetVulkanBinaries(shaderSources);
+		//	CompileOrGetOpenGLBinaries();
+		//	CreateProgram();
+		//	VL_CORE_WARN("Shader creation took {0} ms", timer.ElapsedMillis());
+		//}
 
 		auto nameBegin = filepath.find_last_of("/\\");
 		nameBegin = nameBegin == std::string::npos ? 0 : nameBegin + 1;
@@ -116,6 +68,97 @@ namespace Violet {
 		auto count = nameEnd == std::string::npos ? filepath.size() - nameBegin : nameEnd - nameBegin;
 
 		m_Name = filepath.substr(nameBegin, count);
+	}
+	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
+	{
+		VL_PROFILE_FUNCTION();
+
+		GLuint program = glCreateProgram();
+		/*
+			std::vector<GLenum> glShaderIDs(shaderSources.size());
+			glShaderIDs.reserve(2);
+		*/
+		std::array<GLenum, 2> glShaderIDs;
+		int glShaderIDIndex = 0;
+		for (auto& kv : shaderSources) {
+			GLenum type = kv.first;
+			const std::string& source = kv.second;
+
+			// Create an empty vertex shader handle
+			GLuint shader = glCreateShader(type);
+
+			// Send the vertex shader source code to GL
+			// Note that std::string's .c_str is NULL character terminated.
+			const GLchar* sourceCStr = source.c_str();
+			glShaderSource(shader, 1, &sourceCStr, 0);
+
+			// Compile the vertex shader
+			glCompileShader(shader);
+
+			GLint isCompiled = 0;
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+			if (isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+				// The maxLength includes the NULL character
+				std::vector<GLchar> infoLog(maxLength);
+				glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+
+				// We don't need the shader anymore.
+				glDeleteShader(shader);
+
+				// Use the infoLog as you see fit.
+
+				// In this simple program, we'll just leave
+				VL_CORE_ERROR("{0} ", infoLog.data());
+				VL_CORE_ASSERT(false, "shader 编译失败!");
+
+				break;
+			}
+
+			// Attach our shaders to our program
+			glAttachShader(program, shader);
+
+			//glShaderIDs.push_back(shader);
+			glShaderIDs[glShaderIDIndex++] = shader;
+		}
+
+		m_RendererID = program;
+
+		// Link our program
+		glLinkProgram(program);
+
+		// Note the different functions here: glGetProgram* instead of glGetShader*.
+		GLint isLinked = 0;
+		glGetProgramiv(program, GL_LINK_STATUS, (int*)&isLinked);
+		if (isLinked == GL_FALSE)
+		{
+			GLint maxLength = 0;
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+
+			// The maxLength includes the NULL character
+			std::vector<GLchar> infoLog(maxLength);
+			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+
+			// We don't need the program anymore.
+			glDeleteProgram(program);
+			// Don't leak shaders either.
+			for (auto id : glShaderIDs) {
+				glDeleteShader(id);
+			}
+			// Use the infoLog as you see fit.
+			// In this simple program, we'll just leave
+			VL_CORE_ERROR("{0} ", infoLog.data());
+			VL_CORE_ASSERT(false, "shader link failure!");
+			return;
+		}
+
+		// Always detach shaders after a successful link.
+		for (auto id : glShaderIDs) {
+			glDetachShader(program, id);
+		}
 	}
 
 	// 构造函数：从源码字符串创建着色器
@@ -128,9 +171,12 @@ namespace Violet {
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
 		
-		CompileOrGetVulkanBinaries(sources);
-		CompileOrGetOpenGLBinaries();
-		CreateProgram();
+		//CompileOrGetVulkanBinaries(sources);
+		//CompileOrGetOpenGLBinaries();
+		//CreateProgram();
+
+		Compile(sources);
+
 	}
 
 	// 析构函数：释放着色器程序资源
@@ -201,123 +247,6 @@ namespace Violet {
 		return shaderSources;
 	}
 
-	// 编译或获取Vulkan二进制文件
-	void OpenGLShader::CompileOrGetVulkanBinaries(const std::unordered_map<GLenum, std::string>& shaderSources)
-	{
-		GLuint program = glCreateProgram();
-
-		shaderc::Compiler compiler;
-		shaderc::CompileOptions options;
-		options.SetTargetEnvironment(shaderc_target_env_vulkan, shaderc_env_version_vulkan_1_2);
-		const bool optimize = true;
-		if (optimize)
-			options.SetOptimizationLevel(shaderc_optimization_level_performance);
-
-		std::filesystem::path cacheDirectory = Utils::GetCacheDirectory();
-
-		auto& shaderData = m_VulkanSPIRV;
-		shaderData.clear();
-		for (auto&& [stage, source] : shaderSources)
-		{
-			std::filesystem::path shaderFilePath = m_FilePath;
-			std::filesystem::path cachedPath = cacheDirectory / (shaderFilePath.filename().string() + Utils::GLShaderStageCachedVulkanFileExtension(stage));
-
-			std::ifstream in(cachedPath, std::ios::in | std::ios::binary);
-			if (in.is_open())
-			{
-				in.seekg(0, std::ios::end);
-				auto size = in.tellg();
-				in.seekg(0, std::ios::beg);
-
-				auto& data = shaderData[stage];
-				data.resize(size / sizeof(uint32_t));
-				in.read((char*)data.data(), size);
-			}
-			else
-			{
-				shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, Utils::GLShaderStageToShaderC(stage), m_FilePath.c_str(), options);
-				if (module.GetCompilationStatus() != shaderc_compilation_status_success)
-				{
-					VL_CORE_ERROR(module.GetErrorMessage());
-					VL_CORE_ASSERT(false);
-				}
-
-				shaderData[stage] = std::vector<uint32_t>(module.cbegin(), module.cend());
-
-				std::ofstream out(cachedPath, std::ios::out | std::ios::binary);
-				if (out.is_open())
-				{
-					auto& data = shaderData[stage];
-					out.write((char*)data.data(), data.size() * sizeof(uint32_t));
-					out.flush();
-					out.close();
-				}
-			}
-		}
-
-		for (auto&& [stage, data] : shaderData)
-			Reflect(stage, data);
-	}
-
-	// 编译或获取OpenGL二进制文件
-	void OpenGLShader::CompileOrGetOpenGLBinaries()
-	{
-		auto& shaderData = m_OpenGLSPIRV;
-
-		shaderc::Compiler compiler;
-		shaderc::CompileOptions options;
-		options.SetTargetEnvironment(shaderc_target_env_opengl, shaderc_env_version_opengl_4_5);
-		const bool optimize = false;
-		if (optimize)
-			options.SetOptimizationLevel(shaderc_optimization_level_performance);
-
-		std::filesystem::path cacheDirectory = Utils::GetCacheDirectory();
-
-		shaderData.clear();
-		m_OpenGLSourceCode.clear();
-		for (auto&& [stage, spirv] : m_VulkanSPIRV)
-		{
-			std::filesystem::path shaderFilePath = m_FilePath;
-			std::filesystem::path cachedPath = cacheDirectory / (shaderFilePath.filename().string() + Utils::GLShaderStageCachedOpenGLFileExtension(stage));
-
-			std::ifstream in(cachedPath, std::ios::in | std::ios::binary);
-			if (in.is_open())
-			{
-				in.seekg(0, std::ios::end);
-				auto size = in.tellg();
-				in.seekg(0, std::ios::beg);
-
-				auto& data = shaderData[stage];
-				data.resize(size / sizeof(uint32_t));
-				in.read((char*)data.data(), size);
-			}
-			else
-			{
-				spirv_cross::CompilerGLSL glslCompiler(spirv);
-				m_OpenGLSourceCode[stage] = glslCompiler.compile();
-				auto& source = m_OpenGLSourceCode[stage];
-
-				shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(source, Utils::GLShaderStageToShaderC(stage), m_FilePath.c_str());
-				if (module.GetCompilationStatus() != shaderc_compilation_status_success)
-				{
-					VL_CORE_ERROR(module.GetErrorMessage());
-					VL_CORE_ASSERT(false);
-				}
-
-				shaderData[stage] = std::vector<uint32_t>(module.cbegin(), module.cend());
-
-				std::ofstream out(cachedPath, std::ios::out | std::ios::binary);
-				if (out.is_open())
-				{
-					auto& data = shaderData[stage];
-					out.write((char*)data.data(), data.size() * sizeof(uint32_t));
-					out.flush();
-					out.close();
-				}
-			}
-		}
-	}
-
 	// 创建着色器程序
 	void OpenGLShader::CreateProgram()
 	{
@@ -358,42 +287,6 @@ namespace Violet {
 		}
 
 		m_RendererID = program;
-	}
-
-	// 从SPIR-V反射着色器资源信息，包括 uniform 缓冲和采样器等
-	void OpenGLShader::Reflect(GLenum stage, const std::vector<uint32_t>& shaderData)
-	{
-		// 创建SPIR-V编译器并加载着色器数据
-		spirv_cross::Compiler compiler(shaderData);
-		// 获取着色器资源
-		spirv_cross::ShaderResources resources = compiler.get_shader_resources();
-
-#ifdef VL_DEBUG
-		// 输出反射信息
-		VL_CORE_TRACE("OpenGLShader::Reflect - {0} {1}", Utils::GLShaderStageToString(stage), m_FilePath);
-		VL_CORE_TRACE("    {0} uniform buffers", resources.uniform_buffers.size());
-		VL_CORE_TRACE("    {0} resources", resources.sampled_images.size());
-
-		// 输出 uniform 缓冲详细信息
-		VL_CORE_TRACE("Uniform buffers:");
-		for (const auto& resource : resources.uniform_buffers)
-		{
-			// 获取缓冲类型信息
-			const auto& bufferType = compiler.get_type(resource.base_type_id);
-			// 计算缓冲大小
-			uint32_t bufferSize = compiler.get_declared_struct_size(bufferType);
-			// 获取绑定点
-			uint32_t binding = compiler.get_decoration(resource.id, spv::DecorationBinding);
-			// 获取成员数量
-			int memberCount = bufferType.member_types.size();
-
-			// 输出缓冲名称、大小、绑定点和成员数量
-			VL_CORE_TRACE("  {0}", resource.name);
-			VL_CORE_TRACE("    Size = {0}", bufferSize);
-			VL_CORE_TRACE("    Binding = {0}", binding);
-			VL_CORE_TRACE("    Members = {0}", memberCount);
-		}
-#endif
 	}
 
 	// 绑定着色器程序
