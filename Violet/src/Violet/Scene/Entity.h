@@ -35,14 +35,15 @@ namespace Violet {
 		{
 			T& component = m_Scene->m_Registry.emplace_or_replace<T>(m_EntityHandle, std::forward<Args>(args)...);
 			// m_Scene->OnComponentAdded<T>(*this, component);
-			if (m_Scene->GetViewportWidth() > 0 && m_Scene->GetViewportHeight() > 0)
 
 			if constexpr (std::is_same<T, CameraComponent>::value)
 			{
-				component.Camera.SetViewportSize(m_Scene->GetViewportWidth(), m_Scene->GetViewportHeight());
+				if (m_Scene->GetViewportWidth() > 0 && m_Scene->GetViewportHeight() > 0)
+					component.Camera.SetViewportSize(m_Scene->GetViewportWidth(), m_Scene->GetViewportHeight());
 			}
 			return component;
 		}
+
 		template<typename T>
 		T& GetComponent()
 		{
@@ -56,7 +57,7 @@ namespace Violet {
 			return m_Scene->m_Registry.has<T>(m_EntityHandle);
 		}
 
-		template<typename T>
+		template<typename T> 
 		void RemoveComponent()
 		{
 			VL_CORE_ASSERT(HasComponent<T>(), "Entity does not have component!");

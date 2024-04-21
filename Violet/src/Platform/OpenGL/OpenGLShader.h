@@ -24,7 +24,6 @@ namespace Violet {
 
 		virtual const std::string& GetName() const override { return m_Name; }
 
-
 		void UploadUniformInt(const std::string& name, const int value);
 		void UploadUniformIntArray(const std::string& name, int* values, uint32_t count);
 		void UploadUniformFloat(const std::string& name, const float value);
@@ -36,22 +35,11 @@ namespace Violet {
 	private:
 		std::string ReadFile(const std::string& filepath);
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
-		void CompileOrGetVulkanBinaries(const std::unordered_map<GLenum, std::string>& shaderSources);
-		void CompileOrGetOpenGLBinaries();
 
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
-
-		void CreateProgram();
-		void Reflect(GLenum stage, const std::vector<uint32_t>& shaderData);
-
 	private:
 		uint32_t m_RendererID;
 		std::string m_FilePath;
 		std::string m_Name;
-
-		std::unordered_map<GLenum, std::vector<uint32_t>> m_VulkanSPIRV;
-		std::unordered_map<GLenum, std::vector<uint32_t>> m_OpenGLSPIRV;
-
-		std::unordered_map<GLenum, std::string> m_OpenGLSourceCode;
 	};
 }

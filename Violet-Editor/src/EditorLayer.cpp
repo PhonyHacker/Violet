@@ -22,7 +22,7 @@ namespace Violet {
 	static Ref<Font> s_Font;
 
 	EditorLayer::EditorLayer()
-		:Layer("EditorLayer"), m_CameraController(1200.0f / 800.0f, true), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
+		:Layer("EditorLayer"), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
 	{
 		// s_Font = new Font("assets/fonts/opensans/OpenSans-Regular.ttf");
 		s_Font = Font::GetDefault();
@@ -55,7 +55,7 @@ namespace Violet {
 		}
 		else
 		{
-			// TODO(Yan): prompt the user to select a directory
+			// TODO: prompt the user to select a directory
 			// NewProject();
 
 			// if (!OpenProject())
@@ -87,7 +87,6 @@ namespace Violet {
 			(spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
 			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
@@ -110,9 +109,6 @@ namespace Violet {
 			{
 				case SceneState::Edit:
 				{
-					if (m_ViewportFocused)
-						m_CameraController.OnUpdate(timestep);
-
 					m_EditorCamera.OnUpdate(timestep);
 
 					m_ActiveScene->OnUpdateEditor(timestep, m_EditorCamera);
@@ -286,7 +282,7 @@ namespace Violet {
 			ImGui::Begin("Settings");
 			ImGui::Checkbox("Show physics colliders", &m_ShowPhysicsColliders);
 
-			ImGui::Image((ImTextureID)s_Font->GetAtlasTexture()->GetRendererID(), { 512,512 }, { 0, 1 }, { 1, 0 });
+			//ImGui::Image((ImTextureID)s_Font->GetAtlasTexture()->GetRendererID(), { 512,512 }, { 0, 1 }, { 1, 0 });
 
 			ImGui::End();
 
@@ -307,7 +303,7 @@ namespace Violet {
 			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
 			uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-			ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+			ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, { 0, 1 }, { 1, 0 });
 			
 			if (ImGui::BeginDragDropTarget())
 			{
@@ -476,7 +472,6 @@ namespace Violet {
 
 	void EditorLayer::OnEvent(Violet::Event& e)
 	{
-		m_CameraController.OnEvent(e);
 		m_EditorCamera.OnEvent(e);
 
 		EventDispatcher dispatcher(e);

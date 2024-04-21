@@ -174,9 +174,6 @@
     <ClInclude Include="src\Violet\Math\Math.h">
       <Filter>src\Violet\Math</Filter>
     </ClInclude>
-    <ClInclude Include="src\Violet\OrthographicCameraController.h">
-      <Filter>src\Violet</Filter>
-    </ClInclude>
     <ClInclude Include="src\Violet\Physics\Physics2D.h">
       <Filter>src\Violet\Physics</Filter>
     </ClInclude>
@@ -205,9 +202,6 @@
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Renderer\MSDFData.h">
-      <Filter>src\Violet\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Violet\Renderer\OrthographicCamera.h">
       <Filter>src\Violet\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Violet\Renderer\RenderCommand.h">
@@ -1421,9 +1415,6 @@
     <ClCompile Include="src\Violet\Math\Math.cpp">
       <Filter>src\Violet\Math</Filter>
     </ClCompile>
-    <ClCompile Include="src\Violet\OrthographicCameraController.cpp">
-      <Filter>src\Violet</Filter>
-    </ClCompile>
     <ClCompile Include="src\Violet\Project\Project.cpp">
       <Filter>src\Violet\Project</Filter>
     </ClCompile>
@@ -1440,9 +1431,6 @@
       <Filter>src\Violet\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Violet\Renderer\Framebuffer.cpp">
-      <Filter>src\Violet\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Violet\Renderer\OrthographicCamera.cpp">
       <Filter>src\Violet\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Violet\Renderer\RenderCommand.cpp">

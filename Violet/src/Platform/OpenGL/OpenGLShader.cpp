@@ -14,7 +14,6 @@
 
 namespace Violet {
 	namespace Utils {
-
 		// 将字符串类型的着色器类型转换为OpenGL的GLenum类型
 		static GLenum ShaderTypeFromString(const std::string& type)
 		{
@@ -26,19 +25,6 @@ namespace Violet {
 			VL_CORE_ASSERT(false, "Unknown shader type!");
 			return 0;
 		}
-
-		// 将OpenGL着色器类型转换为字符串形式
-		static const char* GLShaderStageToString(GLenum stage)
-		{
-			switch (stage)
-			{
-			case GL_VERTEX_SHADER:   return "GL_VERTEX_SHADER";
-			case GL_FRAGMENT_SHADER: return "GL_FRAGMENT_SHADER";
-			}
-			VL_CORE_ASSERT(false);
-			return nullptr;
-		}
-
 	}
 
 	// 构造函数：从文件加载着色器源码，进行预处理并编译
@@ -54,14 +40,6 @@ namespace Violet {
 		
 		Compile(shaderSources);
 
-		//{
-		//	Timer timer;
-		//	CompileOrGetVulkanBinaries(shaderSources);
-		//	CompileOrGetOpenGLBinaries();
-		//	CreateProgram();
-		//	VL_CORE_WARN("Shader creation took {0} ms", timer.ElapsedMillis());
-		//}
-
 		auto nameBegin = filepath.find_last_of("/\\");
 		nameBegin = nameBegin == std::string::npos ? 0 : nameBegin + 1;
 		auto nameEnd = filepath.rfind(".");
@@ -69,6 +47,7 @@ namespace Violet {
 
 		m_Name = filepath.substr(nameBegin, count);
 	}
+
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
 		VL_PROFILE_FUNCTION();
@@ -245,48 +224,6 @@ namespace Violet {
 		}
 
 		return shaderSources;
-	}
-
-	// 创建着色器程序
-	void OpenGLShader::CreateProgram()
-	{
-		GLuint program = glCreateProgram();
-
-		std::vector<GLuint> shaderIDs;
-		for (auto&& [stage, spirv] : m_OpenGLSPIRV)
-		{
-			GLuint shaderID = shaderIDs.emplace_back(glCreateShader(stage));
-			glShaderBinary(1, &shaderID, GL_SHADER_BINARY_FORMAT_SPIR_V, spirv.data(), spirv.size() * sizeof(uint32_t));
-			glSpecializeShader(shaderID, "main", 0, nullptr, nullptr);
-			glAttachShader(program, shaderID);
-		}
-
-		glLinkProgram(program);
-
-		GLint isLinked;
-		glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
-		if (isLinked == GL_FALSE)
-		{
-			GLint maxLength;
-			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
-
-			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(program, maxLength, &maxLength, infoLog.data());
-			VL_CORE_ERROR("Shader linking failed ({0}):\n{1}", m_FilePath, infoLog.data());
-
-			glDeleteProgram(program);
-
-			for (auto id : shaderIDs)
-				glDeleteShader(id);
-		}
-
-		for (auto id : shaderIDs)
-		{
-			glDetachShader(program, id);
-			glDeleteShader(id);
-		}
-
-		m_RendererID = program;
 	}
 
 	// 绑定着色器程序

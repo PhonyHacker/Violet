@@ -13,29 +13,10 @@ namespace Violet {
 		Depth = DEPTH24STENCIL8 // Defaults
 	};
 
-	struct FramebufferTextureSpecification
-	{
-		FramebufferTextureSpecification() = default;
-		FramebufferTextureSpecification(FramebufferTextureFormat format)
-			: TextureFormat(format) {}
-
-		FramebufferTextureFormat TextureFormat = FramebufferTextureFormat::None;
-		// TODO: filtering/wrap
-	};
-
-	struct FramebufferAttachmentSpecification
-	{
-		FramebufferAttachmentSpecification() = default;
-		FramebufferAttachmentSpecification(std::initializer_list<FramebufferTextureSpecification> attachments)
-			: Attachments(attachments) {}
-
-		std::vector<FramebufferTextureSpecification> Attachments;
-	};
-
 	struct FramebufferSpecification
 	{
 		uint32_t Width = 0, Height = 0;
-		FramebufferAttachmentSpecification Attachments;
+		std::vector<FramebufferTextureFormat> Attachments;
 		uint32_t Samples = 1;
 
 		bool SwapChainTarget = false;

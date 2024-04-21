@@ -379,7 +379,7 @@ namespace Violet {
 			{
 				const ScriptFieldMap& fieldMap = s_MonoData->EntityScriptFields.at(entityID);
 				for (const auto& [name, fieldInstance] : fieldMap)
-					instance->SetFieldValueInternal(name, fieldInstance.m_Buffer);
+					instance->SetFieldValueInternal(name, fieldInstance.Buffer);
 			}
 			
 			instance->InvokeOnCreate();									// 调用C#的OnCreate函数
@@ -502,7 +502,7 @@ namespace Violet {
 #ifdef VL_DEBUG
 					VL_CORE_TRACE("  {} ({})", fieldName, Utils::ScriptFieldTypeToString(fieldType));
 #endif // VL_DEBUG
-					scriptClass->m_Fields[fieldName] = { fieldType, fieldName, field };
+					scriptClass->Fields[fieldName] = { fieldType, fieldName, field };
 				}
 			}
 		}

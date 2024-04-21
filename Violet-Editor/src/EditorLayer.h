@@ -49,8 +49,6 @@ namespace Violet {
 		// UI Panels
 		void UI_Toolbar();
 	protected:
-		OrthographicCameraController m_CameraController;
-
 		//Temp
 		Ref<VertexArray> m_SquareVA;
 

@@ -9,7 +9,6 @@
 #include "Violet/Core/Input.h"
 #include "Violet/Core/KeyCode.h"
 #include "Violet/Core/MouseButtonCode.h"
-#include "Violet/OrthographicCameraController.h"
 #include "Violet/ImGui/ImGuiLayer.h"
 
 #include "Violet/Scene/Scene.h"
@@ -29,5 +28,3 @@
 #include "Violet/Renderer/Texture.h"
 #include <Violet/Renderer/SubTexture2D.h>
 #include "Violet/Renderer/VertexArray.h"
-
-#include "Violet/Renderer/OrthographicCamera.h"

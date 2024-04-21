@@ -102,12 +102,12 @@ namespace Violet {
 	OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& spec)
 		: m_Specification(spec)
 	{
-		for (auto spec : m_Specification.Attachments.Attachments)
+		for (auto texFormat : m_Specification.Attachments)
 		{
-			if (!Utils::IsDepthFormat(spec.TextureFormat))
-				m_ColorAttachmentSpecifications.emplace_back(spec);
+			if (!Utils::IsDepthFormat(texFormat))
+				m_ColorTextureFormat.emplace_back(texFormat);
 			else
-				m_DepthAttachmentSpecification = spec;
+				m_DepthTextureFormat = texFormat;
 		}
 
 		// 初始化帧缓冲
@@ -134,7 +134,6 @@ namespace Violet {
 			m_ColorAttachments.clear();
 			m_DepthAttachment = 0;
 		}
-
 		
 		// 创建帧缓冲区对象
 		glCreateFramebuffers(1, &m_RendererID);
@@ -143,15 +142,15 @@ namespace Violet {
 		bool multisample = m_Specification.Samples > 1;
 
 		// 附加颜色纹理
-		if (m_ColorAttachmentSpecifications.size())
+		if (m_ColorTextureFormat.size())
 		{
-			m_ColorAttachments.resize(m_ColorAttachmentSpecifications.size());
+			m_ColorAttachments.resize(m_ColorTextureFormat.size());
 			Utils::CreateTextures(multisample, m_ColorAttachments.data(), m_ColorAttachments.size());
 
 			for (size_t i = 0; i < m_ColorAttachments.size(); i++)
 			{
 				Utils::BindTexture(multisample, m_ColorAttachments[i]);
-				switch (m_ColorAttachmentSpecifications[i].TextureFormat)
+				switch (m_ColorTextureFormat[i])
 				{
 				case FramebufferTextureFormat::RGBA8:
 					Utils::AttachColorTexture(m_ColorAttachments[i], m_Specification.Samples, GL_RGBA8, GL_RGBA, m_Specification.Width, m_Specification.Height, i);
@@ -163,11 +162,11 @@ namespace Violet {
 			}
 		}
 
-		if (m_DepthAttachmentSpecification.TextureFormat != FramebufferTextureFormat::None)
+		if (m_DepthTextureFormat != FramebufferTextureFormat::None)
 		{
 			Utils::CreateTextures(multisample, &m_DepthAttachment, 1);
 			Utils::BindTexture(multisample, m_DepthAttachment);
-			switch (m_DepthAttachmentSpecification.TextureFormat)
+			switch (m_DepthTextureFormat)
 			{
 			case FramebufferTextureFormat::DEPTH24STENCIL8:
 				Utils::AttachDepthTexture(m_DepthAttachment, m_Specification.Samples, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, m_Specification.Width, m_Specification.Height);
@@ -245,8 +244,8 @@ namespace Violet {
 		VL_CORE_ASSERT(attachmentIndex < m_ColorAttachments.size(),"AttachmentIndex Index Out of Range");
 
 		// 获取附件规格
-		auto& spec = m_ColorAttachmentSpecifications[attachmentIndex];
+		auto& texFormat = m_ColorTextureFormat[attachmentIndex];
 		// 清除附件数据
-		glClearTexImage(m_ColorAttachments[attachmentIndex], 0, Utils::VioletFBTextureFormatToGL(spec.TextureFormat), GL_INT, &value);
+		glClearTexImage(m_ColorAttachments[attachmentIndex], 0, Utils::VioletFBTextureFormatToGL(texFormat), GL_INT, &value);
 	}
 }

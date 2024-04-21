@@ -1,15 +1,15 @@
-[15:38:24] [info] VIOLET: Creating window VioletEditor (1600, 900)
-[15:38:25] [info] VIOLET: OpenGL Info: 
-[15:38:25] [info] VIOLET:  Vendor: NVIDIA Corporation 
-[15:38:25] [info] VIOLET:  Renderer : NVIDIA GeForce GTX 1650/PCIe/SSE2 
-[15:38:25] [info] VIOLET:  Version: 4.6.0 NVIDIA 512.59 
-[15:38:25] [info] VIOLET: Loaded 191 glyphs from font (out of 224)
-[15:38:28] [error] VIOLET: Unknown type: Violet.SpriteRendererComponent
-[15:38:28] [trace] VIOLET: Deserialized entity with ID = 15880974432830602851, name = Entity
-[15:38:28] [trace] VIOLET: Deserialized entity with ID = 5386604431559773965, name = Floor
-[15:38:28] [trace] VIOLET: Deserialized entity with ID = 17003390207382257219, name = Entity
-[15:38:28] [trace] VIOLET: Deserialized entity with ID = 9851252402859842416, name = Player
-[15:38:28] [trace] VIOLET: Deserialized entity with ID = 1612165136993075848, name = CameraA
-[15:38:28] [trace] VIOLET: Deserialized entity with ID = 12772714911998123763, name = Floor
-[15:38:28] [info] VIOLET: Sandbox
-[15:38:32] [info] VIOLET: Terminating GLFW
+[02:17:38] [info] VIOLET: Creating window VioletEditor (1600, 900)
+[02:17:39] [info] VIOLET: OpenGL Info: 
+[02:17:39] [info] VIOLET:  Vendor: ATI Technologies Inc. 
+[02:17:39] [info] VIOLET:  Renderer : AMD Radeon(TM) Graphics 
+[02:17:39] [info] VIOLET:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
+[02:17:39] [info] VIOLET: Loaded 191 glyphs from font (out of 224)
+[02:17:42] [error] VIOLET: Unknown type: Violet.SpriteRendererComponent
+[02:17:42] [trace] VIOLET: Deserialized entity with ID = 15880974432830602851, name = Entity
+[02:17:42] [trace] VIOLET: Deserialized entity with ID = 5386604431559773965, name = Floor
+[02:17:42] [trace] VIOLET: Deserialized entity with ID = 17003390207382257219, name = Entity
+[02:17:42] [trace] VIOLET: Deserialized entity with ID = 9851252402859842416, name = Player
+[02:17:42] [trace] VIOLET: Deserialized entity with ID = 1612165136993075848, name = CameraA
+[02:17:42] [trace] VIOLET: Deserialized entity with ID = 12772714911998123763, name = Floor
+[02:17:42] [info] VIOLET: Sandbox
+[02:17:47] [info] VIOLET: Terminating GLFW
