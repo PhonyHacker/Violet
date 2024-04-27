@@ -28,3 +28,5 @@
 #include "Violet/Renderer/Texture.h"
 #include <Violet/Renderer/SubTexture2D.h>
 #include "Violet/Renderer/VertexArray.h"
+
+#include "Violet/Scripting/ScriptEngine.h"

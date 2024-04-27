@@ -1,0 +1,5 @@
+Project:
+  Name: Demo
+  StartScene: "Scenes/Game1.violet"
+  AssetDirectory: "Assets"
+  ScriptModulePath: "Scripts/Binaries/Demo.dll"

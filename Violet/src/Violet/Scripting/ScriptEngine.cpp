@@ -276,7 +276,7 @@ namespace Violet {
 		if (s_MonoData->AppDomain != nullptr)
 		{
 			mono_domain_unload(s_MonoData->AppDomain);
-			delete s_MonoData->AppDomain;
+			delete s_MonoData->AppDomain; 
 			s_MonoData->AppDomain = nullptr;
 		}
 	}
@@ -305,11 +305,9 @@ namespace Violet {
 
 	bool ScriptEngine::LoadAssembly(const std::filesystem::path& filepath)
 	{
-		// Create an App Domain
 		s_MonoData->AppDomain = mono_domain_create_appdomain("VioletScriptRuntime", nullptr);
 		mono_domain_set(s_MonoData->AppDomain, true);
 
-		// Move this maybe
 		s_MonoData->CoreAssemblyFilepath = filepath;
 		s_MonoData->CoreAssembly = Utils::LoadMonoAssembly(filepath, s_MonoData->EnableDebugging);
 		if (s_MonoData->CoreAssembly == nullptr)
@@ -506,8 +504,6 @@ namespace Violet {
 				}
 			}
 		}
-
-		auto& entityClasses = s_MonoData->EntityClasses;
 	}
 
 	MonoImage* ScriptEngine::GetCoreAssemblyImage()
@@ -587,6 +583,8 @@ namespace Violet {
 		{
 			void* param = &ts;
 			m_ScriptClass->InvokeMethod(m_Instance, m_OnUpdateMethod, &param);
+			//MonoObject* exception = nullptr;
+			//mono_runtime_invoke(m_OnUpdateMethod, m_Instance, &param, &exception);
 		}
 	}
 

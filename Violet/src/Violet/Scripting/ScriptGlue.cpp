@@ -467,7 +467,9 @@ namespace Violet {
 
 		auto& sc = entity.GetComponent<SpriteRendererComponent>();
 		
-		std::filesystem::path resource = std::filesystem::current_path() / Utils::MonoStringToString(path);
+		std::filesystem::path resource = std::filesystem::current_path() / "Projects" / Utils::MonoStringToString(path);
+		//VL_TRACE(std::filesystem::current_path().string());
+		//VL_TRACE(Utils::MonoStringToString(path));
 		//VL_TRACE(resource.string());
 		sc.Texture = Texture2D::Create(resource.string());
 

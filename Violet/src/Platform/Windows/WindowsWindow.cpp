@@ -70,7 +70,7 @@ namespace Violet {
 
 			#pragma region 设置GLFW窗口图标
 			int width, height, channels;
-			unsigned char* icon_pixels = stbi_load("../Assets/Icons/icon.png", &width, &height, &channels, STBI_rgb_alpha);
+			unsigned char* icon_pixels = stbi_load("assets/icons/icon.png", &width, &height, &channels, STBI_rgb_alpha);
 			// 使用像素数据创建 GLFW 窗口图标
 			GLFWimage icon;
 			icon.pixels = icon_pixels;

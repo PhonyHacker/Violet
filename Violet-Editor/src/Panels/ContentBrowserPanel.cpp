@@ -9,13 +9,15 @@ namespace Violet{
 	ContentBrowserPanel::ContentBrowserPanel()
 		:m_BaseDirectory(Project::GetAssetDirectory()), m_CurrentDirectory(m_BaseDirectory)
 	{
-		m_DirectoryIcon = Texture2D::Create("../Assets/icons/ContentBrowser/DirectoryIcon.png");
-		m_FileIcon = Texture2D::Create("../Assets/icons/ContentBrowser/FileIcon.png");
+		m_DirectoryIcon = Texture2D::Create("assets/icons/ContentBrowser/DirectoryIcon.png");
+		m_FileIcon = Texture2D::Create("assets/icons/ContentBrowser/FileIcon.png");
 	}
 
 	void ContentBrowserPanel::OnImGuiRender()
 	{
 		ImGui::Begin("Content Browser");
+
+		//ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()), false, ImGuiWindowFlags_HorizontalScrollbar);
 
 		if (m_CurrentDirectory != std::filesystem::path(m_BaseDirectory))
 		{
@@ -71,6 +73,12 @@ namespace Violet{
 		}
 
 		ImGui::Columns(1);
+
+		//ImGui::EndChild();
+
+		ImGui::End();
+
+		ImGui::Begin("1");
 
 		ImGui::SliderFloat("Thumbnail Size", &thumbnailSize, 16, 512);
 		ImGui::SliderFloat("Padding", &padding, 0, 32);

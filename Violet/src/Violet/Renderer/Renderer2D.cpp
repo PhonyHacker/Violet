@@ -10,6 +10,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "SubTexture2D.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace Violet {
 
@@ -61,7 +63,7 @@ namespace Violet {
 	struct Renderer2DData
 	{
 		// 批处理上限设置
-		static const uint32_t MaxQuads = 2000;
+		static const uint32_t MaxQuads = 1000;
 		static const uint32_t MaxVertices = MaxQuads * 4;
 		static const uint32_t MaxIndices = MaxQuads * 6;
 		static const uint32_t MaxTextureSlots = 32; // TODO: RenderCaps
@@ -246,10 +248,10 @@ namespace Violet {
 		for (uint32_t i = 0; i < s_Data.MaxTextureSlots; i++)
 			samplers[i] = i;
 
-		s_Data.QuadShader = Shader::Create("../Assets/shaders/Renderer2D_Quad.glsl");
-		s_Data.CircleShader = Shader::Create("../Assets/shaders/Renderer2D_Circle.glsl");
-		s_Data.LineShader = Shader::Create("../Assets/shaders/Renderer2D_Line.glsl");
-		s_Data.TextShader = Shader::Create("../Assets/shaders/Renderer2D_Text.glsl");
+		s_Data.QuadShader = Shader::Create("assets/shaders/Renderer2D_Quad.glsl");
+		s_Data.CircleShader = Shader::Create("assets/shaders/Renderer2D_Circle.glsl");
+		s_Data.LineShader = Shader::Create("assets/shaders/Renderer2D_Line.glsl");
+		s_Data.TextShader = Shader::Create("assets/shaders/Renderer2D_Text.glsl");
 
 		s_Data.QuadShader->Bind();
 		s_Data.QuadShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
@@ -323,6 +325,7 @@ namespace Violet {
 		if (s_Data.QuadIndexCount)
 		{
 			uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase);
+
 			s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize);
 
 			// Bind textures
@@ -374,7 +377,39 @@ namespace Violet {
 		Flush();
 		StartBatch();
 	}
+	void Renderer2D::Draw(const glm::mat4& transform, const glm::vec4& color, int entityID)
+	{
 
+		//GLuint VBO, VAO;
+		//glGenVertexArrays(1, &VAO);
+		//glGenBuffers(1, &VBO);
+		//glBindVertexArray(VAO);
+		//glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		//glEnableVertexAttribArray(0);
+		//glBindBuffer(GL_ARRAY_BUFFER, 0);
+		//glBindVertexArray(0);
+
+		// // 渲染循环
+		//while (!glfwWindowShouldClose(window)) {
+		//	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		//	glClear(GL_COLOR_BUFFER_BIT);
+
+		//	glUseProgram(shaderProgram);
+		//	glBindVertexArray(VAO);
+		//	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		//	glfwSwapBuffers(window);
+		//	glfwPollEvents();
+		//}
+
+		//// 清理资源
+		//glDeleteVertexArrays(1, &VAO);
+		//glDeleteBuffers(1, &VBO);
+		//glDeleteProgram(shaderProgram);
+
+	}
 	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
 	{
 		VL_PROFILE_FUNCTION();
@@ -457,7 +492,6 @@ namespace Violet {
 		{
 			VL_CORE_ERROR("SubEmpty");
 			return false;
-
 		}
 
 		constexpr size_t quadVertexCount = 4;

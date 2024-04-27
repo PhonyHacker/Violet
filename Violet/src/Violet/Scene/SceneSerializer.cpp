@@ -246,7 +246,7 @@ namespace Violet {
 					out << YAML::Key << "Type" << YAML::Value << Utils::ScriptFieldTypeToString(field.Type);
 
 					out << YAML::Key << "Data" << YAML::Value;
-					ScriptFieldInstance& scriptField = entityFields.at(name);
+					ScriptField& scriptField = entityFields.at(name);
 
 					switch (field.Type)
 					{
@@ -479,7 +479,7 @@ namespace Violet {
 								std::string typeString = scriptField["Type"].as<std::string>();
 								ScriptFieldType type = Utils::ScriptFieldTypeFromString(typeString);
 
-								ScriptFieldInstance& fieldInstance = entityFields[name];
+								ScriptField& fieldInstance = entityFields[name];
 
 								// TODO(Yan): turn this assert into Hazelnut log warning
 								VL_CORE_ASSERT(fields.find(name) != fields.end());
@@ -487,7 +487,7 @@ namespace Violet {
 								if (fields.find(name) == fields.end())
 									continue;
 
-								fieldInstance.Field = fields.at(name);
+								fieldInstance = fields.at(name);
 
 								switch (type)
 								{

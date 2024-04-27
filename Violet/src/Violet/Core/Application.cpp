@@ -59,6 +59,12 @@ namespace Violet {
 		VL_PROFILE_FUNCTION();
 
 		EventDispatcher dispatcher(e);
+		
+		//auto f = [this](WindowCloseEvent event) {
+		//	return OnWindowClose(event);
+		//};
+		//dispatcher.Dispatch<WindowCloseEvent>(f);
+
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
 

@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo.csproj", "{6A15847C-564C-850D-FF38-6B10EB4E010F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Violet", "Violet", "{5FF00F09-4B53-9FAD-F4D8-D763E01A6B30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Violet-ScriptCore", "..\..\..\..\..\Violet-ScriptCore\Violet-ScriptCore.csproj", "{23A677BA-8FBC-7550-D833-0172448946D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Dist|x64 = Dist|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A15847C-564C-850D-FF38-6B10EB4E010F}.Debug|x64.ActiveCfg = Debug|x64
+		{6A15847C-564C-850D-FF38-6B10EB4E010F}.Debug|x64.Build.0 = Debug|x64
+		{6A15847C-564C-850D-FF38-6B10EB4E010F}.Dist|x64.ActiveCfg = Dist|x64
+		{6A15847C-564C-850D-FF38-6B10EB4E010F}.Dist|x64.Build.0 = Dist|x64
+		{6A15847C-564C-850D-FF38-6B10EB4E010F}.Release|x64.ActiveCfg = Release|x64
+		{6A15847C-564C-850D-FF38-6B10EB4E010F}.Release|x64.Build.0 = Release|x64
+		{23A677BA-8FBC-7550-D833-0172448946D8}.Debug|x64.ActiveCfg = Debug|x64
+		{23A677BA-8FBC-7550-D833-0172448946D8}.Debug|x64.Build.0 = Debug|x64
+		{23A677BA-8FBC-7550-D833-0172448946D8}.Dist|x64.ActiveCfg = Dist|x64
+		{23A677BA-8FBC-7550-D833-0172448946D8}.Dist|x64.Build.0 = Dist|x64
+		{23A677BA-8FBC-7550-D833-0172448946D8}.Release|x64.ActiveCfg = Release|x64
+		{23A677BA-8FBC-7550-D833-0172448946D8}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{23A677BA-8FBC-7550-D833-0172448946D8} = {5FF00F09-4B53-9FAD-F4D8-D763E01A6B30}
+	EndGlobalSection
+EndGlobal

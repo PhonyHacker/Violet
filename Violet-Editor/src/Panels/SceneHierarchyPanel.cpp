@@ -68,6 +68,7 @@ namespace Violet {
 	{
 		auto& tag = entity.GetComponent<TagComponent>().Tag;
 
+		//ImGuiTreeNodeFlags flags = ((m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0);
 		ImGuiTreeNodeFlags flags = ((m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
 		flags |= ImGuiTreeNodeFlags_SpanAvailWidth;
 		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
@@ -171,7 +172,7 @@ namespace Violet {
 	template<typename T, typename UIFunction>
 	static void DrawComponent(const std::string& name, Entity entity, UIFunction uiFunction)
 	{
-		const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
+		const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_SpanAvailWidth |															ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_FramePadding;
 		if (entity.HasComponent<T>())
 		{
 			auto& component = entity.GetComponent<T>();
@@ -181,8 +182,7 @@ namespace Violet {
 			float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 			ImGui::Separator();
 			bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, name.c_str());
-			ImGui::PopStyleVar(
-			);
+			ImGui::PopStyleVar();
 			ImGui::SameLine(contentRegionAvailable.x - lineHeight * 0.5f);
 			if (ImGui::Button("+", ImVec2{ lineHeight, lineHeight }))
 			{
@@ -336,7 +336,7 @@ namespace Violet {
 						std::filesystem::path scriptPath(path);
 
 						component.ClassName = ScriptEngine::s_ProjectName + "." + scriptPath.stem().string();
-						// VL_CORE_INFO(component.ClassName);
+						//VL_CORE_INFO(component.ClassName);
 						
 						scriptClassExists = ScriptEngine::EntityClassExists(component.ClassName);
 					}
@@ -396,7 +396,7 @@ namespace Violet {
 							// Field has been set in editor
 							if (entityFields.find(name) != entityFields.end())
 							{
-								ScriptFieldInstance& scriptField = entityFields.at(name);
+								ScriptField& scriptField = entityFields.at(name);
 
 								// Display control to set it maybe
 								if (field.Type == ScriptFieldType::Float)
@@ -414,9 +414,8 @@ namespace Violet {
 									float data = 0.0f;
 									if (ImGui::DragFloat(name.c_str(), &data))
 									{
-										ScriptFieldInstance& fieldInstance = entityFields[name];
-										fieldInstance.Field = field;
-										fieldInstance.SetValue(data);
+										ScriptField& field = entityFields[name];
+										field.SetValue(data);
 									}
 								}
 							}

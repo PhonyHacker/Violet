@@ -33,17 +33,15 @@ namespace Violet{
 		ScriptFieldType Type;
 		std::string Name;
 		MonoClassField* ClassField;
-	};
-
-	// ScriptField + data storage
-	struct ScriptFieldInstance
-	{
-	public:
 		uint8_t Buffer[16];
-		ScriptField Field;
 
 	public:
-		ScriptFieldInstance()
+		ScriptField()
+		{
+			memset(Buffer, 0, sizeof(Buffer));
+		}
+		ScriptField(ScriptFieldType type, std::string name, MonoClassField* field)
+			:Type(type), Name(name), ClassField(field)
 		{
 			memset(Buffer, 0, sizeof(Buffer));
 		}
@@ -63,7 +61,7 @@ namespace Violet{
 		}
 	};
 
-	using ScriptFieldMap = std::unordered_map<std::string, ScriptFieldInstance>;
+	using ScriptFieldMap = std::unordered_map<std::string, ScriptField>;
 
 	// 对MonoClass进行封装：维护Mono类信息及API
 	class ScriptClass
@@ -134,7 +132,7 @@ namespace Violet{
 		inline static char s_FieldValueBuffer[16];
 
 		friend class ScriptEngine;
-		friend struct ScriptFieldInstance;
+		//friend struct ScriptFieldInstance;
 	};
 
 	// 封装Mono类相关API

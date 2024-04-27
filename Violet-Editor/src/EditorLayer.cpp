@@ -1,10 +1,8 @@
 #include "vlpch.h"
 #include "EditorLayer.h"
 
-#include <imgui/imgui.h>
-
-#include <glm/glm/ext/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+//#include <glm/glm/ext/matrix_transform.hpp>
+//#include <glm/gtc/type_ptr.hpp>
 
 #include "Violet/Scene/SceneSerializer.h"
 #include "Violet/Math/Math.h"
@@ -12,17 +10,16 @@
 #include "Violet/Scripting/ScriptEngine.h"
 #include "Violet/Renderer/Font.h"
 
+#include "Panels/EditorUI.h"
+
 #include "Platform/OpenGL/OpenGLShader.h"
 
 #include <chrono>
 
-#include "ImGuizmo.h"
-
 namespace Violet {
 	static Ref<Font> s_Font;
 
-	EditorLayer::EditorLayer()
-		:Layer("EditorLayer"), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
+	EditorLayer::EditorLayer(): Layer("EditorLayer")
 	{
 		// s_Font = new Font("assets/fonts/opensans/OpenSans-Regular.ttf");
 		s_Font = Font::GetDefault();
@@ -31,12 +28,6 @@ namespace Violet {
 	void EditorLayer::OnAttach()
 	{
 		VL_PROFILE_FUNCTION();
-
-		m_IconPlay = Texture2D::Create("../Assets/icons/PlayButton.png");
-		m_IconPause = Texture2D::Create("../Assets/icons/PauseButton.png");
-		m_IconSimulate = Texture2D::Create("../Assets/icons/SimulateButton.png");
-		m_IconStep = Texture2D::Create("../Assets/icons/StepButton.png");
-		m_IconStop = Texture2D::Create("../Assets/icons/StopButton.png");
 
 		Violet::FramebufferSpecification fbSpec;
 		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
@@ -65,7 +56,7 @@ namespace Violet {
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
 		Renderer2D::SetLineWidth(4.0f);
 
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		EditorUI::Get().Attach(this);
 		
 		// 拉远摄像机
 		// m_CameraController.SetZoomLevel(8.0f);
@@ -130,9 +121,8 @@ namespace Violet {
 		}
 
 		{
-
 			// Handle Mouse Position
-			auto [mx, my] = ImGui::GetMousePos();
+			auto [mx, my] = EditorUI::Get().GetMousePos();
 
 			mx -= m_ViewportBounds[0].x;
 			my -= m_ViewportBounds[0].y;
@@ -161,314 +151,8 @@ namespace Violet {
 	{
 		VL_PROFILE_FUNCTION();
 
-		// Note: Switch this to true to enable dockspace
-		static bool dockingEnabled = true;
-		if (dockingEnabled)
-		{
-			static bool dockspaceOpen = true;
-			static bool opt_fullscreen_persistant = true;
-			bool opt_fullscreen = opt_fullscreen_persistant;
-			static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
-
-			// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
-			// because it would be confusing to have two docking targets within each others.
-			ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
-			if (opt_fullscreen)
-			{
-				ImGuiViewport* viewport = ImGui::GetMainViewport();
-				ImGui::SetNextWindowPos(viewport->Pos);
-				ImGui::SetNextWindowSize(viewport->Size);
-				ImGui::SetNextWindowViewport(viewport->ID);
-				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-				ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-				window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-				window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-			}
-
-			// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
-			if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
-				window_flags |= ImGuiWindowFlags_NoBackground;
-
-			// Important: note that we proceed even if Begin() returns false (aka window is collapsed).
-			// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive, 
-			// all active windows docked into it will lose their parent and become undocked.
-			// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise 
-			// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-			ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
-			ImGui::PopStyleVar();
-
-			if (opt_fullscreen)
-				ImGui::PopStyleVar(2);
-
-			// DockSpace
-			ImGuiIO& io = ImGui::GetIO();
-
-			ImGuiStyle& style = ImGui::GetStyle();
-			float minWinSizeX = style.WindowMinSize.x;
-			style.WindowMinSize.x = 370.0f;
-
-			if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
-			{
-				ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-				ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
-			}
-
-			style.WindowMinSize.x = minWinSizeX;
-
-			if (ImGui::BeginMenuBar())
-			{
-				if (ImGui::BeginMenu("File"))
-				{
-					if (ImGui::MenuItem("Open Project...", "Ctrl+O"))
-						OpenProject();
-
-					ImGui::Separator();
-
-					if (ImGui::MenuItem("New Scene", "Ctrl+N"))
-						NewScene();
-
-					if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
-						SaveScene();
-
-					if (ImGui::MenuItem("Save Scene As...", "Ctrl+Shift+S"))
-						SaveSceneAs();
-
-					ImGui::Separator();
-
-					if (ImGui::MenuItem("Exit"))
-						Application::Get().Close();
-
-					ImGui::EndMenu();
-				}
-
-				if (ImGui::BeginMenu("Script"))
-				{
-					if (ImGui::MenuItem("Reload assembly", "Ctrl+R"))
-						ScriptEngine::ReloadAssembly();
-
-					ImGui::EndMenu();
-				}
-
-				ImGui::EndMenuBar();
-			}
-
-			m_SceneHierarchyPanel.OnImGuiRender();
-			m_ContentBrowserPanel->OnImGuiRender();
-
-			ImGui::Begin("States");
-
-#if 0
-			std::string name = "None";
-			if (m_HoveredEntity && m_HoveredEntity.HasComponent<TagComponent>())
-			{
-				auto curTag = m_HoveredEntity.GetComponent<TagComponent>();
-				
-				name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
-				
-			}
-			ImGui::Text("Hovered Entity: %s", name.c_str());
-#endif
-			auto stats = Violet::Renderer2D::GetStats();
-			ImGui::Text("Renderer2D Stats:");
-			ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-			ImGui::Text("Quads: %d", stats.QuadCount);
-			ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
-			ImGui::Text("FPS: %s", std::to_string(1 / m_Timestep).c_str());
-
-			ImGui::End();
-
-			ImGui::Begin("Settings");
-			ImGui::Checkbox("Show physics colliders", &m_ShowPhysicsColliders);
-
-			//ImGui::Image((ImTextureID)s_Font->GetAtlasTexture()->GetRendererID(), { 512,512 }, { 0, 1 }, { 1, 0 });
-
-			ImGui::End();
-
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
-			ImGui::Begin("Viewport");
-
-			auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
-			auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
-			auto viewportOffset = ImGui::GetWindowPos();
-			m_ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
-			m_ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
-
-			m_ViewportFocused = ImGui::IsWindowFocused();
-			m_ViewportHovered = ImGui::IsWindowHovered();
-			Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportHovered);
-
-			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-
-			uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-			ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, { 0, 1 }, { 1, 0 });
-			
-			if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
-				{
-					const wchar_t* path = (const wchar_t*)payload->Data;
-
-					std::wstring wpath(path);
-					std::wstring extension = L".violet";
-
-					// 检查路径长度是否足够长
-					if (wpath.size() >= extension.size()) 
-					{
-						// 比较路径的后缀是否为 ".violet"
-						if(wpath.compare(wpath.size() - extension.size(), extension.size(), extension) == 0)
-							OpenScene(path);	
-					}
-					
-				}
-				ImGui::EndDragDropTarget();
-			}
-
-
-			// Gizmos
-			Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
-			if (selectedEntity && m_GizmoType != -1)
-			{
-				ImGuizmo::SetOrthographic(false);
-				ImGuizmo::SetDrawlist();
-
-				ImGuizmo::SetRect(m_ViewportBounds[0].x, m_ViewportBounds[0].y, m_ViewportBounds[1].x - m_ViewportBounds[0].x, m_ViewportBounds[1].y - m_ViewportBounds[0].y);
-				
-				// Camera
-				// --Runtime
-				// auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-				// const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
-				// const glm::mat4& cameraProjection = camera.GetProjection();
-				// glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
-
-				// Camera
-				// --Editor
-				const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
-				glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
-
-				// Entity transform
-				auto& tc = selectedEntity.GetComponent<TransformComponent>();
-				glm::mat4 transform = tc.GetTransform();
-
-				// Snapping
-				bool snap = Input::IsKeyPressed(Key::LeftControl);
-				float snapValue = 0.5f; // Snap to 0.5m for translation/scale
-				// Snap to 45 degrees for rotation
-				if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
-					snapValue = 45.0f;
-
-				float snapValues[3] = { snapValue, snapValue, snapValue };
-
-				ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
-					(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform),
-					nullptr, snap ? snapValues : nullptr);
-
-				if (ImGuizmo::IsUsing())
-				{
-					glm::vec3 translation, rotation, scale;
-					Math::DecomposeTransform(transform, translation, rotation, scale);
-
-					glm::vec3 deltaRotation = rotation - tc.Rotation;
-					tc.Translation = translation;
-					tc.Rotation += deltaRotation;
-					tc.Scale = scale;
-				}
-			}
-
-			ImGui::End();
-			ImGui::PopStyleVar();
-
-			UI_Toolbar();
-
-			ImGui::End();
-		}
-
+		EditorUI::Get().OnImGuiRender(this);
 	}
-
-	void EditorLayer::UI_Toolbar()
-	{
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2));
-		ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0));
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-		auto& colors = ImGui::GetStyle().Colors;
-		const auto& buttonHovered = colors[ImGuiCol_ButtonHovered];
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(buttonHovered.x, buttonHovered.y, buttonHovered.z, 0.5f));
-		const auto& buttonActive = colors[ImGuiCol_ButtonActive];
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(buttonActive.x, buttonActive.y, buttonActive.z, 0.5f));
-
-		ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-
-		bool toolbarEnabled = (bool)m_ActiveScene;
-
-		ImVec4 tintColor = ImVec4(1, 1, 1, 1);
-		if (!toolbarEnabled)
-			tintColor.w = 0.5f;
-
-		float size = ImGui::GetWindowHeight() - 4.0f;
-		ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
-
-		bool hasPlayButton = m_SceneState == SceneState::Edit || m_SceneState == SceneState::Play;
-		bool hasSimulateButton = m_SceneState == SceneState::Edit || m_SceneState == SceneState::Simulate;
-		bool hasPauseButton = m_SceneState != SceneState::Edit;
-
-		if (hasPlayButton)
-		{
-			Ref<Texture2D> icon = (m_SceneState == SceneState::Edit || m_SceneState == SceneState::Simulate) ? m_IconPlay : m_IconStop;
-			if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
-			{
-				if (m_SceneState == SceneState::Edit || m_SceneState == SceneState::Simulate)
-					OnScenePlay();
-				else if (m_SceneState == SceneState::Play)
-					OnSceneStop();
-			}
-		}
-		if (hasSimulateButton)
-		{
-			if (hasPlayButton)
-				ImGui::SameLine();
-
-			Ref<Texture2D> icon = (m_SceneState == SceneState::Edit || m_SceneState == SceneState::Play) ? m_IconSimulate : m_IconStop;
-			if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
-			{
-				if (m_SceneState == SceneState::Edit || m_SceneState == SceneState::Play)
-					OnSceneSimulate();
-				else if (m_SceneState == SceneState::Simulate)
-					OnSceneStop();
-			}
-		}
-		if (hasPauseButton)
-		{
-			bool isPaused = m_ActiveScene->IsPaused();
-			ImGui::SameLine();
-			{
-				Ref<Texture2D> icon = m_IconPause;
-				if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
-				{
-					m_ActiveScene->SetPaused(!isPaused);
-				}
-			}
-
-			// Step button
-			if (isPaused)
-			{
-				ImGui::SameLine();
-				{
-					Ref<Texture2D> icon = m_IconStep;
-					bool isPaused = m_ActiveScene->IsPaused();
-					if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
-					{
-						m_ActiveScene->Step();
-					}
-				}
-			}
-		}
-		ImGui::PopStyleVar(2);
-		ImGui::PopStyleColor(3);
-		ImGui::End();
-	}
-
 
 	void EditorLayer::OnEvent(Violet::Event& e)
 	{
@@ -525,13 +209,13 @@ namespace Violet {
 
 			// Gizmos
 			case Key::Q:
-				m_GizmoType = -1;
+				EditorUI::Get().SetGizmoType(-1);
 				break;
 			case Key::W:
-				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				EditorUI::Get().SetGizmoType(0);
 				break;
 			case Key::E:
-				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+				EditorUI::Get().SetGizmoType(1);
 				break;
 			case Key::R:
 			{
@@ -541,8 +225,8 @@ namespace Violet {
 				}
 				else
 				{
-					if (!ImGuizmo::IsUsing())
-						m_GizmoType = ImGuizmo::OPERATION::SCALE;
+					if (!EditorUI::Get().IsGizmoUsing())
+						EditorUI::Get().SetGizmoType(2);
 				}
 				break;
 			}
@@ -550,10 +234,10 @@ namespace Violet {
 			{
 				if (Application::Get().GetImGuiLayer()->GetActiveWidgetID() == 0)
 				{
-					Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+					Entity selectedEntity = EditorUI::Get().GetSelectedEntity();
 					if (selectedEntity)
 					{
-						m_SceneHierarchyPanel.SetSelectedEntity({});
+						EditorUI::Get().SetSelectedEntity({});
 						m_ActiveScene->DestroyEntity(selectedEntity);
 					}
 				}
@@ -568,9 +252,9 @@ namespace Violet {
 	{
 		if (e.GetMouseButton() == Mouse::ButtonLeft)
 		{
-			if (m_ViewportHovered && !ImGuizmo::IsOver() && !Input::IsKeyPressed(Key::LeftAlt))
+			if (EditorUI::Get().IsViewHovered() && !EditorUI::Get().IsGizmoOver() && !Input::IsKeyPressed(Key::LeftAlt))
 			{
-				m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+				EditorUI::Get().SetSelectedEntity(m_HoveredEntity);
 				Application::Get().HoeveredEntity = m_HoveredEntity;
 			}
 		}
@@ -628,12 +312,12 @@ namespace Violet {
 						glm::mat4 transform = glm::translate(glm::mat4(1.0f), translation)
 							* glm::scale(glm::mat4(1.0f), scale);
 
-						Renderer2D::DrawCircle(transform, glm::vec4(0, 1, 0, 1), 0.01f);
+						Renderer2D::DrawCircle(transform, glm::vec4(0, 1, 0, 1), 0.05f);
 					}
 				}
 			}
 			// Draw selected entity outline 
-			if (Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity())
+			if (Entity selectedEntity = EditorUI::Get().GetSelectedEntity())
 			{
 				const TransformComponent& transform = selectedEntity.GetComponent<TransformComponent>();
 				Renderer2D::DrawRect(transform.GetTransform(), glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
@@ -657,7 +341,7 @@ namespace Violet {
 
 			auto startScenePath = Project::GetAssetFileSystemPath(Project::GetActive()->GetConfig().StartScene);
 			OpenScene(startScenePath);
-			m_ContentBrowserPanel = CreateScope<ContentBrowserPanel>();
+			EditorUI::Get().OnLoadProject(this);
 
 			ScriptEngine::s_ProjectName = path.stem().string();
 			VL_CORE_INFO(ScriptEngine::s_ProjectName);
@@ -685,7 +369,8 @@ namespace Violet {
 		m_EditorScene = CreateRef<Scene>();
 		m_ActiveScene = m_EditorScene;
 		// m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-		m_SceneHierarchyPanel.SetContext(m_EditorScene);
+
+		EditorUI::Get().SetScenePanelContext(m_EditorScene);
 
 		m_EditorScenePath = std::filesystem::path();
 	}
@@ -722,8 +407,7 @@ namespace Violet {
 
 			m_EditorScene = newScene;
 			// m_EditorScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_SceneHierarchyPanel.SetContext(m_EditorScene);
-
+			EditorUI::Get().SetScenePanelContext(m_EditorScene);
 			m_ActiveScene = m_EditorScene;
 			m_EditorScenePath = path;
 		}
@@ -762,7 +446,7 @@ namespace Violet {
 		m_ActiveScene = Scene::Copy(m_EditorScene);
 		m_ActiveScene->OnRuntimeStart();
 
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		EditorUI::Get().SetScenePanelContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnSceneSimulate()
@@ -775,7 +459,7 @@ namespace Violet {
 		m_ActiveScene = Scene::Copy(m_EditorScene);
 		m_ActiveScene->OnSimulationStart();
 
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		EditorUI::Get().SetScenePanelContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnSceneStop()
@@ -790,7 +474,7 @@ namespace Violet {
 
 		m_ActiveScene = m_EditorScene;
 
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+		EditorUI::Get().SetScenePanelContext(m_ActiveScene);
 	}
 	
 	void EditorLayer::OnScenePause()
@@ -806,11 +490,11 @@ namespace Violet {
 		if (m_SceneState != SceneState::Edit)
 			return;
 
-		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+		Entity selectedEntity = EditorUI::Get().GetSelectedEntity();
 		if (selectedEntity)
 		{
 			Entity newEntity = m_EditorScene->DuplicateEntity(selectedEntity);
-			m_SceneHierarchyPanel.SetSelectedEntity(newEntity);
+			EditorUI::Get().SetSelectedEntity(newEntity);
 		}
 	}
 
