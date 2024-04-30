@@ -65,6 +65,7 @@ namespace Violet {
 		Ref<Scene>& GetActiveScene() { return m_ActiveScene; }
 		Ref<Scene>& GetEditorScene() { return m_EditorScene; }
 		SceneState& GetSceneState() { return m_SceneState; }
+		Entity& GetHoveredEntity() { return m_HoveredEntity; }
 #pragma endregion
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);

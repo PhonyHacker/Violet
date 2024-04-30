@@ -9,6 +9,8 @@
 namespace Violet {
 	void EditorUI::Attach(EditorLayer* editor)
 	{
+		m_Editor = editor;
+
 		m_IconPlay = Texture2D::Create("assets/icons/PlayButton.png");
 		m_IconPause = Texture2D::Create("assets/icons/PauseButton.png");
 		m_IconSimulate = Texture2D::Create("assets/icons/SimulateButton.png");
@@ -18,7 +20,7 @@ namespace Violet {
 		m_SceneHierarchyPanel.SetContext(editor->GetActiveScene());
 	}
 
-	void EditorUI::OnLoadProject(EditorLayer* editor)
+	void EditorUI::OnLoadProject()
 	{
 		m_ContentBrowserPanel = CreateScope<ContentBrowserPanel>();
 	}
@@ -26,7 +28,7 @@ namespace Violet {
 	float curTime = 0.0f;
 	int frameCounts = 0;
 	int FPS = 0;
-	void EditorUI::StatusPanel(EditorLayer* editor) 
+	void EditorUI::StatusPanel() 
 	{
 		ImGui::Begin("States");
 
@@ -37,7 +39,7 @@ namespace Violet {
 		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-		float step = editor->GetTimeStep();
+		float step = m_Editor->GetTimeStep();
 		curTime += step;
 		frameCounts++;
 
@@ -53,25 +55,25 @@ namespace Violet {
 		ImGui::End();
 	}
 
-	void EditorUI::MenuBar(EditorLayer* editor)
+	void EditorUI::MenuBar()
 	{
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
 			{
 				if (ImGui::MenuItem("Open Project...", "Ctrl+O"))
-					editor->OpenProject();
+					m_Editor->OpenProject();
 
 				ImGui::Separator();
 
 				if (ImGui::MenuItem("New Scene", "Ctrl+N"))
-					editor->NewScene();
+					m_Editor->NewScene();
 
 				if (ImGui::MenuItem("Save Scene", "Ctrl+S"))
-					editor->SaveScene();
+					m_Editor->SaveScene();
 
 				if (ImGui::MenuItem("Save Scene As...", "Ctrl+Shift+S"))
-					editor->SaveSceneAs();
+					m_Editor->SaveSceneAs();
 
 				ImGui::Separator();
 
@@ -93,16 +95,16 @@ namespace Violet {
 		}
 	}
 	
-	void EditorUI::Settings(EditorLayer* editor)
+	void EditorUI::Settings()
 	{
 		ImGui::Begin("Settings");
-		ImGui::Checkbox("Show physics colliders", &(editor->IsShowCollider()));
+		ImGui::Checkbox("Show physics colliders", &(m_Editor->IsShowCollider()));
 		//ImGui::Image((ImTextureID)s_Font->GetAtlasTexture()->GetRendererID(), { 512,512 }, { 0, 1 }, { 1, 0 });
 
 		ImGui::End();
 	}
 
-	void EditorUI::ViewPort(EditorLayer* editor)
+	void EditorUI::ViewPort()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Viewport");
@@ -110,18 +112,18 @@ namespace Violet {
 		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
 		auto viewportOffset = ImGui::GetWindowPos();
-		editor->GetViewBounds()[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
-		editor->GetViewBounds()[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
+		m_Editor->GetViewBounds()[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+		m_Editor->GetViewBounds()[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
 		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused);
 
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		editor->GetViewSize() = {viewportPanelSize.x, viewportPanelSize.y};
+		m_Editor->GetViewSize() = {viewportPanelSize.x, viewportPanelSize.y};
 
-		uint32_t textureID = editor->GetFramebuffer()->GetColorAttachmentRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ editor->GetViewSize().x, editor->GetViewSize().y }, { 0, 1 }, { 1, 0 });
+		uint32_t textureID = m_Editor->GetFramebuffer()->GetColorAttachmentRendererID();
+		ImGui::Image((void*)textureID, ImVec2{ m_Editor->GetViewSize().x, m_Editor->GetViewSize().y }, { 0, 1 }, { 1, 0 });
 
 		if (ImGui::BeginDragDropTarget())
 		{
@@ -136,7 +138,7 @@ namespace Violet {
 				{
 					// 比较路径的后缀是否为 ".violet"
 					if (wpath.compare(wpath.size() - extension.size(), extension.size(), extension) == 0)
-						editor->OpenScene(path);
+						m_Editor->OpenScene(path);
 
 					// 输出文件路径 
 					std::locale loc("");
@@ -158,7 +160,7 @@ namespace Violet {
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetDrawlist();
 
-			auto bounds = editor->GetViewBounds();
+			auto bounds = m_Editor->GetViewBounds();
 			ImGuizmo::SetRect(bounds[0].x, bounds[0].y, bounds[1].x - bounds[0].x, bounds[1].y - bounds[0].y);
 
 			// Camera
@@ -170,8 +172,8 @@ namespace Violet {
 
 			// Camera
 			// --Editor
-			const glm::mat4& cameraProjection = editor->GetEditorCamera().GetProjection();
-			glm::mat4 cameraView = editor->GetEditorCamera().GetViewMatrix();
+			const glm::mat4& cameraProjection = m_Editor->GetEditorCamera().GetProjection();
+			glm::mat4 cameraView = m_Editor->GetEditorCamera().GetViewMatrix();
 
 			// Entity transform
 			auto& tc = selectedEntity.GetComponent<TransformComponent>();
@@ -206,7 +208,7 @@ namespace Violet {
 		ImGui::PopStyleVar();
 	}
 
-	void EditorUI::UIToolbar(EditorLayer* editor)
+	void EditorUI::UIToolbar()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2));
 		ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0));
@@ -219,7 +221,7 @@ namespace Violet {
 
 		ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 
-		bool toolbarEnabled = (bool)editor->GetActiveScene();
+		bool toolbarEnabled = (bool)m_Editor->GetActiveScene();
 
 		ImVec4 tintColor = ImVec4(1, 1, 1, 1);
 		if (!toolbarEnabled)
@@ -228,19 +230,19 @@ namespace Violet {
 		float size = ImGui::GetWindowHeight() - 4.0f;
 		ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
 
-		bool hasPlayButton = editor->GetSceneState() == SceneState::Edit || editor->GetSceneState() == SceneState::Play;
-		bool hasSimulateButton = editor->GetSceneState() == SceneState::Edit || editor->GetSceneState() == SceneState::Simulate;
-		bool hasPauseButton = editor->GetSceneState() != SceneState::Edit;
+		bool hasPlayButton = m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Play;
+		bool hasSimulateButton = m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Simulate;
+		bool hasPauseButton = m_Editor->GetSceneState() != SceneState::Edit;
 
 		if (hasPlayButton)
 		{
-			Ref<Texture2D> icon = (editor->GetSceneState() == SceneState::Edit || editor->GetSceneState() == SceneState::Simulate) ? m_IconPlay : m_IconStop;
+			Ref<Texture2D> icon = (m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Simulate) ? m_IconPlay : m_IconStop;
 			if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
 			{
-				if (editor->GetSceneState() == SceneState::Edit || editor->GetSceneState() == SceneState::Simulate)
-					editor->OnScenePlay();
-				else if (editor->GetSceneState() == SceneState::Play)
-					editor->OnSceneStop();
+				if (m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Simulate)
+					m_Editor->OnScenePlay();
+				else if (m_Editor->GetSceneState() == SceneState::Play)
+					m_Editor->OnSceneStop();
 			}
 		}
 		if (hasSimulateButton)
@@ -248,24 +250,24 @@ namespace Violet {
 			if (hasPlayButton)
 				ImGui::SameLine();
 
-			Ref<Texture2D> icon = (editor->GetSceneState() == SceneState::Edit || editor->GetSceneState() == SceneState::Play) ? m_IconSimulate : m_IconStop;
+			Ref<Texture2D> icon = (m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Play) ? m_IconSimulate : m_IconStop;
 			if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
 			{
-				if (editor->GetSceneState() == SceneState::Edit || editor->GetSceneState() == SceneState::Play)
-					editor->OnSceneSimulate();
-				else if (editor->GetSceneState() == SceneState::Simulate)
-					editor->OnSceneStop();
+				if (m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Play)
+					m_Editor->OnSceneSimulate();
+				else if (m_Editor->GetSceneState() == SceneState::Simulate)
+					m_Editor->OnSceneStop();
 			}
 		}
 		if (hasPauseButton)
 		{
-			bool isPaused = editor->GetActiveScene()->IsPaused();
+			bool isPaused = m_Editor->GetActiveScene()->IsPaused();
 			ImGui::SameLine();
 			{
 				Ref<Texture2D> icon = m_IconPause;
 				if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
 				{
-					editor->GetActiveScene()->SetPaused(!isPaused);
+					m_Editor->GetActiveScene()->SetPaused(!isPaused);
 				}
 			}
 
@@ -275,10 +277,10 @@ namespace Violet {
 				ImGui::SameLine();
 				{
 					Ref<Texture2D> icon = m_IconStep;
-					bool isPaused = editor->GetActiveScene()->IsPaused();
+					bool isPaused = m_Editor->GetActiveScene()->IsPaused();
 					if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
 					{
-						editor->GetActiveScene()->Step();
+						m_Editor->GetActiveScene()->Step();
 					}
 				}
 			}
@@ -342,16 +344,37 @@ namespace Violet {
 	{
 		ImGui::End();
 	}
+	void EditorUI::HandleMouse()
+	{
+		auto [mx, my] = GetMousePos();
 
-	void EditorUI::OnImGuiRender(EditorLayer* editor)
+		mx -= m_Editor->GetViewBounds()[0].x;
+		my -= m_Editor->GetViewBounds()[0].y;
+
+		glm::vec2 viewportSize = m_Editor->GetViewBounds()[1] - m_Editor->GetViewBounds()[0];
+		my = viewportSize.y - my;
+		int mouseX = (int)mx;
+		int mouseY = (int)my;
+		// VL_TRACE("MOUSE: {0}, {1}", mouseX, mouseY);
+		Application::Get().CurrentMouse = glm::vec2(mx, my);
+
+		if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+		{
+			int pixelData = m_Editor->GetFramebuffer()->ReadPixel(1, mouseX, mouseY);
+			m_Editor->GetHoveredEntity() = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_Editor->GetActiveScene().get());
+			Application::Get().HoeveredEntity = m_Editor->GetHoveredEntity();
+		}
+	}
+
+	void EditorUI::OnImGuiRender()
 	{
 		StartDockSpace();
 
-		MenuBar(editor);
-		StatusPanel(editor);
-		Settings(editor);
-		ViewPort(editor);
-		UIToolbar(editor);
+		MenuBar();
+		StatusPanel();
+		Settings();
+		ViewPort();
+		UIToolbar();
 
 		m_SceneHierarchyPanel.OnImGuiRender();
 		m_ContentBrowserPanel->OnImGuiRender();	

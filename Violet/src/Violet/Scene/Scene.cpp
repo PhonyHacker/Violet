@@ -171,11 +171,10 @@ namespace Violet {
 		if (!m_IsPaused || m_StepFrames-- > 0)
 		{
 			ScriptSystemUpdate(timestep);
-
 			PhysicsSystemUpdate(timestep);
-
-			RenderSystemUpdate(timestep);
 		}
+
+		RenderSystemUpdate(timestep);
 	}
 
 	void Scene::OnUpdateSimulation(Timestep ts, EditorCamera& camera)

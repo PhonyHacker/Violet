@@ -67,6 +67,7 @@ namespace Violet {
 		VL_PROFILE_FUNCTION();
 	}
 
+
 	void EditorLayer::OnUpdate(Violet::Timestep timestep)
 	{
 		VL_PROFILE_FUNCTION();
@@ -120,38 +121,21 @@ namespace Violet {
 			}
 		}
 
-		{
-			// Handle Mouse Position
-			auto [mx, my] = EditorUI::Get().GetMousePos();
 
-			mx -= m_ViewportBounds[0].x;
-			my -= m_ViewportBounds[0].y;
+		// Handle Mouse Position
+		EditorUI::Get().HandleMouse();
 
-			glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
-			my = viewportSize.y - my;
-			int mouseX = (int)mx;
-			int mouseY = (int)my;
-			// VL_TRACE("MOUSE: {0}, {1}", mouseX, mouseY);
-			Application::Get().CurrentMouse = glm::vec2(mx, my);
+		OnOverlayRender();
 
-			if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
-			{
-				int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
-				m_HoveredEntity = pixelData == -1 ? Entity() : Entity((entt::entity)pixelData, m_ActiveScene.get());
-				Application::Get().HoeveredEntity = m_HoveredEntity;
-			}
+		m_Framebuffer->Unbind();
 
-			OnOverlayRender();
-
-			m_Framebuffer->Unbind();
-		}
 	}
 
 	void EditorLayer::OnImGuiRender()
 	{
 		VL_PROFILE_FUNCTION();
 
-		EditorUI::Get().OnImGuiRender(this);
+		EditorUI::Get().OnImGuiRender();
 	}
 
 	void EditorLayer::OnEvent(Violet::Event& e)
@@ -341,7 +325,7 @@ namespace Violet {
 
 			auto startScenePath = Project::GetAssetFileSystemPath(Project::GetActive()->GetConfig().StartScene);
 			OpenScene(startScenePath);
-			EditorUI::Get().OnLoadProject(this);
+			EditorUI::Get().OnLoadProject();
 
 			ScriptEngine::s_ProjectName = path.stem().string();
 			VL_CORE_INFO(ScriptEngine::s_ProjectName);

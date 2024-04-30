@@ -19,9 +19,10 @@ namespace Violet {
 		void operator=(const EditorUI&) = delete;
 	public:
 		void Attach(EditorLayer* editor);
-		void OnLoadProject(EditorLayer* editor);
+		void OnLoadProject();
 
-		void OnImGuiRender(EditorLayer* editor);
+		void HandleMouse();
+		void OnImGuiRender();
 
 		void SetScenePanelContext(Ref<Scene>& scene) { m_SceneHierarchyPanel.SetContext(scene); }
 		Entity& GetSelectedEntity()	{ return m_SceneHierarchyPanel.GetSelectedEntity();	}
@@ -43,11 +44,11 @@ namespace Violet {
 		void StopDockSpace();
 
 		// UI Context
-		void MenuBar(EditorLayer* editor);
-		void StatusPanel(EditorLayer* editor);
-		void Settings(EditorLayer* editor);
-		void ViewPort(EditorLayer* editor);
-		void UIToolbar(EditorLayer* editor);
+		void MenuBar();
+		void StatusPanel();
+		void Settings();
+		void ViewPort();
+		void UIToolbar();
 	private:
 		// Editor icon resources
 		Ref<Texture2D> m_IconPlay, m_IconPause, m_IconStep, m_IconSimulate, m_IconStop;
@@ -59,6 +60,7 @@ namespace Violet {
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 
 		int m_GizmoType = -1;
+		EditorLayer* m_Editor = nullptr;
 	};
 
 }
