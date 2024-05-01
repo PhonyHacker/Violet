@@ -21,11 +21,22 @@
 
 namespace Violet {
 	Scene::Scene()
-	{}
+	{
+		//m_ScriptSystem = new ScriptSystem(this);
+		//m_PhyscisSystem = new PhysicsSystem(this);
+		//m_RenderSystem = new RenderSystem(this);
+
+		Systems.Push(new ScriptSystem(this));
+		Systems.Push(new PhysicsSystem(this));
+		Systems.Push(new RenderSystem(this));
+		//m_Systems.push_back(new ScriptSystem(this));
+		//m_Systems.push_back(new PhysicsSystem(this));
+		//m_Systems.push_back(new RenderSystem(this));
+	}
 
 	Scene::~Scene()
 	{
-		delete m_PhysicsWorld;
+		//delete m_PhysicsWorld;
 	}
 
 	// 复制源场景中特定类型的组件到目标场景中
@@ -143,52 +154,86 @@ namespace Violet {
 
 	void Scene::OnRuntimeStart()
 	{
-
-		m_IsRunning = true;
-		PhysicsSystemInit();
-
-		ScriptSystemInit();
+		int tag = SystemTag::Type::Script | SystemTag::Physics;
+		Systems.Init(tag);
 	}
 
 	void Scene::OnRuntimeStop()
 	{
-		m_IsRunning = false;
-		PhysicsSystemFinalize();
+		//PhysicsSystemFinalize();
+		//m_PhyscisSystem->Detach();
+		int tag = SystemTag::Physics;
+		Systems.Detach(tag);
+
 	}
 
 	void Scene::OnSimulationStart()
 	{
-		PhysicsSystemInit();
+		//PhysicsSystemInit();
+		//m_PhyscisSystem->Init();
+		int tag = SystemTag::Physics;
+		Systems.Init(tag);
 	}
 
 	void Scene::OnSimulationStop()
 	{
-		PhysicsSystemFinalize();
+		//PhysicsSystemFinalize();
+		//m_PhyscisSystem->Detach();
+		int tag = SystemTag::Physics;
+		Systems.Detach(tag);
+
 	}
 
-	void Scene::OnUpdateRuntime(Timestep timestep)
+	void Scene::OnUpdateRuntime(Timestep ts)
 	{
+		RunningRender = true;
+		int tag = SystemTag::Render;
+
 		if (!m_IsPaused || m_StepFrames-- > 0)
 		{
-			ScriptSystemUpdate(timestep);
-			PhysicsSystemUpdate(timestep);
+			//ScriptSystemUpdate(timestep);
+			//m_ScriptSystem->Update(ts);
+			//PhysicsSystemUpdate(ts);
+			//m_PhyscisSystem->Update(ts);
+			tag |= SystemTag::Script | SystemTag::Physics;
 		}
 
-		RenderSystemUpdate(timestep);
+		//RenderSystemUpdate(ts);
+		//m_RenderSystem->Update(ts);
+		Systems.Update(tag, ts);
+
 	}
 
-	void Scene::OnUpdateSimulation(Timestep ts, EditorCamera& camera)
+	void Scene::OnUpdateSimulation(Timestep ts, EditorCamera* camera)
 	{
+		RunningRender = false;
+		UserCamera = camera;
+
+		//if (!m_IsPaused || m_StepFrames-- > 0)
+		//{
+		//	//PhysicsSystemUpdate(ts);
+		//	//m_PhyscisSystem->Update(ts);
+		//	m_Systems[1]->Update(ts);
+
+		//}
+		//m_RenderSystem->Update(ts);
+		////RenderSystemUpdate(ts, &camera, false);
+		int tag = SystemTag::Render;
+
 		if (!m_IsPaused || m_StepFrames-- > 0)
 		{
-			PhysicsSystemUpdate(ts);
+			tag |= SystemTag::Physics;
 		}
-
-		RenderSystemUpdate(ts, &camera, false);
+		Systems.Update(tag, ts);
 	}
-	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
+	void Scene::OnUpdateEditor(Timestep ts, EditorCamera* camera)
 	{
-		RenderSystemUpdate(ts, &camera, false);
+		RunningRender = false;
+		UserCamera = camera;
+		//RenderSystemUpdate(ts, &camera, false);
+		//m_RenderSystem->Update(ts);
+		int tag = SystemTag::Render;
+		Systems.Update(tag, ts);
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)
@@ -256,33 +301,16 @@ namespace Violet {
 		return {};
 	}
 
-	/*
-	class MyContactListener : public b2ContactListener {
-		void BeginContact(b2Contact* contact) {
-			// 获取碰撞的两个物体
-			b2Fixture* fixtureA = contact->GetFixtureA();
-			b2Fixture* fixtureB = contact->GetFixtureB();
-
-			// 根据需要，你可以检查碰撞的物体类型或其他属性
-			// 在这个简单示例中，我们只是打印碰撞发生的消息
-			std::cout << "Collision detected!" << std::endl;
-		}
-
-		void EndContact(b2Contact* contact) {
-			// 碰撞结束时的处理逻辑
-		}
-	};
-
-	static MyContactListener contactListener;
-	*/
-	void Scene::PhysicsSystemInit() 
+	void PhysicsSystem::Init()
 	{
+		VL_CORE_INFO("Physics");
+
 		m_PhysicsWorld = new b2World({ 0.0f, -9.8f });
 		//m_PhysicsWorld->SetContactListener(&contactListener);
-		auto view = m_Registry.view<Rigidbody2DComponent>();
+		auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
 		for (auto e : view)
 		{
-			Entity entity = { e, this };
+			Entity entity = { e, m_Scene };
 			auto& transform = entity.GetComponent<TransformComponent>();
 			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
 
@@ -331,26 +359,37 @@ namespace Violet {
 				body->CreateFixture(&fixtureDef);
 			}
 		}
+	}
+/*
+class MyContactListener : public b2ContactListener {
+	void BeginContact(b2Contact* contact) {
+		// 获取碰撞的两个物体
+		b2Fixture* fixtureA = contact->GetFixtureA();
+		b2Fixture* fixtureB = contact->GetFixtureB();
 
+		// 根据需要，你可以检查碰撞的物体类型或其他属性
+		// 在这个简单示例中，我们只是打印碰撞发生的消息
+		std::cout << "Collision detected!" << std::endl;
 	}
 
-	void Scene::PhysicsSystemFinalize()
-	{
-		delete m_PhysicsWorld;
-		m_PhysicsWorld = nullptr;
+	void EndContact(b2Contact* contact) {
+		// 碰撞结束时的处理逻辑
 	}
+};
 
-	void Scene::PhysicsSystemUpdate(Timestep step)
+static MyContactListener contactListener;
+*/
+	void PhysicsSystem::Update(Timestep ts)
 	{
 		const int32_t velocityIterations = 6;
 		const int32_t positionIterations = 2;
-		m_PhysicsWorld->Step(step, velocityIterations, positionIterations);
+		m_PhysicsWorld->Step(ts, velocityIterations, positionIterations);
 
 		// Retrieve transform from Box2D
-		auto view = m_Registry.view<Rigidbody2DComponent>();
+		auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
 		for (auto e : view)
 		{
-			Entity entity = { e, this };
+			Entity entity = { e, m_Scene };
 			auto& transform = entity.GetComponent<TransformComponent>();
 			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
 
@@ -361,61 +400,77 @@ namespace Violet {
 			transform.Rotation.z = body->GetAngle();
 		}
 	}
-
-	void Scene::ScriptSystemInit()
+	void PhysicsSystem::Detach()
 	{
-		ScriptEngine::OnRuntimeStart(this);
+		delete m_PhysicsWorld;
+		m_PhysicsWorld = nullptr;
+	}
+
+	void ScriptSystem::Init()
+	{
+		VL_CORE_INFO("Script");
+		ScriptEngine::OnRuntimeStart(m_Scene);
 		// Instantiate all script entities
 
-		auto view = m_Registry.view<ScriptComponent>();
+		auto view = m_Scene->Reg().view<ScriptComponent>();
 		for (auto e : view)
 		{
-			Entity entity = { e, this };
+			Entity entity = { e, m_Scene};
 			ScriptEngine::OnCreateEntity(entity);
 		}
 	}
-	void Scene::ScriptSystemUpdate(Timestep step)
+	void ScriptSystem::Update(Timestep ts)
 	{
 		// C# Entity OnUpdate
-		auto view = m_Registry.view<ScriptComponent>();
+		auto view = m_Scene->Reg().view<ScriptComponent>();
 		for (auto e : view)
 		{
-			Entity entity = { e, this };
-			ScriptEngine::OnUpdateEntity(entity, step);
+			Entity entity = { e, m_Scene };
+			ScriptEngine::OnUpdateEntity(entity, ts);
 		}
 	}
-	void Scene::RenderSystemUpdate(Timestep step, EditorCamera* camera, bool isRuning)
+
+	void ScriptSystem::Detach()
+	{
+
+	}
+	void RenderSystem::Init()
+	{
+		VL_CORE_INFO("Render");
+
+	}
+	void RenderSystem::Update(Timestep ts)
 	{
 		Camera* mainCamera = nullptr;
 		glm::mat4 cameraTransform;
-
-		if (isRuning)
+		if (m_Scene->RunningRender)
 		{
-			auto view = m_Registry.view<TransformComponent, CameraComponent>();
+			auto view = m_Scene->Reg().view<TransformComponent, CameraComponent>();
 			for (auto entity : view)
 			{
 				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
-
 				if (camera.Primary)
 				{
 					mainCamera = &camera.Camera;
 					cameraTransform = transform.GetTransform();
-					Renderer2D::BeginScene(*mainCamera, cameraTransform);
 					break;
 				}
-			}	
+			}
 		}
 		else
 		{
-			Renderer2D::BeginScene(*camera);
+			mainCamera = m_Scene->UserCamera;
+			cameraTransform = m_Scene->UserCamera->GetViewMatrix();
 		}
-	
-		if (!isRuning || mainCamera)
+
+
+		if (mainCamera)
 		{
+			Renderer2D::BeginScene(*mainCamera, cameraTransform);
 
 			// Draw sprites
 			{
-				auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);				
+				auto group = m_Scene->Reg().group<TransformComponent>(entt::get<SpriteRendererComponent>);
 
 				for (auto entity : group)
 				{
@@ -427,7 +482,7 @@ namespace Violet {
 
 			// Draw circles
 			{
-				auto view = m_Registry.view<TransformComponent, CircleRendererComponent>();
+				auto view = m_Scene->Reg().view<TransformComponent, CircleRendererComponent>();
 				for (auto entity : view)
 				{
 					auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
@@ -438,7 +493,7 @@ namespace Violet {
 
 			// Draw text
 			{
-				auto view = m_Registry.view<TransformComponent, TextComponent>();
+				auto view = m_Scene->Reg().view<TransformComponent, TextComponent>();
 				for (auto entity : view)
 				{
 					auto [transform, text] = view.get<TransformComponent, TextComponent>(entity);
@@ -449,5 +504,9 @@ namespace Violet {
 
 		}
 		Renderer2D::EndScene();
+	}
+	void RenderSystem::Detach()
+	{
+
 	}
 }

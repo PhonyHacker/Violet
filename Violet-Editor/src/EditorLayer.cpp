@@ -103,14 +103,14 @@ namespace Violet {
 				{
 					m_EditorCamera.OnUpdate(timestep);
 
-					m_ActiveScene->OnUpdateEditor(timestep, m_EditorCamera);
+					m_ActiveScene->OnUpdateEditor(timestep, &m_EditorCamera);
 					break;
 				}
 				case SceneState::Simulate:
 				{
 					m_EditorCamera.OnUpdate(timestep);
 
-					m_ActiveScene->OnUpdateSimulation(timestep, m_EditorCamera);
+					m_ActiveScene->OnUpdateSimulation(timestep, &m_EditorCamera);
 					break;
 				}
 				case SceneState::Play:
@@ -120,7 +120,6 @@ namespace Violet {
 				}
 			}
 		}
-
 
 		// Handle Mouse Position
 		EditorUI::Get().HandleMouse();

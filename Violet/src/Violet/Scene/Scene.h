@@ -10,6 +10,93 @@ class b2World;
 
 namespace Violet {
 	class Entity;
+	class Scene;
+
+	namespace SystemTag
+	{
+		enum Type
+		{
+			None = 0,
+			Script = BIT(0),
+			Physics = BIT(1),
+			Render = BIT(2)
+		};
+	}
+
+	class System {
+	public:
+		System() = default;
+		System(Scene* scene) : m_Scene(scene) {}
+
+		virtual void Init() = 0;
+		virtual void Update(Timestep ts) = 0;
+		virtual void Detach() = 0;
+
+		virtual SystemTag::Type GetSystemType() = 0;
+	protected:
+		Scene* m_Scene;
+	};
+
+	class SystemList {
+	public:
+		~SystemList() {	for (auto ptr : m_List)	delete ptr;	}
+
+		void Push(System* system) { m_List.push_back(system); }
+
+		void Init(int tag)
+		{
+			for (auto system : m_List) { if (system->GetSystemType() & tag)	system->Init(); }
+		}
+		void Update(int tag, Timestep ts)
+		{
+			for (auto system : m_List) { if (system->GetSystemType() & tag)	system->Update(ts);	}
+		}
+		void Detach(int tag)
+		{
+			for (auto system : m_List) { if (system->GetSystemType() & tag)	system->Detach();}
+		}
+	private:
+		std::vector<System*> m_List;
+	};
+
+	class ScriptSystem : public System {
+	public:
+		ScriptSystem() = default;
+		ScriptSystem(Scene* scene) : System(scene) {}
+
+		virtual void Init() override;
+		virtual void Update(Timestep ts) override;
+		virtual void Detach() override;
+
+		virtual SystemTag::Type GetSystemType() { return SystemTag::Script; }
+	};
+
+	class PhysicsSystem : public System {
+	public:
+		PhysicsSystem() = default;
+		PhysicsSystem(Scene* scene) : System(scene) {}
+
+		virtual void Init() override;
+		virtual void Update(Timestep ts) override;
+		virtual void Detach() override;
+
+		virtual SystemTag::Type GetSystemType() { return SystemTag::Physics; }
+	private:
+		b2World* m_PhysicsWorld = nullptr;
+	};
+
+	class RenderSystem : public System {
+	public:
+		RenderSystem() = default;
+		RenderSystem(Scene* scene) : System(scene) {}
+
+		virtual void Init() override;
+		virtual void Update(Timestep ts) override;
+		virtual void Detach() override;
+
+		virtual SystemTag::Type GetSystemType() { return SystemTag::Render; }
+	};
+
 	class Scene {
 	public:
 		Scene();
@@ -30,8 +117,8 @@ namespace Violet {
 		inline entt::registry& Reg() { return m_Registry; }
 
 		void OnUpdateRuntime(Timestep timestep);
-		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
-		void OnUpdateSimulation(Timestep ts, EditorCamera& camera);
+		void OnUpdateEditor(Timestep ts, EditorCamera* camera);
+		void OnUpdateSimulation(Timestep ts, EditorCamera* camera);
 
 		void OnViewportResize(uint32_t m_Width, uint32_t m_Height);
 
@@ -57,20 +144,11 @@ namespace Violet {
 		{
 			return m_Registry.view<Components...>();
 		}
+		bool RunningRender = false;
+		EditorCamera* UserCamera = nullptr;
 
 	private:
-		// Scipt
-		void ScriptSystemUpdate(Timestep step);
-		void ScriptSystemInit();
-
-		
-		// Render
-		void RenderSystemUpdate(Timestep step, EditorCamera* camera = nullptr, bool isRuning = true);
-		
-		// Physics
-		void PhysicsSystemUpdate(Timestep step);
-		void PhysicsSystemInit();
-		void PhysicsSystemFinalize();
+		SystemList Systems;
 
 	private:
 		entt::registry m_Registry;
@@ -79,12 +157,12 @@ namespace Violet {
 		bool m_IsPaused = false;
 		int m_StepFrames = 0;
 
-		b2World* m_PhysicsWorld = nullptr;
-
 		std::unordered_map<UUID, entt::entity> m_EntityMap;
+
 
 		friend class Entity;
 		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;
 	};
+
 }
