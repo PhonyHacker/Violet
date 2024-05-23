@@ -99,6 +99,7 @@ namespace Violet {
 	{
 		ImGui::Begin("Settings");
 		ImGui::Checkbox("Show physics colliders", &(m_Editor->IsShowCollider()));
+		ImGui::Checkbox("Show Gizmo", &(m_Editor->IsShowGizmo()));
 		//ImGui::Image((ImTextureID)s_Font->GetAtlasTexture()->GetRendererID(), { 512,512 }, { 0, 1 }, { 1, 0 });
 
 		ImGui::End();
@@ -112,8 +113,8 @@ namespace Violet {
 		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
 		auto viewportOffset = ImGui::GetWindowPos();
-		m_Editor->GetViewBounds()[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
-		m_Editor->GetViewBounds()[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
+		m_Editor->ViewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+		m_Editor->ViewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
 
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
@@ -155,25 +156,18 @@ namespace Violet {
 
 		// Gizmos
 		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
-		if (selectedEntity && m_GizmoType != -1)
+		if (selectedEntity && m_GizmoType != -1 && m_Editor->IsShowGizmo())
 		{
 			ImGuizmo::SetOrthographic(false);
 			ImGuizmo::SetDrawlist();
 
-			auto bounds = m_Editor->GetViewBounds();
+			auto bounds = m_Editor->ViewportBounds;
 			ImGuizmo::SetRect(bounds[0].x, bounds[0].y, bounds[1].x - bounds[0].x, bounds[1].y - bounds[0].y);
-
-			// Camera
-			// --Runtime
-			// auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
-			// const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
-			// const glm::mat4& cameraProjection = camera.GetProjection();
-			// glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
 
 			// Camera
 			// --Editor
 			const glm::mat4& cameraProjection = m_Editor->GetEditorCamera().GetProjection();
-			glm::mat4 cameraView = m_Editor->GetEditorCamera().GetViewMatrix();
+			glm::mat4 cameraView = glm::inverse(m_Editor->GetEditorCamera().GetViewMatrix());
 
 			// Entity transform
 			auto& tc = selectedEntity.GetComponent<TransformComponent>();
@@ -187,6 +181,7 @@ namespace Violet {
 				snapValue = 45.0f;
 
 			float snapValues[3] = { snapValue, snapValue, snapValue };
+
 
 			ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
 				(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform),
@@ -348,10 +343,10 @@ namespace Violet {
 	{
 		auto [mx, my] = GetMousePos();
 
-		mx -= m_Editor->GetViewBounds()[0].x;
-		my -= m_Editor->GetViewBounds()[0].y;
+		mx -= m_Editor->ViewportBounds[0].x;
+		my -= m_Editor->ViewportBounds[0].y;
 
-		glm::vec2 viewportSize = m_Editor->GetViewBounds()[1] - m_Editor->GetViewBounds()[0];
+		glm::vec2 viewportSize = m_Editor->ViewportBounds[1] - m_Editor->ViewportBounds[0];
 		my = viewportSize.y - my;
 		int mouseX = (int)mx;
 		int mouseY = (int)my;

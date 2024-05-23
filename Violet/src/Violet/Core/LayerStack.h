@@ -24,6 +24,8 @@ namespace Violet {
 		std::vector<Layer*>::const_iterator end()	const { return m_Layers.end(); }
 		std::vector<Layer*>::const_reverse_iterator rbegin() const { return m_Layers.rbegin(); }
 		std::vector<Layer*>::const_reverse_iterator rend() const { return m_Layers.rend(); }
+
+		Layer* Get(int index) { return m_Layers[index]; }
 	private:
 		std::vector<Layer*> m_Layers;
 		uint32_t m_LayerInsertIndex = 0;

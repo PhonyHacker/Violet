@@ -13,22 +13,8 @@ namespace Violet {
 	};
 
 	class EditorLayer : public Layer {
-	//public:
-	//	static EditorLayer& Get()
-	//	{
-	//		m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
-	//		static EditorLayer instance("EditorLayer");
-	//		s_Font = Font::GetDefault();
-
-	//		return instance;
-	//	}
-	//	EditorLayer(const& EditorLayer) = delete;
-	//	void operator=(const EditorLayer&) = delete;
-	//private:
-	//	EditorLayer();
 	public:
 		EditorLayer();
-
 		virtual ~EditorLayer() = default;
 
 		virtual void OnAttach() override;
@@ -58,7 +44,9 @@ namespace Violet {
 #pragma region API
 		Timestep GetTimeStep() { return m_Timestep; }
 		bool& IsShowCollider() { return m_ShowPhysicsColliders; }
-		glm::vec2* GetViewBounds() { return m_ViewportBounds; }
+		bool& IsShowGizmo() { return m_ShowGizmo; }
+		//glm::vec2* GetViewBounds() { return ViewportBounds; }
+
 		EditorCamera& GetEditorCamera() { return m_EditorCamera; }
 		glm::vec2& GetViewSize() { return m_ViewportSize; }
 		Ref<Framebuffer>& GetFramebuffer() { return m_Framebuffer; }
@@ -66,6 +54,9 @@ namespace Violet {
 		Ref<Scene>& GetEditorScene() { return m_EditorScene; }
 		SceneState& GetSceneState() { return m_SceneState; }
 		Entity& GetHoveredEntity() { return m_HoveredEntity; }
+
+		glm::vec2 ViewportBounds[2] = { glm::vec2(0.0f, 0.0f), glm::vec2(800.0f, 600.0f) };;
+
 #pragma endregion
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);
@@ -82,7 +73,6 @@ namespace Violet {
 		Ref<Framebuffer> m_Framebuffer;
 
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
-		glm::vec2 m_ViewportBounds[2];
 		glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 
 		Ref<Scene> m_ActiveScene;
@@ -93,6 +83,7 @@ namespace Violet {
 		SceneState m_SceneState = SceneState::Edit;
 
 		bool m_ShowPhysicsColliders = false;
+		bool m_ShowGizmo = true;
 		//bool m_PrimaryCamera = true;
 
 		EditorCamera m_EditorCamera;

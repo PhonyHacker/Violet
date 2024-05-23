@@ -104,9 +104,21 @@ namespace Violet {
 
 		static Ref<Scene> Copy(Ref<Scene> other);
 
+		inline entt::registry& Reg() { return m_Registry; }
+
 		Entity CreateEntity(const std::string& name = std::string());
 		Entity CreateEntityWithUUID(UUID uuid, const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
+		Entity DuplicateEntity(Entity entity);
+		Entity FindEntityByName(std::string_view name);
+		Entity GetEntityByUUID(UUID uuid);
+		
+		template<typename... Components>
+		auto GetAllEntitiesWith()
+		{
+			return m_Registry.view<Components...>();
+		}
+		Entity GetPrimaryCameraEntity();
 
 		void OnRuntimeStart();
 		void OnRuntimeStop();
@@ -114,21 +126,12 @@ namespace Violet {
 		void OnSimulationStart();
 		void OnSimulationStop();
 
-		inline entt::registry& Reg() { return m_Registry; }
-
 		void OnUpdateRuntime(Timestep timestep);
 		void OnUpdateEditor(Timestep ts, EditorCamera* camera);
 		void OnUpdateSimulation(Timestep ts, EditorCamera* camera);
 
 		void OnViewportResize(uint32_t m_Width, uint32_t m_Height);
 
-		Entity DuplicateEntity(Entity entity);
-
-		//Entity FindEntity(Entity entity);
-		Entity FindEntityByName(std::string_view name);
-		Entity GetEntityByUUID(UUID uuid);
-
-		Entity GetPrimaryCameraEntity();
 
 		bool IsRunning() const { return m_IsRunning; }
 		bool IsPaused() const { return m_IsPaused; }
@@ -139,18 +142,11 @@ namespace Violet {
 		inline uint32_t GetViewportWidth() { return m_ViewportWidth; }
 		inline uint32_t GetViewportHeight() { return m_ViewportHeight; }
 
-		template<typename... Components>
-		auto GetAllEntitiesWith()
-		{
-			return m_Registry.view<Components...>();
-		}
 		bool RunningRender = false;
 		EditorCamera* UserCamera = nullptr;
-
 	private:
-		SystemList Systems;
+		SystemList m_Systems;
 
-	private:
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
 		bool m_IsRunning = false;
@@ -158,7 +154,6 @@ namespace Violet {
 		int m_StepFrames = 0;
 
 		std::unordered_map<UUID, entt::entity> m_EntityMap;
-
 
 		friend class Entity;
 		friend class SceneSerializer;

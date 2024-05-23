@@ -1,17 +1,8 @@
-[13:41:18] [info] VIOLET: Creating window VioletEditor (1600, 900)
-[13:41:18] [info] VIOLET: OpenGL Info: 
-[13:41:18] [info] VIOLET:  Vendor: ATI Technologies Inc. 
-[13:41:18] [info] VIOLET:  Renderer : AMD Radeon(TM) Graphics 
-[13:41:18] [info] VIOLET:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
-[13:41:18] [info] VIOLET: Loaded 191 glyphs from font (out of 224)
-[13:41:23] [error] VIOLET: Unknown type: Violet.SpriteRendererComponent
-[13:41:23] [trace] VIOLET: Deserialized entity with ID = 5354469697137858285, name = Entity
-[13:41:23] [trace] VIOLET: Deserialized entity with ID = 15880974432830602851, name = Entity
-[13:41:23] [trace] VIOLET: Deserialized entity with ID = 5386604431559773965, name = Floor
-[13:41:23] [trace] VIOLET: Deserialized entity with ID = 9851252402859842416, name = Player
-[13:41:23] [trace] VIOLET: Deserialized entity with ID = 1612165136993075848, name = CameraA
-[13:41:23] [trace] VIOLET: Deserialized entity with ID = 12772714911998123763, name = Floor
-[13:41:23] [info] VIOLET: Sandbox
-[13:41:24] [info] VIOLET: Script
-[13:41:24] [info] VIOLET: Physics
-[13:41:34] [info] VIOLET: Terminating GLFW
+[00:40:10] [info] VIOLET: Creating window VioletEditor (1600, 900)
+[00:40:10] [info] VIOLET: OpenGL Info: 
+[00:40:10] [info] VIOLET:  Vendor: ATI Technologies Inc. 
+[00:40:10] [info] VIOLET:  Renderer : AMD Radeon(TM) Graphics 
+[00:40:10] [info] VIOLET:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
+[00:40:10] [info] VIOLET: Loaded 191 glyphs from font (out of 224)
+[00:40:13] [info] VIOLET: Demo
+[00:40:14] [info] VIOLET: Terminating GLFW

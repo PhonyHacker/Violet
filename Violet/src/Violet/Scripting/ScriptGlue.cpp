@@ -2,6 +2,7 @@
 #include "ScriptGlue.h"
 #include "ScriptEngine.h"
 
+#include "Violet/Core/Application.h"
 #include "Violet/Core/UUID.h"
 #include "Violet/Core/KeyCode.h"
 #include "Violet/Core/Input.h"
@@ -36,6 +37,13 @@ namespace Violet {
 #define VL_ADD_INTERNAL_CALL(Name) mono_add_internal_call("Violet.InternalCalls::" #Name, Name)
 
 	// 定义静态C++函数，用于在C++中实现具体逻辑
+
+#pragma region Game
+	static void Game_Stop()
+	{
+		Application::Get().StopFunc();
+	}
+#pragma endregion
 
 #pragma region Debug Log
 	
@@ -254,6 +262,31 @@ namespace Violet {
 		const b2Vec2& linearVelocity = body->GetLinearVelocity();
 		*outLinearVelocity = glm::vec2(linearVelocity.x, linearVelocity.y);
 	}
+	static void Rigidbody2DComponent_SetLinearVelocity(UUID entityID, glm::vec2* LinearVelocity)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+
+		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		b2Body* body = (b2Body*)rb2d.RuntimeBody;
+		b2Vec2 v(LinearVelocity->x , LinearVelocity->y);
+		body->SetLinearVelocity(v);
+	}
+	static void Rigidbody2DComponent_SetTransfrom(UUID entityID, glm::vec2* Transform)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+
+		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		b2Body* body = (b2Body*)rb2d.RuntimeBody;
+		b2Vec2 pos(Transform->x, Transform->y);
+
+		body->SetTransform(pos, body->GetAngle());
+	}
 
 	static Rigidbody2DComponent::BodyType Rigidbody2DComponent_GetType(UUID entityID)
 	{
@@ -277,6 +310,18 @@ namespace Violet {
 		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
 		b2Body* body = (b2Body*)rb2d.RuntimeBody;
 		body->SetType(Utils::Rigidbody2DTypeToBox2DBody(bodyType));
+	}
+
+	static bool Rigidbody2DComponent_IsContact(UUID entityID)
+	{
+		Scene* scene = ScriptEngine::GetSceneContext();
+		VL_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntityByUUID(entityID);
+		VL_CORE_ASSERT(entity);
+
+		auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		b2Body* body = (b2Body*)rb2d.RuntimeBody;
+		return body->GetContactList() != nullptr;
 	}
 #pragma endregion
 
@@ -552,6 +597,9 @@ namespace Violet {
 	// 注册函数，将C++函数注册为C#中的内部调用
 	void ScriptGlue::RegisterFunctions()
 	{
+		// Game
+		VL_ADD_INTERNAL_CALL(Game_Stop);
+
 		// Debug
 		VL_ADD_INTERNAL_CALL(NativeLog);
 		VL_ADD_INTERNAL_CALL(NativeLog_Vector);
@@ -578,8 +626,11 @@ namespace Violet {
 		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulse);
 		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_ApplyLinearImpulseToCenter);
 		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_GetLinearVelocity);
+		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetTransfrom);
+		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetLinearVelocity);
 		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_GetType);
 		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_SetType);
+		VL_ADD_INTERNAL_CALL(Rigidbody2DComponent_IsContact);
 
 		// Camera
 		VL_ADD_INTERNAL_CALL(CameraComponent_GetIsPrimary);

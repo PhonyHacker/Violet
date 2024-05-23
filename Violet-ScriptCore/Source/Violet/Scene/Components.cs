@@ -63,6 +63,10 @@ namespace Violet
                 InternalCalls.Rigidbody2DComponent_GetLinearVelocity(Entity.ID, out Vector2 velocity);
                 return velocity;
             }
+			set
+			{
+				InternalCalls.Rigidbody2DComponent_SetLinearVelocity(Entity.ID, ref value);
+			}
         }
 
         public BodyType Type
@@ -78,6 +82,16 @@ namespace Violet
 		public void ApplyLinearImpulse(Vector2 impulse, bool wake)
 		{
 			InternalCalls.Rigidbody2DComponent_ApplyLinearImpulseToCenter(Entity.ID, ref impulse, wake);
+		}
+
+		public void SetPos(Vector2 pos)
+		{
+			InternalCalls.Rigidbody2DComponent_SetTransfrom(Entity.ID, ref pos);
+		}
+
+		public bool IsContacted()
+		{
+			return InternalCalls.Rigidbody2DComponent_IsContact(Entity.ID);
 		}
 
 	}

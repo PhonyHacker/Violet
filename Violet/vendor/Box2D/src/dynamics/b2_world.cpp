@@ -907,6 +907,7 @@ void b2World::Step(float dt, int32 velocityIterations, int32 positionIterations)
 	b2Timer stepTimer;
 
 	// If new fixtures were added, we need to find the new contacts.
+	if (this == nullptr) return;
 	if (m_newContacts)
 	{
 		m_contactManager.FindNewContacts();

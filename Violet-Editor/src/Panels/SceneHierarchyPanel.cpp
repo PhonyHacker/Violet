@@ -356,7 +356,8 @@ namespace Violet {
 							if (field.Type == ScriptFieldType::Float)
 							{
 								float data = scriptInstance->GetFieldValue<float>(name);
-								if (ImGui::DragFloat(name.c_str(), &data))
+								//if (ImGui::DragFloat(name.c_str(), &data))
+								if (ImGui::InputFloat(name.c_str(), &data))
 								{
 									scriptInstance->SetFieldValue(name, data);
 								}
@@ -402,7 +403,8 @@ namespace Violet {
 								if (field.Type == ScriptFieldType::Float)
 								{
 									float data = scriptField.GetValue<float>();
-									if (ImGui::DragFloat(name.c_str(), &data))
+									//if (ImGui::DragFloat(name.c_str(), &data))
+									if (ImGui::InputFloat(name.c_str(), &data))
 										scriptField.SetValue(data);
 								}
 							}
@@ -412,7 +414,8 @@ namespace Violet {
 								if (field.Type == ScriptFieldType::Float)
 								{
 									float data = 0.0f;
-									if (ImGui::DragFloat(name.c_str(), &data))
+									//if (ImGui::DragFloat(name.c_str(), &data))
+									if (ImGui::InputFloat(name.c_str(), &data))
 									{
 										ScriptField& field = entityFields[name];
 										field.SetValue(data);
@@ -518,7 +521,7 @@ namespace Violet {
 			const char* currentBodyTypeString = bodyTypeStrings[(int)component.Type];
 			if (ImGui::BeginCombo("Body Type", currentBodyTypeString))
 			{
-				for (int i = 0; i < 2; i++)
+				for (int i = 0; i < 3; i++)
 				{
 					bool isSelected = currentBodyTypeString == bodyTypeStrings[i];
 					if (ImGui::Selectable(bodyTypeStrings[i], isSelected))
@@ -549,8 +552,8 @@ namespace Violet {
 
 		DrawComponent<CircleCollider2DComponent>("Circle Collider 2D", entity, [](auto& component)
 		{
-			ImGui::DragFloat2("Offset", glm::value_ptr(component.Offset));
-			ImGui::DragFloat("Radius", &component.Radius);
+			ImGui::DragFloat2("Offset", glm::value_ptr(component.Offset), 0.01f);
+			ImGui::DragFloat("Radius", &component.Radius, 0.01f);
 			ImGui::DragFloat("Density", &component.Density, 0.01f, 0.0f, 1.0f);
 			ImGui::DragFloat("Friction", &component.Friction, 0.01f, 0.0f, 1.0f);
 			ImGui::DragFloat("Restitution", &component.Restitution, 0.01f, 0.0f, 1.0f);

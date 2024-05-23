@@ -58,6 +58,9 @@ namespace Violet {
 		const ApplicationSpecification& GetSpecification() const { return m_Specification; }
 
 		void SubmitToMainThread(const std::function<void()>& function);
+
+		std::function<void()> StopFunc;
+		void OnGameStop(std::function<void()> func) { StopFunc = func; };
 	private:
 		void Run();
 		bool OnWindowClose(WindowCloseEvent& e);

@@ -83,7 +83,8 @@ namespace Violet {
 
 				// The maxLength includes the NULL character
 				std::vector<GLchar> infoLog(maxLength);
-				glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+				//glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+				glGetShaderInfoLog(shader, maxLength - 1, nullptr, infoLog.data());
 
 				// We don't need the shader anymore.
 				glDeleteShader(shader);

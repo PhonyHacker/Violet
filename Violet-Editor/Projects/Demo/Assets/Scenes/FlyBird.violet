@@ -1,0 +1,138 @@
+Scene: Untitled
+Entities:
+  - Entity: 10257034114087881256
+    TagComponent:
+      Tag: Score
+    TransformComponent:
+      Translation: [-7.03245306, 3.41009164, 0.5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    TextComponent:
+      TextString: "Score: 0"
+      Color: [9.99999997e-07, 9.99989993e-07, 9.99989993e-07, 1]
+      Kerning: 0
+      LineSpacing: 0
+  - Entity: 2313098819160672502
+    TagComponent:
+      Tag: wood3
+    TransformComponent:
+      Translation: [16.2401848, -3.00585198, 0]
+      Rotation: [0, 0, 1.57079637]
+      Scale: [5.39980316, 0.999975383, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TexturePath: F:\00_gameDevelop\bs\44\Violet\Violet-Editor\Projects\Demo\Assets\Textures\wood.png
+      TilingFactor: 1
+    Rigidbody2DComponent:
+      BodyType: Kinematic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 4306865863296527420
+    TagComponent:
+      Tag: wood2
+    TransformComponent:
+      Translation: [11.0679312, 4.19704151, 0]
+      Rotation: [0, 0, 1.57079637]
+      Scale: [5.39985323, 0.999981642, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TexturePath: F:\00_gameDevelop\bs\44\Violet\Violet-Editor\Projects\Demo\Assets\Textures\wood.png
+      TilingFactor: 1
+    Rigidbody2DComponent:
+      BodyType: Kinematic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 7592470054958523866
+    TagComponent:
+      Tag: wood1
+    TransformComponent:
+      Translation: [5.47142744, -2.4878335, 0]
+      Rotation: [0, 0, 1.57079637]
+      Scale: [5.39991665, 0.999989569, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TexturePath: F:\00_gameDevelop\bs\44\Violet\Violet-Editor\Projects\Demo\Assets\Textures\wood.png
+      TilingFactor: 1
+    Rigidbody2DComponent:
+      BodyType: Kinematic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 5001422098488888859
+    TagComponent:
+      Tag: GamePlay
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Demo.GameManager
+  - Entity: 12147425500434224210
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [0, 0, 10.3000002]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthographicNear: -20
+        OrthographicFar: 20
+      Primary: true
+      FixedAspectRatio: false
+  - Entity: 13982089749687006198
+    TagComponent:
+      Tag: Player
+    TransformComponent:
+      Translation: [-3.61999989, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Demo.FlyBird
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TexturePath: F:\00_gameDevelop\bs\44\Violet\Violet-Editor\Projects\Demo\Assets\Textures\bird.png
+      TilingFactor: 1
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: true
+    CircleCollider2DComponent:
+      Offset: [0.00999999978, -0.0599999987]
+      Radius: 0.330000013
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 16846420132008136556
+    TagComponent:
+      Tag: BackGround
+    TransformComponent:
+      Translation: [0, -2.56630659, -0.699999988]
+      Rotation: [0, 0, 0]
+      Scale: [25.2999992, 15, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TexturePath: F:\00_gameDevelop\bs\44\Violet\Violet-Editor\Projects\Demo\Assets\Textures\back.png
+      TilingFactor: 1

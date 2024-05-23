@@ -28,8 +28,7 @@ namespace Violet {
 
 		TagComponent() = default;
 		TagComponent(const TagComponent&) = default;
-		TagComponent(const std::string& tag)
-			: Tag(tag) {}
+		TagComponent(const std::string& tag): Tag(tag) {}
 	};
 
 	struct TransformComponent
@@ -40,8 +39,7 @@ namespace Violet {
 
 		TransformComponent() = default;
 		TransformComponent(const TransformComponent&) = default;
-		TransformComponent(const glm::vec3& translation)
-			: Translation(translation) {}
+		TransformComponent(const glm::vec3& translation): Translation(translation) {}
 
 		glm::mat4 GetTransform() const
 		{
@@ -52,7 +50,7 @@ namespace Violet {
 				* glm::scale(glm::mat4(1.0f), Scale);
 		}
 	};
-
+	
 	struct SpriteRendererComponent
 	{
 		enum class TextureType { Texture2D = 0, SubTexture2D = 1 };
@@ -70,8 +68,7 @@ namespace Violet {
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
-		SpriteRendererComponent(const glm::vec4& color)
-			: Color(color) {}
+		SpriteRendererComponent(const glm::vec4& color): Color(color) {}
 	};
 
 	struct CircleRendererComponent
@@ -102,29 +99,6 @@ namespace Violet {
 		ScriptComponent(const ScriptComponent&) = default;
 	};
 
-	//// Forward declaration
-	//class ScriptableEntity;
-
-	//struct NativeScriptComponent
-	//{
-	//	ScriptableEntity* Instance = nullptr;
-
-	//	ScriptableEntity* (*InstantiateScript)();
-	//	void (*DestroyScript)(NativeScriptComponent*);
-
-	//	template<typename T>
-	//	void Bind()
-	//	{
-	//		InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
-	//		DestroyScript = [](NativeScriptComponent* nsc) {
-	//			delete nsc->Instance; 
-	//			nsc->Instance = nullptr;
-	//			};
-	//	}
-	//};
-
-	// Physics
-
 	struct Rigidbody2DComponent
 	{
 		enum class BodyType { Static = 0, Dynamic, Kinematic };
@@ -144,7 +118,6 @@ namespace Violet {
 		glm::vec2 Offset = { 0.0f, 0.0f };
 		glm::vec2 Size = { 0.5f, 0.5f };
 
-		// TODO(Yan): move into physics material in the future maybe
 		float Density = 1.0f;
 		float Friction = 0.5f;
 		float Restitution = 0.0f;
@@ -162,7 +135,6 @@ namespace Violet {
 		glm::vec2 Offset = { 0.0f, 0.0f };
 		float Radius = 0.5f;
 
-		// TODO(Yan): move into physics material in the future maybe
 		float Density = 1.0f;
 		float Friction = 0.5f;
 		float Restitution = 0.0f;
@@ -186,9 +158,7 @@ namespace Violet {
 	};
 
 	template<typename... Component>
-	struct ComponentGroup
-	{
-	};
+	struct ComponentGroup{};
 
 	using AllComponents =
 		ComponentGroup<TransformComponent, SpriteRendererComponent,

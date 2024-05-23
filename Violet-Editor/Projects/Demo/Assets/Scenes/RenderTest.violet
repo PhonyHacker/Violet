@@ -1,0 +1,46 @@
+Scene: Untitled
+Entities:
+  - Entity: 15191138438973387365
+    TagComponent:
+      Tag: BG
+    TransformComponent:
+      Translation: [16.3999996, 16.1000004, -0.300000012]
+      Rotation: [0, 0, 0]
+      Scale: [51.2999992, 49.2999992, 1]
+    SpriteRendererComponent:
+      Color: [0.422035605, 0.791505814, 0.238368556, 1]
+      TilingFactor: 1
+  - Entity: 12823786875534621174
+    TagComponent:
+      Tag: PlayGame
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Demo.GrassCreator
+      ScriptFields:
+        - Name: cols
+          Type: Float
+          Data: 57
+        - Name: rows
+          Type: Float
+          Data: 49
+  - Entity: 5260518277992360098
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [14.5, 15.8999996, 4.4000001]
+      Rotation: [0, 0, 0]
+      Scale: [5.0999999, 5, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 0
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthographicNear: -1
+        OrthographicFar: 1
+      Primary: true
+      FixedAspectRatio: false

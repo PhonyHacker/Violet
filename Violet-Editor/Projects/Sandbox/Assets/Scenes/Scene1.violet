@@ -1,0 +1,29 @@
+Scene: Untitled
+Entities:
+  - Entity: 828101118592136298
+    TagComponent:
+      Tag: GamePlay
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    ScriptComponent:
+      ClassName: Sandbox.GamePlay
+  - Entity: 1612165136993075848
+    TagComponent:
+      Tag: CameraA
+    TransformComponent:
+      Translation: [0, 0, 5.0999999]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 0
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthographicNear: -10
+        OrthographicFar: 10
+      Primary: true
+      FixedAspectRatio: false

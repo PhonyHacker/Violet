@@ -5,8 +5,13 @@ namespace Violet
 {
 	public static class InternalCalls
 	{
-        #region Entity
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+
+		#region Game
+		[MethodImplAttribute(MethodImplOptions.InternalCall)]
+		internal extern static void Game_Stop();
+		#endregion
+		#region Entity
+		[MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static string Entity_GetTag(ulong entityID);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
 		internal extern static bool Entity_HasComponent(ulong entityID, Type componentType);
@@ -43,20 +48,24 @@ namespace Violet
         #region Rigidbody2DComponent
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Rigidbody2DComponent_GetLinearVelocity(ulong entityID, out Vector2 linearVelocity);
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+		[MethodImplAttribute(MethodImplOptions.InternalCall)]
+		internal extern static void Rigidbody2DComponent_SetLinearVelocity(ulong entityID, ref Vector2 linearVelocity);
+		[MethodImplAttribute(MethodImplOptions.InternalCall)]
+		internal extern static void Rigidbody2DComponent_SetTransfrom(ulong entityID, ref Vector2 Pos);
+		[MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static Rigidbody2DComponent.BodyType Rigidbody2DComponent_GetType(ulong entityID);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void Rigidbody2DComponent_SetType(ulong entityID, Rigidbody2DComponent.BodyType type);
-
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
 		internal extern static void Rigidbody2DComponent_ApplyLinearImpulse(ulong entityID, ref Vector2 impulse, ref Vector2 point, bool wake);
-
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
 		internal extern static void Rigidbody2DComponent_ApplyLinearImpulseToCenter(ulong entityID, ref Vector2 impulse, bool wake);
-        #endregion
+		[MethodImplAttribute(MethodImplOptions.InternalCall)]
+		internal extern static bool Rigidbody2DComponent_IsContact(ulong entityID);	
+		#endregion
 
-        #region CameraComponent
-        [MethodImplAttribute(MethodImplOptions.InternalCall)]
+		#region CameraComponent
+		[MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static bool CameraComponent_GetIsPrimary(ulong entityID);
         [MethodImplAttribute(MethodImplOptions.InternalCall)]
         internal extern static void CameraComponent_SetIsPrimary(ulong entityID, bool flag);

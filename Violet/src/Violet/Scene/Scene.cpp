@@ -22,22 +22,13 @@
 namespace Violet {
 	Scene::Scene()
 	{
-		//m_ScriptSystem = new ScriptSystem(this);
-		//m_PhyscisSystem = new PhysicsSystem(this);
-		//m_RenderSystem = new RenderSystem(this);
-
-		Systems.Push(new ScriptSystem(this));
-		Systems.Push(new PhysicsSystem(this));
-		Systems.Push(new RenderSystem(this));
-		//m_Systems.push_back(new ScriptSystem(this));
-		//m_Systems.push_back(new PhysicsSystem(this));
-		//m_Systems.push_back(new RenderSystem(this));
+		m_Systems.Push(new ScriptSystem(this));
+		m_Systems.Push(new PhysicsSystem(this));
+		m_Systems.Push(new RenderSystem(this));
 	}
 
 	Scene::~Scene()
-	{
-		//delete m_PhysicsWorld;
-	}
+	{}
 
 	// 复制源场景中特定类型的组件到目标场景中
 	template<typename Component>
@@ -155,32 +146,26 @@ namespace Violet {
 	void Scene::OnRuntimeStart()
 	{
 		int tag = SystemTag::Type::Script | SystemTag::Physics;
-		Systems.Init(tag);
+		m_Systems.Init(tag);
 	}
 
 	void Scene::OnRuntimeStop()
 	{
-		//PhysicsSystemFinalize();
-		//m_PhyscisSystem->Detach();
 		int tag = SystemTag::Physics;
-		Systems.Detach(tag);
+		m_Systems.Detach(tag);
 
 	}
 
 	void Scene::OnSimulationStart()
 	{
-		//PhysicsSystemInit();
-		//m_PhyscisSystem->Init();
 		int tag = SystemTag::Physics;
-		Systems.Init(tag);
+		m_Systems.Init(tag);
 	}
 
 	void Scene::OnSimulationStop()
 	{
-		//PhysicsSystemFinalize();
-		//m_PhyscisSystem->Detach();
 		int tag = SystemTag::Physics;
-		Systems.Detach(tag);
+		m_Systems.Detach(tag);
 
 	}
 
@@ -191,16 +176,10 @@ namespace Violet {
 
 		if (!m_IsPaused || m_StepFrames-- > 0)
 		{
-			//ScriptSystemUpdate(timestep);
-			//m_ScriptSystem->Update(ts);
-			//PhysicsSystemUpdate(ts);
-			//m_PhyscisSystem->Update(ts);
 			tag |= SystemTag::Script | SystemTag::Physics;
 		}
 
-		//RenderSystemUpdate(ts);
-		//m_RenderSystem->Update(ts);
-		Systems.Update(tag, ts);
+		m_Systems.Update(tag, ts);
 
 	}
 
@@ -209,31 +188,21 @@ namespace Violet {
 		RunningRender = false;
 		UserCamera = camera;
 
-		//if (!m_IsPaused || m_StepFrames-- > 0)
-		//{
-		//	//PhysicsSystemUpdate(ts);
-		//	//m_PhyscisSystem->Update(ts);
-		//	m_Systems[1]->Update(ts);
-
-		//}
-		//m_RenderSystem->Update(ts);
-		////RenderSystemUpdate(ts, &camera, false);
 		int tag = SystemTag::Render;
 
 		if (!m_IsPaused || m_StepFrames-- > 0)
 		{
 			tag |= SystemTag::Physics;
 		}
-		Systems.Update(tag, ts);
+		m_Systems.Update(tag, ts);
 	}
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera* camera)
 	{
 		RunningRender = false;
 		UserCamera = camera;
-		//RenderSystemUpdate(ts, &camera, false);
-		//m_RenderSystem->Update(ts);
+
 		int tag = SystemTag::Render;
-		Systems.Update(tag, ts);
+		m_Systems.Update(tag, ts);
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)
@@ -244,7 +213,6 @@ namespace Violet {
 		m_ViewportWidth = width;
 		m_ViewportHeight = height;
 
-		// Resize our non-FixedAspectRatio cameras
 		auto view = m_Registry.view<CameraComponent>();
 		for (auto entity : view)
 		{
@@ -294,27 +262,77 @@ namespace Violet {
 
 	Entity Scene::GetEntityByUUID(UUID uuid)
 	{
-		// TODO(Yan): Maybe should be assert
 		if (m_EntityMap.find(uuid) != m_EntityMap.end())
 			return { m_EntityMap.at(uuid), this };
-
 		return {};
 	}
+
+	//class BoxData
+	//{
+	//public:
+	//	int Tag;
+	//};
+	//class MyContactListener : public b2ContactListener {
+	//	void BeginContact(b2Contact* contact) {
+	//		// 获取碰撞的两个物体
+	//		b2Fixture* fixtureA = contact->GetFixtureA();
+	//		b2Fixture* fixtureB = contact->GetFixtureB();
+	//		// 获取碰撞的两个物体)
+	//		b2Body* bodyA = fixtureA->GetBody();
+	//		b2Body* bodyB = fixtureB->GetBody();
+	//		//BoxData* dataA = reinterpret_cast<BoxData*>(fixtureA->GetUserData().pointer);
+	//		//BoxData* dataB = reinterpret_cast<BoxData*>(fixtureB->GetUserData().pointer);
+	//		std::cout << bodyA->GetUserData().pointer << std::endl;
+	//		std::cout << bodyB->GetUserData().pointer << std::endl;
+	//		if (bodyA->GetUserData().pointer != 0 || bodyB->GetUserData().pointer != 0)
+	//		{
+	//			VL_CORE_INFO("Player contact");
+	//		}
+
+	//		// 输出碰撞的两个物体的用户数据
+	//		//bodyA->GetUserData();
+	//		//std::string userDataA = static_cast<std::string>(bodyA->GetUserData());
+	//		//std::string userDataB = static_cast<std::string>(bodyB->GetUserData());
+	//		VL_CORE_INFO("Begin contac");
+
+	//	}
+
+	//	void EndContact(b2Contact* contact) {
+	//		// 碰撞结束时的处理逻辑
+	//	}
+	//};
+
+	//static MyContactListener* contactListener;
 
 	void PhysicsSystem::Init()
 	{
 		VL_CORE_INFO("Physics");
 
 		m_PhysicsWorld = new b2World({ 0.0f, -9.8f });
-		//m_PhysicsWorld->SetContactListener(&contactListener);
+
+		//contactListener = new MyContactListener();
+		//m_PhysicsWorld->SetContactListener(contactListener);
+
 		auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
 		for (auto e : view)
 		{
 			Entity entity = { e, m_Scene };
 			auto& transform = entity.GetComponent<TransformComponent>();
 			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+			auto& string = entity.GetName();
+
+			//BoxData* data = new BoxData();
 
 			b2BodyDef bodyDef;
+
+			//if (string == "Player")
+			//{
+			//	//data->Tag = 1;
+			//	bodyDef.userData.pointer = 1;
+			//	//bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(data);
+			//	VL_CORE_INFO("find player");
+			//}
+
 			bodyDef.type = Utils::Rigidbody2DTypeToBox2DBody(rb2d.Type);
 			bodyDef.position.Set(transform.Translation.x, transform.Translation.y);
 			bodyDef.angle = transform.Rotation.z;
@@ -360,25 +378,7 @@ namespace Violet {
 			}
 		}
 	}
-/*
-class MyContactListener : public b2ContactListener {
-	void BeginContact(b2Contact* contact) {
-		// 获取碰撞的两个物体
-		b2Fixture* fixtureA = contact->GetFixtureA();
-		b2Fixture* fixtureB = contact->GetFixtureB();
 
-		// 根据需要，你可以检查碰撞的物体类型或其他属性
-		// 在这个简单示例中，我们只是打印碰撞发生的消息
-		std::cout << "Collision detected!" << std::endl;
-	}
-
-	void EndContact(b2Contact* contact) {
-		// 碰撞结束时的处理逻辑
-	}
-};
-
-static MyContactListener contactListener;
-*/
 	void PhysicsSystem::Update(Timestep ts)
 	{
 		const int32_t velocityIterations = 6;
@@ -402,6 +402,10 @@ static MyContactListener contactListener;
 	}
 	void PhysicsSystem::Detach()
 	{
+		while (m_PhysicsWorld->GetBodyList()) {
+			b2Body* body = m_PhysicsWorld->GetBodyList();
+			m_PhysicsWorld->DestroyBody(body);
+		}
 		delete m_PhysicsWorld;
 		m_PhysicsWorld = nullptr;
 	}

@@ -23,6 +23,8 @@ namespace Violet {
 	{
 		// s_Font = new Font("assets/fonts/opensans/OpenSans-Regular.ttf");
 		s_Font = Font::GetDefault();
+
+		Application::Get().StopFunc = std::bind(&EditorLayer::OnSceneStop, this);
 	}
 
 	void EditorLayer::OnAttach()
@@ -257,48 +259,6 @@ namespace Violet {
 		{
 			Renderer2D::BeginScene(m_EditorCamera);
 
-			if (m_ShowPhysicsColliders)
-			{
-				// Box Colliders
-				{
-					auto view = m_ActiveScene->GetAllEntitiesWith<TransformComponent, BoxCollider2DComponent>();
-					for (auto entity : view)
-					{
-						auto [tc, bc2d] = view.get<TransformComponent, BoxCollider2DComponent>(entity);
-
-						glm::vec3 translation = tc.Translation + glm::vec3(bc2d.Offset, 0.001f);
-						glm::vec3 scale = tc.Scale * glm::vec3(bc2d.Size * 2.0f, 1.0f);
-
-						glm::mat4 transform = glm::translate(glm::mat4(1.0f), tc.Translation)
-							* glm::rotate(glm::mat4(1.0f), tc.Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f))
-							* glm::translate(glm::mat4(1.0f), glm::vec3(bc2d.Offset, 0.001f))
-							* glm::scale(glm::mat4(1.0f), scale);
-
-						// glm::mat4 transform = glm::translate(glm::mat4(1.0f), translation)
-						//	* glm::rotate(glm::mat4(1.0f), tc.Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f))
-						//	* glm::scale(glm::mat4(1.0f), scale);
-
-						Renderer2D::DrawRect(transform, glm::vec4(0, 1, 0, 1));
-					}
-				}
-
-				// Circle Colliders
-				{
-					auto view = m_ActiveScene->GetAllEntitiesWith<TransformComponent, CircleCollider2DComponent>();
-					for (auto entity : view)
-					{
-						auto [tc, cc2d] = view.get<TransformComponent, CircleCollider2DComponent>(entity);
-
-						glm::vec3 translation = tc.Translation + glm::vec3(cc2d.Offset, 0.001f);
-						glm::vec3 scale = tc.Scale * glm::vec3(cc2d.Radius * 2.0f);
-
-						glm::mat4 transform = glm::translate(glm::mat4(1.0f), translation)
-							* glm::scale(glm::mat4(1.0f), scale);
-
-						Renderer2D::DrawCircle(transform, glm::vec4(0, 1, 0, 1), 0.05f);
-					}
-				}
-			}
 			// Draw selected entity outline 
 			if (Entity selectedEntity = EditorUI::Get().GetSelectedEntity())
 			{
@@ -306,6 +266,49 @@ namespace Violet {
 				Renderer2D::DrawRect(transform.GetTransform(), glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
 			}
 
+		}
+
+		if (m_ShowPhysicsColliders)
+		{
+			// Box Colliders
+			{
+				auto view = m_ActiveScene->GetAllEntitiesWith<TransformComponent, BoxCollider2DComponent>();
+				for (auto entity : view)
+				{
+					auto [tc, bc2d] =                                                     view.get<TransformComponent, BoxCollider2DComponent>(entity);
+
+					glm::vec3 translation = tc.Translation + glm::vec3(bc2d.Offset, 0.001f);
+					glm::vec3 scale = tc.Scale * glm::vec3(bc2d.Size * 2.0f, 1.0f);
+
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f), tc.Translation)
+						* glm::rotate(glm::mat4(1.0f), tc.Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f))
+						* glm::translate(glm::mat4(1.0f), glm::vec3(bc2d.Offset, 0.001f))
+						* glm::scale(glm::mat4(1.0f), scale);
+
+					// glm::mat4 transform = glm::translate(glm::mat4(1.0f), translation)
+					//	* glm::rotate(glm::mat4(1.0f), tc.Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f))
+					//	* glm::scale(glm::mat4(1.0f), scale);
+
+					Renderer2D::DrawRect(transform, glm::vec4(0, 1, 0, 1));
+				}
+			}
+
+			// Circle Colliders
+			{
+				auto view = m_ActiveScene->GetAllEntitiesWith<TransformComponent, CircleCollider2DComponent>();
+				for (auto entity : view)
+				{
+					auto [tc, cc2d] = view.get<TransformComponent, CircleCollider2DComponent>(entity);
+
+					glm::vec3 translation = tc.Translation + glm::vec3(cc2d.Offset, 0.001f);
+					glm::vec3 scale = tc.Scale * glm::vec3(cc2d.Radius * 2.0f);
+
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f), translation)
+						* glm::scale(glm::mat4(1.0f), scale);
+
+					Renderer2D::DrawCircle(transform, glm::vec4(0, 1, 0, 1), 0.08f);
+				}
+			}
 		}
 
 		Renderer2D::EndScene();
