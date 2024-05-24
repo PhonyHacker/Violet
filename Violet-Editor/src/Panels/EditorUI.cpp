@@ -205,85 +205,104 @@ namespace Violet {
 
 	void EditorUI::UIToolbar()
 	{
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2));
-		ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0));
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
-		auto& colors = ImGui::GetStyle().Colors;
-		const auto& buttonHovered = colors[ImGuiCol_ButtonHovered];
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(buttonHovered.x, buttonHovered.y, buttonHovered.z, 0.5f));
-		const auto& buttonActive = colors[ImGuiCol_ButtonActive];
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(buttonActive.x, buttonActive.y, buttonActive.z, 0.5f));
+		// 设置窗口和按钮的样式
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 2)); // 设置窗口内边距
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(0, 0)); // 设置项目内间距
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0)); // 设置按钮颜色为透明
 
+		// 获取ImGui的样式颜色
+		auto& colors = ImGui::GetStyle().Colors;
+		const auto& buttonHovered = colors[ImGuiCol_ButtonHovered]; // 获取按钮悬停时的颜色
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(buttonHovered.x, buttonHovered.y, buttonHovered.z, 0.5f)); // 设置按钮悬停时的颜色透明度
+		const auto& buttonActive = colors[ImGuiCol_ButtonActive]; // 获取按钮激活时的颜色
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(buttonActive.x, buttonActive.y, buttonActive.z, 0.5f)); // 设置按钮激活时的颜色透明度
+
+		// 创建一个无装饰、无滚动条的窗口
 		ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 
+		// 检查是否有活动场景，决定工具栏是否可用
 		bool toolbarEnabled = (bool)m_Editor->GetActiveScene();
-
-		ImVec4 tintColor = ImVec4(1, 1, 1, 1);
+		ImVec4 tintColor = ImVec4(1, 1, 1, 1); // 设置默认颜色
 		if (!toolbarEnabled)
-			tintColor.w = 0.5f;
+			tintColor.w = 0.5f; // 如果工具栏不可用，设置颜色为半透明
 
+		// 设置按钮大小和位置，使其居中显示
 		float size = ImGui::GetWindowHeight() - 4.0f;
 		ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - (size * 0.5f));
 
+		// 根据场景状态决定是否显示播放、模拟和暂停按钮
 		bool hasPlayButton = m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Play;
 		bool hasSimulateButton = m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Simulate;
 		bool hasPauseButton = m_Editor->GetSceneState() != SceneState::Edit;
 
+		// 如果需要显示播放按钮
 		if (hasPlayButton)
 		{
+			// 根据场景状态设置按钮图标
 			Ref<Texture2D> icon = (m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Simulate) ? m_IconPlay : m_IconStop;
+			// 创建播放按钮，并处理按钮点击事件
 			if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
 			{
 				if (m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Simulate)
-					m_Editor->OnScenePlay();
+					m_Editor->OnScenePlay(); // 开始播放场景
 				else if (m_Editor->GetSceneState() == SceneState::Play)
-					m_Editor->OnSceneStop();
+					m_Editor->OnSceneStop(); // 停止播放场景
 			}
 		}
+
+		// 如果需要显示模拟按钮
 		if (hasSimulateButton)
 		{
 			if (hasPlayButton)
-				ImGui::SameLine();
+				ImGui::SameLine(); // 如果有播放按钮，模拟按钮与其在同一行
 
+			// 根据场景状态设置按钮图标
 			Ref<Texture2D> icon = (m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Play) ? m_IconSimulate : m_IconStop;
+			// 创建模拟按钮，并处理按钮点击事件
 			if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
 			{
 				if (m_Editor->GetSceneState() == SceneState::Edit || m_Editor->GetSceneState() == SceneState::Play)
-					m_Editor->OnSceneSimulate();
+					m_Editor->OnSceneSimulate(); // 开始模拟场景
 				else if (m_Editor->GetSceneState() == SceneState::Simulate)
-					m_Editor->OnSceneStop();
+					m_Editor->OnSceneStop(); // 停止模拟场景
 			}
 		}
+
+		// 如果需要显示暂停按钮
 		if (hasPauseButton)
 		{
 			bool isPaused = m_Editor->GetActiveScene()->IsPaused();
-			ImGui::SameLine();
+			ImGui::SameLine(); // 暂停按钮与前一个按钮在同一行
 			{
-				Ref<Texture2D> icon = m_IconPause;
+				// 创建暂停按钮，并处理按钮点击事件
+				Ref<Texture2D> icon = isPaused? m_IconPlay : m_IconPause;
 				if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
 				{
-					m_Editor->GetActiveScene()->SetPaused(!isPaused);
+					m_Editor->GetActiveScene()->SetPaused(!isPaused); // 切换暂停状态
 				}
 			}
 
-			// Step button
+			// 如果场景已暂停，显示单步执行按钮
 			if (isPaused)
 			{
-				ImGui::SameLine();
+				ImGui::SameLine(); // 单步执行按钮与前一个按钮在同一行
 				{
+					// 创建单步执行按钮，并处理按钮点击事件
 					Ref<Texture2D> icon = m_IconStep;
-					bool isPaused = m_Editor->GetActiveScene()->IsPaused();
 					if (ImGui::ImageButton((ImTextureID)icon->GetRendererID(), ImVec2(size, size), ImVec2(0, 0), ImVec2(1, 1), 0, ImVec4(0.0f, 0.0f, 0.0f, 0.0f), tintColor) && toolbarEnabled)
 					{
-						m_Editor->GetActiveScene()->Step();
+						m_Editor->GetActiveScene()->Step(); // 单步执行场景
 					}
 				}
 			}
 		}
+
+		// 恢复之前的样式设置
 		ImGui::PopStyleVar(2);
 		ImGui::PopStyleColor(3);
 		ImGui::End();
 	}
+
 
 	void EditorUI::StartDockSpace()
 	{

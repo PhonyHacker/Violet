@@ -637,79 +637,84 @@ namespace Violet {
 	}
 	void Renderer2D::DrawString(const std::string& string, Ref<Font> font, const glm::mat4& transform, const TextParams& textParams, int entityID)
 	{
+		VL_PROFILE_FUNCTION(); // 性能分析
+
+		// 获取字体几何数据和度量信息
 		const auto& fontGeometry = font->GetMSDFData()->FontGeometry;
 		const auto& metrics = fontGeometry.getMetrics();
 		Ref<Texture2D> fontAtlas = font->GetAtlasTexture();
 
-		s_Data.FontAtlasTexture = fontAtlas;
+		s_Data.FontAtlasTexture = fontAtlas; // 设置字体纹理
 
 		double x = 0.0;
-		double fsScale = 1.0 / (metrics.ascenderY - metrics.descenderY);
+		double fsScale = 1.0 / (metrics.ascenderY - metrics.descenderY); // 缩放因子
 		double y = 0.0;
 
-		const float spaceGlyphAdvance = fontGeometry.getGlyph(' ')->getAdvance();
+		const float spaceGlyphAdvance = fontGeometry.getGlyph(' ')->getAdvance(); // 空格的前进距离
 
 		for (size_t i = 0; i < string.size(); i++)
 		{
 			char character = string[i];
-			if (character == '\r')
+			if (character == '\r') // 忽略回车符
 				continue;
 
-			if (character == '\n')
+			if (character == '\n') // 处理换行符
 			{
 				x = 0;
-				y -= fsScale * metrics.lineHeight + textParams.LineSpacing;
+				y -= fsScale * metrics.lineHeight + textParams.LineSpacing; // 移动到下一行
 				continue;
 			}
 
-			if (character == ' ')
+			if (character == ' ') // 处理空格
 			{
 				float advance = spaceGlyphAdvance;
 				if (i < string.size() - 1)
 				{
 					char nextCharacter = string[i + 1];
 					double dAdvance;
-					fontGeometry.getAdvance(dAdvance, character, nextCharacter);
+					fontGeometry.getAdvance(dAdvance, character, nextCharacter); // 获取前进距离
 					advance = (float)dAdvance;
 				}
 
-				x += fsScale * advance + textParams.Kerning;
+				x += fsScale * advance + textParams.Kerning; // 更新 x 坐标
 				continue;
 			}
 
-			if (character == '\t')
+			if (character == '\t') // 处理制表符
 			{
-				// NOTE(Yan): is this right?
-				x += 4.0f * (fsScale * spaceGlyphAdvance + textParams.Kerning);
+				// NOTE: 这里可能需要调整
+				x += 4.0f * (fsScale * spaceGlyphAdvance + textParams.Kerning); // 四个空格的距离
 				continue;
 			}
 
 			auto glyph = fontGeometry.getGlyph(character);
 			if (!glyph)
-				glyph = fontGeometry.getGlyph('?');
+				glyph = fontGeometry.getGlyph('?'); // 如果找不到字符，使用问号替代
 			if (!glyph)
 				return;
 
+			// 获取字形的纹理坐标
 			double al, ab, ar, at;
 			glyph->getQuadAtlasBounds(al, ab, ar, at);
 			glm::vec2 texCoordMin((float)al, (float)ab);
 			glm::vec2 texCoordMax((float)ar, (float)at);
 
+			// 获取字形的平面坐标
 			double pl, pb, pr, pt;
 			glyph->getQuadPlaneBounds(pl, pb, pr, pt);
 			glm::vec2 quadMin((float)pl, (float)pb);
 			glm::vec2 quadMax((float)pr, (float)pt);
 
-			quadMin *= fsScale, quadMax *= fsScale;
-			quadMin += glm::vec2(x, y);
+			quadMin *= fsScale, quadMax *= fsScale; // 应用缩放
+			quadMin += glm::vec2(x, y); // 计算实际位置
 			quadMax += glm::vec2(x, y);
 
 			float texelWidth = 1.0f / fontAtlas->GetWidth();
 			float texelHeight = 1.0f / fontAtlas->GetHeight();
-			texCoordMin *= glm::vec2(texelWidth, texelHeight);
+			texCoordMin *= glm::vec2(texelWidth, texelHeight); // 规范化纹理坐标
 			texCoordMax *= glm::vec2(texelWidth, texelHeight);
 
-			// render here
+			// 渲染字形
 			s_Data.TextVertexBufferPtr->Position = transform * glm::vec4(quadMin, 0.0f, 1.0f);
 			s_Data.TextVertexBufferPtr->Color = textParams.Color;
 			s_Data.TextVertexBufferPtr->TexCoord = texCoordMin;
@@ -734,19 +739,20 @@ namespace Violet {
 			s_Data.TextVertexBufferPtr->EntityID = entityID;
 			s_Data.TextVertexBufferPtr++;
 
-			s_Data.TextIndexCount += 6;
-			s_Data.Stats.QuadCount++;
+			s_Data.TextIndexCount += 6; // 更新索引计数
+			s_Data.Stats.QuadCount++; // 更新统计信息
 
 			if (i < string.size() - 1)
 			{
 				double advance = glyph->getAdvance();
 				char nextCharacter = string[i + 1];
-				fontGeometry.getAdvance(advance, character, nextCharacter);
+				fontGeometry.getAdvance(advance, character, nextCharacter); // 获取前进距离
 
-				x += fsScale * advance + textParams.Kerning;
+				x += fsScale * advance + textParams.Kerning; // 更新 x 坐标
 			}
 		}
 	}
+
 
 	void Renderer2D::DrawString(const std::string& string, const glm::mat4& transform, const TextComponent& component, int entityID)
 	{

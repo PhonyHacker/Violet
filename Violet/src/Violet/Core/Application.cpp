@@ -31,7 +31,7 @@ namespace Violet {
 			std::filesystem::current_path(m_Specification.WorkingDirectory);
 
 		m_Window = Window::Create(WindowProps(m_Specification.Name));
-		m_Window->SetEventCallback(VL_BIND_EVENT_FN(Application::OnEvent));
+		m_Window->SetEventCallback(VL_BIND_EVENT_FN (Application::OnEvent));
 
 		Renderer::Init();
 

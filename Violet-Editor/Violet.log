@@ -1,8 +1,10 @@
-[00:40:10] [info] VIOLET: Creating window VioletEditor (1600, 900)
-[00:40:10] [info] VIOLET: OpenGL Info: 
-[00:40:10] [info] VIOLET:  Vendor: ATI Technologies Inc. 
-[00:40:10] [info] VIOLET:  Renderer : AMD Radeon(TM) Graphics 
-[00:40:10] [info] VIOLET:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
-[00:40:10] [info] VIOLET: Loaded 191 glyphs from font (out of 224)
-[00:40:13] [info] VIOLET: Demo
-[00:40:14] [info] VIOLET: Terminating GLFW
+[00:44:33] [info] VIOLET: Creating window VioletEditor (1600, 900)
+[00:44:34] [info] VIOLET: OpenGL Info: 
+[00:44:34] [info] VIOLET:  Vendor: ATI Technologies Inc. 
+[00:44:34] [info] VIOLET:  Renderer : AMD Radeon(TM) Graphics 
+[00:44:34] [info] VIOLET:  Version: 4.6.13596 Compatibility Profile Context 20.10.28.05 27.20.11028.5001 
+[00:44:34] [info] VIOLET: Loaded 191 glyphs from font (out of 224)
+[00:44:36] [info] VIOLET: Demo
+[00:44:37] [info] VIOLET: Script
+[00:44:37] [info] VIOLET: Physics
+[00:44:45] [info] VIOLET: Terminating GLFW
